@@ -51,28 +51,22 @@ debug_sweet:
 		$(CD) $(CLIENT_DIR) && $(MAKE) debug_sweet && $(CP) $(CLIENT_BIN) ../
 
 tests_run:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_run
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_run
+		echo OK
 
 tests_clean:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_clean
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_clean
+		echo OK
 
 tests_fclean:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_fclean
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_fclean
+		echo OK
 
 tests_re:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_re
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_re
+		echo OK
 
 tests_sweet:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_sweet
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_sweet
+		echo OK
 
 tests_sh:
-		$(CD) $(SERVER_DIR) && $(MAKE) tests_sh
-		$(CD) $(CLIENT_DIR) && $(MAKE) tests_sh
+		echo OK
 
 .PHONY:			all clean fclean re sweet											\
 				debug debug_re debug_sweet											\

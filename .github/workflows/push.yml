@@ -45,7 +45,7 @@ jobs:
 
     env:
       REPOSITORY_OWNER: lucas.mathieux@epitech.eu
-      REPOSITORY_NAME: OOP_indie_studio_2019
+      REPOSITORY_NAME: NWP_myteams_2019
 
     steps:
       - uses: actions/checkout@v1
