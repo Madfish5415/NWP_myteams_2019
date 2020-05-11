@@ -1,3 +1,120 @@
 @startuml
 
+class server {
+    + uint16_t port
+    + socket_t socket
+    + struct sockaddr_in address
+    + size_t address_length
+    + client_t **clients
+    + team_t **teams
+    + channel_t **channels
+    + thread_t **threads
+    + user_t **users
+    + fd_set master[3]
+    + fd_set worker[3]
+    + struct timeval timeout
+    + exception_t exception
+}
+server  *--  client
+server  *--  team
+server  *--  channel
+server  *--  thread
+server  *--  exception
+server  *--  user
+
+class client {
+    + user_t *user
+    + read_queue
+    + write_queue
+    + int use_type
+    + uuid_t use_uuid
+}
+client  *--  user
+client  *--  use_type
+
+enum use_type {
+    NONE = 0,
+    TEAM,
+    CHANNEL,
+    THREAD
+}
+
+class user {
+    + char *username
+    + char *password
+    + uuid_t id
+    + bool connected
+    + char creation_date[20]
+    + discussion_t **discussions
+}
+user *-- discussion
+
+class discussion {
+    + uuid_t receiver
+    + message_t *messages
+}
+discussion *-- message
+
+class message {
+    + char body[MAX_BODY_LENGTH]
+    + char date[20]
+}
+
+class team {
+    + uuid_t id
+    + uuid_t *channels
+    + uuid_t *subscribes
+    + char name[MAX_NAME_LENGTH]
+    + char desc[MAX_DESCRIPTION_LENGTH]
+    + char creation_date[20]
+}
+
+class channel {
+    + uuid_t id
+    + uuid_t team
+    + uuid_t *threads
+    + char name[MAX_NAME_LENGTH]
+    + char desc[MAX_DESCRIPTION_LENGTH]
+    + char creation_date[20]
+}
+
+class thread {
+    + uuid_t id
+    + uuid_t channel
+    + char name[MAX_NAME_LENGTH]
+    + message_t body
+    + message_t *comments
+}
+thread *-- message
+
+class cmd {
+    + char *cmd
+    + void (*callback)(server_t *, uuid_t, char **)
+}
+
+class exception {
+    + int16_t code
+    + char *what
+    + char *where
+}
+exception *-- error_type
+
+enum error_type {
+    NO_ERROR = 0,
+    BAD_ALLOC,
+    BAD_CAST,
+    BAD_TYPEID,
+    BAD_EXCEPTION,
+    LOGIC_FAILURE,
+    DOMAIN_ERROR,
+    INVALID_ARGUMENT,
+    LENGTH_ERROR,
+    OUT_OF_RANGE,
+    RUNTIME_ERROR,
+    OVERFLOW_ERROR,
+    RANGE_ERROR,
+    UNDERFLOW_ERROR,
+    UNKNOWN_ERROR
+}
+
 @enduml
