@@ -5,15 +5,18 @@
 ** main.c
 */
 
-#include <uuid/uuid.h>
-
 #include "server.h"
+#include "arguments.h"
+#include "help.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
-    client_t client;
+    args_t *arguments;
 
-    uuid_clear(client.user);
-
-    return (uuid_is_null(client.user));
+    if (catch_and_print(parser(argc, argv, &arguments))) {
+        return (FAILURE);
+    }
+    if (arguments->flags[HELP_FLAG] == true)
+        return (SUCCESS);
+    return (SUCCESS);
 }
