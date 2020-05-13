@@ -21,7 +21,8 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=
+PROJ_SRC			=		error.c					\
+							socket.c				\
 
 TEST_SRC			=
 
