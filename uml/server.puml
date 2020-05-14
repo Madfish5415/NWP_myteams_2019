@@ -6,21 +6,12 @@ class server {
     + struct sockaddr_in address
     + size_t address_length
     + client_t **clients
-    + team_t **teams
-    + channel_t **channels
-    + thread_t **threads
-    + user_t **users
     + fd_set master[SET_NUMBER]
     + fd_set worker[SET_NUMBER]
     + struct timeval timeout
     + exception_t exception
 }
 server  *--  client
-server  *--  team
-server  *--  channel
-server  *--  thread
-server  *--  exception
-server  *--  user
 
 class client {
     + uuid_t user
@@ -29,63 +20,14 @@ class client {
     + int use_type
     + uuid_t use_uuid
 }
-client  *--  user
 client  *--  use_type
 
 enum use_type {
-    NONE = 0,
+    NONE = "none",
     TEAM,
     CHANNEL,
     THREAD
 }
-
-class user {
-    + char *username
-    + char *password
-    + uuid_t id
-    + bool connected
-    + char creation_date[DATE_LENGTH]
-    + discussion_t **discussions
-}
-user *-- discussion
-
-class discussion {
-    + uuid_t receiver
-    + message_t *messages
-}
-discussion *-- message
-
-class message {
-    + char body[MAX_BODY_LENGTH]
-    + char date[DATE_LENGTH]
-}
-
-class team {
-    + uuid_t id
-    + uuid_t *channels
-    + uuid_t *subscribes
-    + char name[MAX_NAME_LENGTH]
-    + char desc[MAX_DESCRIPTION_LENGTH]
-    + char creation_date[DATE_LENGTH]
-}
-
-class channel {
-    + uuid_t id
-    + uuid_t team
-    + uuid_t *threads
-    + char name[MAX_NAME_LENGTH]
-    + char desc[MAX_DESCRIPTION_LENGTH]
-    + char creation_date[DATE_LENGTH]
-}
-
-class thread {
-    + uuid_t id
-    + uuid_t channel
-    + char name[MAX_NAME_LENGTH]
-    + message_t body
-    + message_t *comments
-}
-thread *-- message
 
 class cmd {
     + char *cmd
