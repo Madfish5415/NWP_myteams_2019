@@ -10,8 +10,8 @@ class server {
     + channel_t **channels
     + thread_t **threads
     + user_t **users
-    + fd_set master[3]
-    + fd_set worker[3]
+    + fd_set master[SET_NUMBER]
+    + fd_set worker[SET_NUMBER]
     + struct timeval timeout
     + exception_t exception
 }
@@ -23,7 +23,7 @@ server  *--  exception
 server  *--  user
 
 class client {
-    + user_t *user
+    + uuid_t user
     + read_queue
     + write_queue
     + int use_type
@@ -44,7 +44,7 @@ class user {
     + char *password
     + uuid_t id
     + bool connected
-    + char creation_date[20]
+    + char creation_date[DATE_LENGTH]
     + discussion_t **discussions
 }
 user *-- discussion
@@ -57,7 +57,7 @@ discussion *-- message
 
 class message {
     + char body[MAX_BODY_LENGTH]
-    + char date[20]
+    + char date[DATE_LENGTH]
 }
 
 class team {
@@ -66,7 +66,7 @@ class team {
     + uuid_t *subscribes
     + char name[MAX_NAME_LENGTH]
     + char desc[MAX_DESCRIPTION_LENGTH]
-    + char creation_date[20]
+    + char creation_date[DATE_LENGTH]
 }
 
 class channel {
@@ -75,7 +75,7 @@ class channel {
     + uuid_t *threads
     + char name[MAX_NAME_LENGTH]
     + char desc[MAX_DESCRIPTION_LENGTH]
-    + char creation_date[20]
+    + char creation_date[DATE_LENGTH]
 }
 
 class thread {
