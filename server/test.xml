@@ -1,0 +1,14 @@
+<catalogue>
+    <produit reference="GSEA6F">
+        <intitule>Stylo</intitule>
+        <prix>2.00</prix>
+    </produit>
+    <produit reference="MJIZ8F">
+        <intitule>T-Shirt</intitule>
+        <prix>8.00</prix>
+    </produit>
+    <produit reference="IHRC24">
+        <intitule>Sweat</intitule>
+        <prix>10.00</prix>
+    </produit>
+</catalogue>

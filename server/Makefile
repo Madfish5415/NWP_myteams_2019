@@ -37,13 +37,16 @@ TEST_COV		=		$(PROJ_SRC:.c=.gcda)	\
 						$(TEST_SRC:.c=.gcda)	\
 						$(TEST_SRC:.c=.gcno)	\
 
-INCL_DIR		=		"include/"
-LIB_DIR			=		"lib/my/"
-LIB_INCL_DIR	=		"include/"
+INCL_DIR		=		"include"
+LIB_DIR			=		"lib/my"
+LIB_INCL_DIR	=		"include"
 
 CFLAGS			+=		-I $(INCL_DIR)
 CFLAGS			+=		-I $(LIB_DIR)/$(LIB_INCL_DIR)
 CFLAGS			+=		-W -Wall -Wextra
+CFLAGS			+=		`xml2-config --cflags`
+
+LDLIBS			+=		`xml2-config --libs`
 
 MAKEFLAGS		+=		--silent
 

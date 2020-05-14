@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<catalogue>
+    <produit reference="CD0YAH">
+        <intitule>Autocollant</intitule>
+        <prix>0.80</prix>
+    </produit>
+    <produit reference="TEST">
+        <intitule>Test tu connais</intitule>
+        <prix>8.00</prix>
+    </produit>
+    <produit reference="U0TZ6K">
+        <intitule>Lot de 10 autocollants</intitule>
+        <prix>5.00</prix>
+    </produit>
+    <produit reference="ZQEYAN">
+        <intitule>Mug</intitule>
+        <prix>4.00</prix>
+    </produit>
+</catalogue>
