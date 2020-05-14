@@ -1,14 +1,73 @@
-<catalogue>
-    <produit reference="GSEA6F">
-        <intitule>Stylo</intitule>
-        <prix>2.00</prix>
-    </produit>
-    <produit reference="MJIZ8F">
-        <intitule>T-Shirt</intitule>
-        <prix>8.00</prix>
-    </produit>
-    <produit reference="IHRC24">
-        <intitule>Sweat</intitule>
-        <prix>10.00</prix>
-    </produit>
-</catalogue>
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+    <users>
+        <user>
+            <uuid type="user">eeef8615-0e48-4a26-88b7-f280098eec80</uuid>
+            <username>Mattox</username>
+            <password>jesuismoche123</password>
+            <date>14-05-2020 16:33:50</date>
+            <connected>false</connected>
+        </user>
+    </users>
+    <teams>
+        <team>
+            <uuid type="team">e2dcd8b4-5c9f-4056-b151-cdf205b39336</uuid>
+            <name>Team 1</name>
+            <desc>Yes la super description de la team 1</desc>
+            <date>14-05-2020 16:34:50</date>
+            <creator type="user">632d13eb-1528-4612-8b10-964bdd4fc998</creator>
+            <channels>
+                <channel>
+                    <uuid type="channel">592edebc-2f48-403e-8ce3-271a6eb11c5d</uuid>
+                    <name>Channel 1</name>
+                    <desc>Yes la super description du channel 1</desc>
+                    <date>14-05-2020 16:35:50</date>
+                    <creator type="user">632d13eb-1528-4612-8b10-964bdd4fc998</creator>
+                    <threads>
+                        <thread>
+                            <uuid type="thread">14c653e8-55b5-48a6-9a68-8edfdc475735</uuid>
+                            <name>Thread 1</name>
+                            <body>Yes le super body du thread 1</body>
+                            <date>14-05-2020 16:36:50</date>
+                            <creator type="user">632d13eb-1528-4612-8b10-964bdd4fc998</creator>
+                            <messages>
+                                <message>
+                                    <body>Yes le super body de la reponse 1</body>
+                                    <date>14-05-2020 16:37:50</date>
+                                    <creator type="user">eeef8615-0e48-4a26-88b7-f280098eec80</creator>
+                                </message>
+                                <message>
+                                    <body>Yes le super body de la reponse 2</body>
+                                    <date>14-05-2020 16:38:50</date>
+                                    <creator type="user">632d13eb-1528-4612-8b10-964bdd4fc998</creator>
+                                </message>
+                            </messages>
+                        </thread>
+                    </threads>
+                </channel>
+            </channels>
+            <subscribes>
+                <uuid type="user">eeef8615-0e48-4a26-88b7-f280098eec80</uuid>
+                <uuid type="user">632d13eb-1528-4612-8b10-964bdd4fc998</uuid>
+            </subscribes>
+        </team>
+    </teams>
+    <discussions>
+        <discussion>
+            <uuid type="user">eeef8615-0e48-4a26-88b7-f280098eec80</uuid>
+            <uuid type="user">632d13eb-1528-4612-8b10-964bdd4fc998</uuid>
+            <messages>
+                <message>
+                    <body>Hey ça va ?</body>
+                    <date>14-05-2020 17:05:50</date>
+                    <creator type="user">632d13eb-1528-4612-8b10-964bdd4fc998</creator>
+                </message>
+                <message>
+                    <body>Zuper</body>
+                    <date>14-05-2020 17:06:50</date>
+                    <creator type="user">eeef8615-0e48-4a26-88b7-f280098eec80</creator>
+                </message>
+            </messages>
+        </discussion>
+    </discussions>
+</server>

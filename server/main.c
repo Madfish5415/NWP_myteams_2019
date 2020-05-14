@@ -6,109 +6,89 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <libxml/tree.h>
-#include <libxml/xpath.h>
+typedef void (*fct_parcours_t)(xmlNodePtr);
 
-xmlNodePtr creer_produit(const char *reference, const char *intitule, const char *prix) {
-    xmlNodePtr noeud_produit;
-    xmlNodePtr noeud_intitule;
+void parcours_prefixe(xmlNodePtr noeud, fct_parcours_t f) {
+    xmlNodePtr n;
 
-    // Création du noeud "produit"
-    if ((noeud_produit = xmlNewNode(NULL, BAD_CAST "produit")) == NULL) {
-        return NULL;
+    for (n = noeud; NULL != n; n = n->next) {
+        f(n);
+        if ((XML_ELEMENT_NODE == n->type) && (NULL != n->children)) {
+            parcours_prefixe(n->children, f);
+        }
     }
-    // Ajout de son attribut "reference"
-    if (xmlSetProp(noeud_produit, BAD_CAST "reference", BAD_CAST reference) == NULL) {
-        xmlFreeNode(noeud_produit);
-        return NULL;
-    }
-    // Création du noeud intitule
-    if ((noeud_intitule = xmlNewNode(NULL, BAD_CAST "intitule")) == NULL) {
-        xmlFreeNode(noeud_produit);
-        return NULL;
-    }
-    xmlNodeSetContent(noeud_intitule, BAD_CAST intitule);
-    // Ajout du noeud (intitule) à son père (produit)
-    if (xmlAddChild(noeud_produit, noeud_intitule) == NULL) {
-        xmlFreeNode(noeud_produit);
-        xmlFreeNode(noeud_intitule);
-        return NULL;
-    }
-    // Equivalent plus rapide par rapport au noeud intitule
-    // Création du noeud "prix" et ajout à son père (produit)
-    if (xmlNewTextChild(noeud_produit, NULL, BAD_CAST "prix", BAD_CAST prix) == NULL) {
-        xmlFreeNode(noeud_produit);
-        return NULL;
-    }
-
-    return noeud_produit;
 }
 
+void parcours_postfixe(xmlNodePtr noeud, fct_parcours_t f) {
+    xmlNodePtr n;
 
-xmlNodePtr obtenir_premier_produit(xmlDocPtr doc) {
-    xmlXPathContextPtr ctxt;
-    xmlXPathObjectPtr xpathRes;
-    xmlNodePtr n = NULL;
-
-    xmlXPathInit();
-    if (NULL != (ctxt = xmlXPathNewContext(doc))) {
-        xpathRes = xmlXPathEvalExpression(BAD_CAST "/catalogue/produit[position()=1]", ctxt);
-        if (xpathRes && XPATH_NODESET == xpathRes->type && xpathRes->nodesetval->nodeNr == 1) {
-            n = xpathRes->nodesetval->nodeTab[0];
+    for (n = noeud; n != NULL; n = n->next) {
+        if ((XML_ELEMENT_NODE == n->type) && (NULL != n->children)) {
+            parcours_postfixe(n->children, f);
         }
-        xmlXPathFreeObject(xpathRes);
-        xmlXPathFreeContext(ctxt);
+        f(n);
     }
+}
 
-    return n;
+void afficher_noeud(xmlNodePtr noeud) {
+    if (XML_ELEMENT_NODE == noeud->type) {
+        xmlChar *chemin = xmlGetNodePath(noeud);
+        if (NULL != noeud->children && XML_TEXT_NODE == noeud->children->type) {
+            xmlChar *contenu = xmlNodeGetContent(noeud);
+            printf("%s -> %s\n", chemin, contenu);
+            xmlFree(contenu);
+        } else {
+            printf("%s\n", chemin);
+        }
+        xmlFree(chemin);
+    }
+}
+
+xmlNodePtr creer_user()
+{
+    xmlNodePtr user;
+
+    user = xmlNewNode(NULL, BAD_CAST "user");
+
+    xmlNewTextChild(user, NULL, BAD_CAST "uuid", BAD_CAST "test");
+    xmlNewTextChild(user, NULL, BAD_CAST "username", BAD_CAST "username");
+    xmlNewTextChild(user, NULL, BAD_CAST "password", BAD_CAST "password");
+    xmlNewTextChild(user, NULL, BAD_CAST "date", BAD_CAST "14-05-2020 18:33:50");
+    xmlNewTextChild(user, NULL, BAD_CAST "connected", BAD_CAST "false");
+
+    return user;
 }
 
 int main() {
     xmlDocPtr doc;
-    xmlNodePtr racine, premier_prod, nouv_prod;
+    xmlNodePtr racine;
 
-    // Ouverture du fichier XML
-    xmlKeepBlanksDefault(0);
-    doc = xmlParseFile("test.xml");
-    if (doc == NULL) {
+    // Ouverture du document
+    xmlKeepBlanksDefault(0); // Ignore les noeuds texte composant la mise en forme
+    if (NULL == (doc = xmlParseFile("test.xml"))) {
         fprintf(stderr, "Document XML invalide\n");
         return EXIT_FAILURE;
     }
     // Récupération de la racine
-    racine = xmlDocGetRootElement(doc);
-    if (racine == NULL) {
+    if (NULL == (racine = xmlDocGetRootElement(doc))) {
         fprintf(stderr, "Document XML vierge\n");
         xmlFreeDoc(doc);
         return EXIT_FAILURE;
     }
-    // Récupération du premier produit
-    premier_prod = obtenir_premier_produit(doc);
-    if (premier_prod == NULL) {
-        premier_prod  = creer_produit("TEST", "Test tu connais", "8.00");
-        xmlAddChild(racine, premier_prod);
-    }
-    // Ajout d'un nouveau produit avant le premier produit (en tête)
-    nouv_prod = creer_produit("CD0YAH", "Autocollant", "0.80");
-    if (nouv_prod) {
-        xmlAddPrevSibling(premier_prod, nouv_prod);
-    }
-    // Ajout d'un nouveau produit après le premier produit
-    nouv_prod = creer_produit("U0TZ6K", "Lot de 10 autocollants", "5.00");
-    if (nouv_prod) {
-        xmlAddNextSibling(premier_prod, nouv_prod);
-    }
-    // Ajout d'un nouveau produit en fin/queue
-    nouv_prod = creer_produit("ZQEYAN", "Mug", "4.00");
-    if (nouv_prod) {
-        xmlAddSibling(premier_prod, nouv_prod);
-    }
-    // Affichage de l'arbre DOM tel qu'il est en mémoire
-    xmlDocFormatDump(stdout, doc, 1);
+    // Parcours
+    xmlNodePtr newUser = creer_user();
+
+    xmlAddChild(racine->children, newUser);
+
+
+    printf("Parcours préfixé :\n");
+    parcours_prefixe(racine, afficher_noeud);
+    // Libération de la mémoire
+    xmlSaveFile("output.xml", doc);
     xmlFreeDoc(doc);
 
     return EXIT_SUCCESS;
