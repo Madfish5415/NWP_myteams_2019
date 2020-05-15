@@ -21,18 +21,22 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		arguments/flag.c			\
-							arguments/parser.c			\
-							arguments/port.c			\
-							error/exception.c			\
-							help.c						\
+PROJ_SRC			=		arguments/flag.c				\
+							arguments/parser.c				\
+							arguments/port.c				\
+							buffer/buffer_create.c			\
+							buffer/buffer_read.c			\
+							buffer/buffer_write.c			\
+							error/exception.c				\
+							help.c							\
 
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
 CFLAGS				+=		-W -Wall -Wextra -Werror
+CFLAGS				+=		`xml2-config --cflags`
 
-LDLIBS				=		-luuid
+LDLIBS				+=		-luuid `xml2-config --libs`
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
