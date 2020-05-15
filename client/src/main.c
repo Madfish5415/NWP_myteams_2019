@@ -23,27 +23,26 @@ int init_client(client_t *client, int port)
   }
   client->serv_addr.sin_family = AF_INET;
   client->serv_addr.sin_port = htons(port);
+  memset(client->reader, 0, sizeof(client->reader));
+  memset(client->printer, 0, sizeof(client->printer));
   return 0;
 }
 
 int client_loop(client_t client)
 {
-  char printer[1024] = {0};
-  char reader[1024] = {0};
-
   while (1) {
-    memset(reader, 0, sizeof(reader));
-    memset(printer, 0, sizeof(printer));
-    read(STDIN_FILENO, printer, sizeof(printer));
-    if (strcmp(printer, "/help\n") == 0) {
+    read(STDIN_FILENO, client.printer, sizeof(client.printer));
+    if (strcmp(client.printer, "/help\n") == 0) {
       printf("%s\n", HELP_STRING);
     }
     else {
-      send(client.sock, printer, strlen(printer), 0);
+      send(client.sock, client.printer, strlen(client.printer), 0);
       usleep(2000);
-      read(client.sock, reader, 1024);
-      printf("%s", reader);
+      read(client.sock, client.reader, 1024);
+      printf("%s", client.reader);
     }
+    memset(client.reader, 0, sizeof(client.reader));
+    memset(client.printer, 0, sizeof(client.printer));
   }
 }
 
