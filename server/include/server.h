@@ -10,13 +10,9 @@
 
 #include <netinet/in.h>
 
-#include "channel.h"
 #include "client.h"
 #include "def.h"
 #include "exception.h"
-#include "team.h"
-#include "thread.h"
-#include "user.h"
 
 typedef struct server_s {
     uint16_t port;
@@ -24,10 +20,6 @@ typedef struct server_s {
     struct sockaddr_in address;
     size_t address_length;
     client_t **clients;
-    team_t **teams;
-    channel_t **channels;
-    thread_t **threads;
-    user_t **users;
     fd_set master[SET_NUMBER];
     fd_set worker[SET_NUMBER];
     struct timeval timeout;

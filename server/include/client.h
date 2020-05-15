@@ -10,6 +10,8 @@
 
 #include <uuid/uuid.h>
 
+#include "buffer.h"
+
 enum use_type {
     NONE = 0,
     TEAM,
@@ -19,8 +21,8 @@ enum use_type {
 
 typedef struct client_s {
     uuid_t user;
-    char *read_queue; // TODO: Define this
-    char *write_queue; // TODO: Define this
+    buffer_t read_queue;
+    char *write_queue;
     int use_type;
     uuid_t use_uuid;
 } client_t;
