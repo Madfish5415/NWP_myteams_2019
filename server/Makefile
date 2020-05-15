@@ -30,6 +30,7 @@ PROJ_SRC			=		arguments/flag.c				\
 							error/exception.c				\
 							server/server_create.c			\
 							server/server_delete.c			\
+							xml/user.c						\
 							help.c							\
 
 TEST_SRC			=
