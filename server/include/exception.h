@@ -42,7 +42,7 @@ typedef struct exception_s {
 } exception_t;
 
 exception_t new_exception(int16_t code, const char *where, const char *what);
-bool catch(exception_t exception);
+bool catch (exception_t exception);
 void print_exception(exception_t exception);
 bool catch_and_print(exception_t exception);
 

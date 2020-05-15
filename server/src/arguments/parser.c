@@ -15,7 +15,7 @@ exception_t parser(int argc, char **argv, args_t **arguments)
 
     if (new_arguments == NULL)
         return (new_exception(BAD_ALLOC, "parser (arguments/parser.c)",
-                              "Can't allocate memory for 'args_t'"));
+            "Can't allocate memory for 'args_t'"));
     (*arguments) = new_arguments;
     init_flag(new_arguments);
     if ((exception = fill_flag(argc, argv, new_arguments)).code != NO_ERROR)

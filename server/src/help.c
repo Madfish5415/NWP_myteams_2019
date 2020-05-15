@@ -5,10 +5,11 @@
 ** help.c
 */
 
+#include "help.h"
+
 #include <stdio.h>
 
 #include "arguments.h"
-#include "help.h"
 
 bool display_help(args_t* arguments)
 {

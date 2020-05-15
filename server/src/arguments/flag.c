@@ -42,7 +42,7 @@ exception_t fill_flag(int argc, char **argv, args_t *arguments)
         if (argv[i][0] == '-') {
             exception = find_flag(argv[i], arguments);
         }
-        if (catch(exception)) {
+        if (catch (exception)) {
             return (exception);
         }
     }

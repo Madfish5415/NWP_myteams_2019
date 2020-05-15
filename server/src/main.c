@@ -5,9 +5,9 @@
 ** main.c
 */
 
-#include "server.h"
 #include "arguments.h"
 #include "help.h"
+#include "server.h"
 
 int main(int argc, char **argv)
 {
@@ -16,7 +16,6 @@ int main(int argc, char **argv)
     if (catch_and_print(parser(argc, argv, &arguments))) {
         return (FAILURE);
     }
-    if (arguments->flags[HELP_FLAG] == true)
-        return (SUCCESS);
+    if (arguments->flags[HELP_FLAG] == true) return (SUCCESS);
     return (SUCCESS);
 }

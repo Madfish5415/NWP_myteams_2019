@@ -20,8 +20,7 @@ static xmlDocPtr create_new_xml()
     xmlNodePtr teamsNode = xmlNewNode(NULL, BAD_CAST "teams");
     xmlNodePtr discussionsNode = xmlNewNode(NULL, BAD_CAST "discussions");
 
-    if (xmlTree == NULL)
-        return (NULL);
+    if (xmlTree == NULL) return (NULL);
     xmlDocSetRootElement(xmlTree, serverNode);
     xmlAddChild(serverNode, usersNode);
     xmlAddSibling(usersNode, teamsNode);
