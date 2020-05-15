@@ -38,8 +38,9 @@ TEST_SRC			=
 CFLAGS				+=		-I $(INCL_DIR)
 CFLAGS				+=		-W -Wall -Wextra -Werror
 CFLAGS				+=		`xml2-config --cflags`
+CFLAGS				+=		-I "../libs/myteams/"
 
-LDLIBS				+=		-luuid `xml2-config --libs`
+LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams/ -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
