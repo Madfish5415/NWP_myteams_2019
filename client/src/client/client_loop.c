@@ -21,7 +21,7 @@ void client_loop(client_t client)
         } else {
             send(client.sock, client.printer, strlen(client.printer), 0);
             usleep(2000);
-            read(client.sock, client.reader, 1024);
+            read(client.sock, client.reader, sizeof(client.reader));
             printf("%s", client.reader);
         }
         memset(client.reader, 0, sizeof(client.reader));

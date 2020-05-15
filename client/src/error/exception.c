@@ -40,7 +40,7 @@ exception_t new_exception(int16_t code, const char *where, const char *what)
     return (exception);
 }
 
-bool catch (exception_t exception)
+bool catch(exception_t exception)
 {
     if (exception.code == NO_ERROR) return (false);
     return (true);
