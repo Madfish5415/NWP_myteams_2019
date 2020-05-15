@@ -10,7 +10,7 @@
 
 #include "exception.h"
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2048
 
 typedef struct buffer_s {
     char buffer[BUFFER_SIZE];

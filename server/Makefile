@@ -28,6 +28,8 @@ PROJ_SRC			=		arguments/flag.c				\
 							buffer/buffer_read.c			\
 							buffer/buffer_write.c			\
 							error/exception.c				\
+							server/server_create.c			\
+							server/server_delete.c			\
 							help.c							\
 
 TEST_SRC			=
