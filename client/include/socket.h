@@ -8,7 +8,9 @@
 #ifndef NWP_MYTEAMS_2019_SOCKET_H
 #define NWP_MYTEAMS_2019_SOCKET_H
 
+#include "client.h"
+
 int socket_creation();
 int socket_connection(char *ip, client_t client);
 
-#endif // NWP_MYTEAMS_2019_SOCKET_H
+#endif  // NWP_MYTEAMS_2019_SOCKET_H

@@ -10,4 +10,4 @@
 
 int catch_error(int ac, char **av);
 
-#endif // NWP_MYTEAMS_2019_ERROR_H
+#endif  // NWP_MYTEAMS_2019_ERROR_H
