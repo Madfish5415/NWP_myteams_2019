@@ -35,12 +35,12 @@ int main(int ac, char **av)
         return (SUCCESS);
     }
     if (client_init(&client, atoi(av[2])) == 84) {
-        return FAILURE;
+        return (FAILURE);
     }
     if (catch_and_print(socket_connection(av[1], client))) {
-        return FAILURE;
+        return (FAILURE);
     }
     set_non_blocking_read(client);
     client_loop(client);
-    return SUCCESS;
+    return (SUCCESS);
 }

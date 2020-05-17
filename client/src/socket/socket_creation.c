@@ -17,7 +17,7 @@ socket_t socket_creation()
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
         catch_and_print(new_exception(RUNTIME_ERROR,
             "socket (src/socket/socket_creation.c)", "Socket creation error."));
-        return FAILURE;
+        return (FAILURE);
     }
-    return sock;
+    return (sock);
 }
