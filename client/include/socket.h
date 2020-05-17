@@ -9,8 +9,9 @@
 #define NWP_MYTEAMS_2019_SOCKET_H
 
 #include "client.h"
+#include "exception.h"
 
 socket_t socket_creation();
-int socket_connection(char *ip, client_t client);
+exception_t socket_connection(char *ip, client_t client);
 
 #endif  // NWP_MYTEAMS_2019_SOCKET_H

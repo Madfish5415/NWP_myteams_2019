@@ -37,7 +37,7 @@ int main(int ac, char **av)
     if (client_init(&client, atoi(av[2])) == 84) {
         return FAILURE;
     }
-    if (socket_connection(av[1], client) == -1) {
+    if (catch_and_print(socket_connection(av[1], client))) {
         return FAILURE;
     }
     set_non_blocking_read(client);
