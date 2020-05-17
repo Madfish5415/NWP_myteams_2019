@@ -7,18 +7,21 @@
 
 #include <string.h>
 
-#include "socket.h"
 #include "client.h"
+#include "socket.h"
 
-int client_init(client_t *client, int port)
+exception_t client_init(client_t *client, int port)
 {
+    exception_t exception = {NO_ERROR};
+
     client->sock = socket_creation();
     if (client->sock == -1) {
-        return (FAILURE);
+        return (new_exception(RUNTIME_ERROR,
+            "socket (src/socket/socket_creation.c)", "Socket creation error."));
     }
     client->serv_addr.sin_family = AF_INET;
     client->serv_addr.sin_port = htons(port);
     memset(client->reader, 0, sizeof(client->reader));
     memset(client->printer, 0, sizeof(client->printer));
-    return (SUCCESS);
+    return (exception);
 }

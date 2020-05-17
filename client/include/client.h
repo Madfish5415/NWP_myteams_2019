@@ -10,6 +10,7 @@
 
 #include <arpa/inet.h>
 
+#include "exception.h"
 #include "def.h"
 
 typedef struct client_s {
@@ -20,6 +21,6 @@ typedef struct client_s {
 } client_t;
 
 void client_loop(client_t client);
-int client_init(client_t *client, int port);
+exception_t client_init(client_t *client, int port);
 
 #endif  // NWP_MYTEAMS_2019_CLIENT_H

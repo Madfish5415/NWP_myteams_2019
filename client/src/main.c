@@ -34,7 +34,7 @@ int main(int ac, char **av)
     if (arguments->flags[HELP_FLAG] == true) {
         return (SUCCESS);
     }
-    if (client_init(&client, atoi(av[2])) == 84) {
+    if (catch_and_print(client_init(&client, atoi(av[2])))) {
         return (FAILURE);
     }
     if (catch_and_print(socket_connection(av[1], client))) {
