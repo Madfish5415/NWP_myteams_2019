@@ -17,7 +17,8 @@ exception_t client_init(client_t *client, int port)
     client->sock = socket_creation();
     if (client->sock == -1) {
         return (new_exception(RUNTIME_ERROR,
-            "socket (src/socket/socket_creation.c)", "Socket creation error."));
+            "client_init (client/client_init.c)",
+            "Socket creation error."));
     }
     client->serv_addr.sin_family = AF_INET;
     client->serv_addr.sin_port = htons(port);
