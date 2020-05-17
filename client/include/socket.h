@@ -10,7 +10,7 @@
 
 #include "client.h"
 
-int socket_creation();
+socket_t socket_creation();
 int socket_connection(char *ip, client_t client);
 
 #endif  // NWP_MYTEAMS_2019_SOCKET_H
