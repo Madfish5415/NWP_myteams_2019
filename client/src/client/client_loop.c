@@ -28,6 +28,6 @@ void client_loop(client_t client)
             free(client.reader);
             client.reader = NULL;
         }
-        memset(client.printer, '\0', MSG_MAX_SIZE);
+        memset(client.printer, 0, sizeof(client.printer));
     }
 }

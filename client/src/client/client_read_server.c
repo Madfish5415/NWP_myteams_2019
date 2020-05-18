@@ -13,14 +13,20 @@
 
 void client_read_server(client_t *client)
 {
-    char buffer_read = 0;
-    size_t len = 1;
+    char buffer_read[1025] = {0};
+    ssize_t read_size = 0;
+    int idx = 0;
 
-    while (read(client->sock, &buffer_read, 1) != -1) {
-        client->reader = realloc(client->reader, sizeof(char) * (len + 1));
-        client->reader[len - 1] = buffer_read;
-        buffer_read = 0;
-        len++;
+    read_size = read(client->sock, buffer_read, 1024);
+    while (read_size != -1) {
+        client->reader = realloc(client->reader,
+            sizeof(char) * (idx + read_size + 1));
+        memset(&client->reader[idx], 0, read_size + 1);
+        client->reader = strcat(client->reader, buffer_read);
+        client->reader[strlen(client->reader)] = '\0';
+        if (memchr(buffer_read, '\0', read_size)) break;
+        memset(buffer_read, 0, sizeof(buffer_read));
+        idx += read_size;
+        read_size = read(client->sock, buffer_read, 1024);
     }
-    if (client->reader) client->reader[len - 1] = '\0';
 }
