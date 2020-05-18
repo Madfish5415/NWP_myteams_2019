@@ -31,6 +31,9 @@ PROJ_SRC			=		arguments/flag.c				\
 							server/server_create.c			\
 							server/server_delete.c			\
 							xml/user.c						\
+							xml/team.c						\
+							xml/channel.c					\
+							xml/getters.c					\
 							help.c							\
 
 TEST_SRC			=

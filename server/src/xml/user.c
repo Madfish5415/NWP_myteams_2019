@@ -40,7 +40,7 @@ void user_add(xmlNodePtr user, xmlDocPtr xml_tree)
 
     if (!root)
         return;
-    if (strcmp(root->children->name, "users") != 0)
+    if (strcmp((char *) root->children->name, "users") != 0)
         return;
     xmlAddChild(root->children, user);
 }
