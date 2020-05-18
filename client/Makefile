@@ -30,6 +30,7 @@ PROJ_SRC			=		help.c							\
 							socket/socket_connection.c		\
 							client/client_loop.c			\
 							client/client_init.c			\
+							client/client_read_server.c		\
 
 TEST_SRC			=
 

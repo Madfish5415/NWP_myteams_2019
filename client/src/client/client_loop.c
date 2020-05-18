@@ -22,11 +22,12 @@ void client_loop(client_t client)
             send(client.sock, client.printer, strlen(client.printer), 0);
             usleep(2000);
         }
-        read(client.sock, client.reader, sizeof(client.reader));
-        if (strlen(client.reader) > 0) {
+        client_read_server(&client);
+        if (client.reader) {
             printf("%s", client.reader);
+            free(client.reader);
+            client.reader = NULL;
         }
-        memset(client.reader, 0, sizeof(client.reader));
-        memset(client.printer, 0, sizeof(client.printer));
+        memset(client.printer, '\0', MSG_MAX_SIZE);
     }
 }

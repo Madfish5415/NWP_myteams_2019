@@ -22,7 +22,7 @@ exception_t client_init(client_t *client, int port)
     }
     client->serv_addr.sin_family = AF_INET;
     client->serv_addr.sin_port = htons(port);
-    memset(client->reader, 0, sizeof(client->reader));
+    client->reader = NULL;
     memset(client->printer, 0, sizeof(client->printer));
     return (exception);
 }
