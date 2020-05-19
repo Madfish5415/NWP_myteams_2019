@@ -12,11 +12,10 @@ static void server_alloc(server_t *server, client_t *client)
     bool first_one = (server->clients == NULL) ? true : false;
 
     if ((server->clients = realloc(server->clients,
-                                   sizeof(client_t *) * (server_get_client_nbr(server) + 2))) ==
-        NULL) {
+    sizeof(client_t *) * (server_get_client_nbr(server) + 2))) == NULL) {
         server->exception =
             new_exception(BAD_ALLOC, "server_add_client (server/server_add.c)",
-                          "Can't realloc 'client_t *'");
+                "Can't realloc 'client_t *'");
         return;
     }
     if (first_one == true) {
@@ -31,7 +30,7 @@ static void server_alloc(server_t *server, client_t *client)
 void server_add_client(server_t *server, client_t *client)
 {
     server_alloc(server, client);
-    if (catch(server->exception))
+    if (catch (server->exception))
         return;
     server_send_response(server, client, RESPONSE_220);
 }

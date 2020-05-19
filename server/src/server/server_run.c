@@ -21,7 +21,7 @@ static bool run_wrapper(bool stop)
     return is_running;
 }
 
-static void server_handle_fd(server_t* server)
+static void server_handle_fd(server_t *server)
 {
     server_handle_read(server);
     if (catch(server->exception))
@@ -41,7 +41,7 @@ static void signal_handler(int sig)
     run_wrapper(true);
 }
 
-void server_run(server_t* server)
+void server_run(server_t *server)
 {
     signal(SIGINT, signal_handler);
     while (run_wrapper(false)) {

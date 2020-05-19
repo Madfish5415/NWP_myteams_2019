@@ -8,7 +8,7 @@
 #include "server.h"
 
 void server_send_response(
-    server_t* server, client_t* client, const char* response)
+    server_t *server, client_t *client, const char *response)
 {
     buffer_write_string(&client->write_queue, response);
     if (catch_and_print(client->write_queue.exception)) {

@@ -32,11 +32,12 @@ void client_execute(server_t *server, client_t *client)
 
     if (catch_and_print(client->write_queue.exception)) {
         server->exception = new_exception(RUNTIME_ERROR,
-                                          "client_execute (client_execute.c)", "Can't read string");
+            "client_execute (client_execute.c)", "Can't read string");
         return;
     }
     str = strtok(str, "\n");
     str = strtok(str, "\r");
     cmds = split(str, " ");
-    if (cmds) execute(server, client, cmds);
+    if (cmds)
+        execute(server, client, cmds);
 }

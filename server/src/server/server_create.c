@@ -12,7 +12,7 @@
 #include "arguments.h"
 #include "server.h"
 
-static xmlDocPtr create_new_xml()
+static xmlDocPtr create_new_xml(void)
 {
     xmlDocPtr xmlTree = xmlNewDoc(BAD_CAST "1.0");
     xmlNodePtr serverNode = xmlNewNode(NULL, BAD_CAST "server");
@@ -29,7 +29,7 @@ static xmlDocPtr create_new_xml()
     return (xmlTree);
 }
 
-static xmlDocPtr load_xml()
+static xmlDocPtr load_xml(void)
 {
     xmlDocPtr xmlTree = NULL;
 
