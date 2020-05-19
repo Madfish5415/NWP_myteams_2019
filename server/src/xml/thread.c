@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "exception.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -36,19 +37,26 @@ xmlNodePtr thread_create(const char *thread_name, const char *body,
     return thread;
 }
 
-void thread_add(xmlNodePtr thread, xmlDocPtr xml_tree, const char *team_uid,
-    const char *channel_uid)
+exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
+    const char *team_uid, const char *channel_uid)
 {
+    exception_t exception = {NO_ERROR};
     xmlNodePtr channel = channel_get(xml_tree, team_uid, channel_uid);
 
-    if (!channel || !channel->children) return;
+    if (!channel || !channel->children) {
+        exception = new_exception(
+            OUT_OF_RANGE, "thread_add (xml/thread.c)", "Channel not found");
+        return exception;
+    }
     for (xmlNodePtr threads = channel->children; threads;
          threads = threads->next) {
         if (strcmp((char *)threads->name, "threads") == 0) {
             xmlAddChild(threads, thread);
-            break;
+            return exception;
         }
     }
+    exception = new_exception(OUT_OF_RANGE, "thread_add (xml/thread.c)", "Threads not found");
+    return exception;
 }
 
 xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *team_uid,

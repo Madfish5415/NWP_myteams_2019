@@ -36,18 +36,24 @@ xmlNodePtr channel_create(const char *channel_name, const char *desc,
     return channel;
 }
 
-void channel_add(xmlNodePtr channel, xmlDocPtr xml_tree, const char *team_uid)
+exception_t channel_add(xmlNodePtr channel, xmlDocPtr xml_tree, const char *team_uid)
 {
     xmlNodePtr team = team_get(xml_tree, team_uid);
+    exception_t exception = {NO_ERROR};
 
-    if (!team) return;
+    if (!team || !team->children) {
+        exception = new_exception(OUT_OF_RANGE, "channel_add (xml/channel.c)", "Team not found");
+        return exception;
+    }
     for (xmlNodePtr channels = team->children; channels;
          channels = channels->next) {
         if (strcmp((char *)channels->name, "channels") == 0) {
             xmlAddChild(channels, channel);
-            break;
+            return exception;
         }
     }
+    exception = new_exception(OUT_OF_RANGE, "channel_add (xml/channel.c)", "Channels not found");
+    return exception;
 }
 
 xmlNodePtr channel_get(

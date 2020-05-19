@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "exception.h"
 #include "logging_server.h"
 
 xmlNodePtr user_create(const char *username, const char *passwd)
@@ -34,11 +35,21 @@ xmlNodePtr user_create(const char *username, const char *passwd)
     return user;
 }
 
-void user_add(xmlNodePtr user, xmlDocPtr xml_tree)
+exception_t user_add(xmlNodePtr user, xmlDocPtr xml_tree)
 {
     xmlNodePtr root = xmlDocGetRootElement(xml_tree);
+    exception_t exception = {NO_ERROR};
 
-    if (!root) return;
-    if (strcmp((char *)root->children->name, "users") != 0) return;
+    if (!root || !root->children) {
+        exception = new_exception(OUT_OF_RANGE, "user_add (xml/user.c)",
+            "Root of the document not found");
+        return exception;
+    }
+    if (strcmp((char *)root->children->name, "users") != 0) {
+        exception = new_exception(OUT_OF_RANGE, "user_add (xml/user.c)",
+            "The first category of the XML doc is not users");
+        return exception;
+    }
     xmlAddChild(root->children, user);
+    return exception;
 }
