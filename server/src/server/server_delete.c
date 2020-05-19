@@ -4,3 +4,15 @@
 ** File description:
 ** server_delete.c
 */
+
+#include <libxml/tree.h>
+#include <unistd.h>
+
+#include "server.h"
+
+void server_delete(server_t **server)
+{
+    close((*server)->socket);
+    xmlSaveFormatFile(XML_FILENAME, (*server)->xmlTree, 1);
+    free((*server));
+}
