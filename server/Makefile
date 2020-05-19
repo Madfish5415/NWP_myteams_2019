@@ -33,7 +33,7 @@ PROJ_SRC			=		arguments/flag.c				\
 							xml/user.c						\
 							xml/team.c						\
 							xml/channel.c					\
-							xml/getters.c					\
+							xml/thread.c					\
 							help.c							\
 
 TEST_SRC			=

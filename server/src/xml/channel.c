@@ -49,3 +49,21 @@ void channel_add(xmlNodePtr channel, xmlDocPtr xml_tree, const char *team_uid)
         }
     }
 }
+
+xmlNodePtr channel_get(
+    xmlDocPtr xml_tree, const char *team_uid, const char *channel_uid)
+{
+    xmlNodePtr team = team_get(xml_tree, team_uid);
+    xmlNodePtr tmp = NULL;
+
+    if (!team || !team->children) return NULL;
+    for (tmp = team->children; tmp; tmp = tmp->next) {
+        if (strcmp((char *)tmp->name, "channels") == 0) break;
+    }
+    if (!tmp || !tmp->children) return NULL;
+    for (tmp = tmp->children; tmp; tmp = tmp->next) {
+        if (!tmp->children) return NULL;
+        if (strcmp((char *)tmp->children->name, channel_uid) == 0) return tmp;
+    }
+    return tmp;
+}
