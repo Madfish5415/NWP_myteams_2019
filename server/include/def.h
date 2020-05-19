@@ -15,6 +15,8 @@ typedef int socket_t;
 
 #define MAX_CLIENT_QUEUE (10)
 
+static const char* const XML_FILENAME = "server_data.xml";
+
 #define SET_NUMBER (3)
 #define READ_SET (0)
 #define WRITE_SET (1)
@@ -28,5 +30,7 @@ typedef int socket_t;
 
 #define USERNAME_SIZE (32)
 #define PASSWORD_SIZE (32)
+
+#define UUID_SIZE (37)
 
 #endif  // NWP_MYTEAMS_2019_DEF_H
