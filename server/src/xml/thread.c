@@ -55,7 +55,8 @@ exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
             return exception;
         }
     }
-    exception = new_exception(OUT_OF_RANGE, "thread_add (xml/thread.c)", "Threads not found");
+    exception = new_exception(
+        OUT_OF_RANGE, "thread_add (xml/thread.c)", "Threads not found");
     return exception;
 }
 
