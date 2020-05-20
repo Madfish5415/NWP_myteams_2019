@@ -29,4 +29,8 @@ void client_read_server(client_t *client)
         idx += read_size;
         read_size = read(client->sock, buffer_read, 1024);
     }
+    if (read_size == 0) {
+        client_clean(client);
+        exit(0);
+    }
 }

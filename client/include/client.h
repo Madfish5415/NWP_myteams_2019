@@ -23,5 +23,6 @@ typedef struct client_s {
 void client_loop(client_t client);
 exception_t client_init(client_t *client, int port);
 void client_read_server(client_t *client);
+void client_clean(client_t *client);
 
 #endif  // NWP_MYTEAMS_2019_CLIENT_H

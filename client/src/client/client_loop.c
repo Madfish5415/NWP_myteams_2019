@@ -13,12 +13,11 @@
 #include "help.h"
 #include <signal.h>
 
-static bool run(bool stop, client_t client)
+static bool run(bool stop)
 {
     static bool is_running = true;
 
     if (stop) {
-        send(client.sock, "/logout\n", strlen("/logout\n"), 0);
         is_running = false;
     }
     return is_running;
@@ -34,7 +33,7 @@ static void signal_handler(int sig)
 void client_loop(client_t client)
 {
     signal(SIGINT, signal_handler);
-    while (run(false, client)) {
+    while (run(false)) {
         read(STDIN_FILENO, client.printer, sizeof(client.printer));
         if (strcmp(client.printer, "/help\n") == 0) {
             printf("%s\n", HELP_STRING);
@@ -49,4 +48,5 @@ void client_loop(client_t client)
         }
         memset(client.printer, 0, sizeof(client.printer));
     }
+    client_clean(&client);
 }
