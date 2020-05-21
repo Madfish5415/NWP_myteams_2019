@@ -11,8 +11,6 @@
 #include "server.h"
 #include "utils.h"
 
-static const cmd_t CMD_MAPPING[] = {{"UNKNOWN", NULL}};
-
 static void execute(server_t *server, client_t *client, char **cmds)
 {
     int i = 0;
@@ -23,6 +21,8 @@ static void execute(server_t *server, client_t *client, char **cmds)
             break;
         }
     }
+    if (CMD_MAPPING[i].callback == NULL)
+        cmd_unknown(server, client, cmds);
 }
 
 void client_execute(server_t *server, client_t *client)
