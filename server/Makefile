@@ -32,6 +32,20 @@ PROJ_SRC			=		arguments/flag.c				\
 							client/client_execute.c			\
 							client/client_read.c			\
 							client/client_write.c			\
+							commands/create.c				\
+							commands/info.c					\
+							commands/list.c					\
+							commands/login.c				\
+							commands/logout.c				\
+							commands/messages.c				\
+							commands/send.c					\
+							commands/subscribe.c			\
+							commands/subscribed.c			\
+							commands/unknown.c				\
+							commands/unsubscribe.c			\
+							commands/use.c					\
+							commands/user.c					\
+							commands/users.c				\
 							error/exception.c				\
 							server/server_add.c				\
 							server/server_create.c			\
@@ -44,6 +58,7 @@ PROJ_SRC			=		arguments/flag.c				\
 							server/server_remove.c			\
 							server/server_run.c				\
 							server/server_send.c			\
+							user/user_authorize.c			\
 							utils/split.c					\
 							xml/user.c						\
 							xml/team.c						\

@@ -16,6 +16,7 @@
 #include "def.h"
 #include "exception.h"
 #include "response.h"
+#include "user.h"
 
 typedef struct server_s {
     uint16_t port;
