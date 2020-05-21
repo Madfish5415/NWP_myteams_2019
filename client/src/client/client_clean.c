@@ -20,6 +20,5 @@ exception_t client_clean(client_t *client)
         return new_exception(RUNTIME_ERROR,
             "client_loop (client/client_loop.c)", "Bad send execution.");
     close(client->sock);
-    free(client);
     return exception;
 }
