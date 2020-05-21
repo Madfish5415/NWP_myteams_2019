@@ -8,7 +8,6 @@
 #include <stdlib.h>
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_print_reply_created(char **tab)
 {

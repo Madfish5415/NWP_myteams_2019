@@ -66,10 +66,10 @@ PROJ_SRC			=		help.c													\
 
 TEST_SRC			=
 
-CFLAGS				+=		-I $(INCL_DIR)
+CFLAGS				+=		-I $(INCL_DIR) -I ../libs/myteams/
 CFLAGS				+=		-W -Wall -Wextra -Werror
 
-LDLIBS				=		-luuid
+LDLIBS				=		-luuid -L../libs/myteams/ -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

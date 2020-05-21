@@ -6,10 +6,9 @@
 */
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_error_unauthorized(char **tab)
 {
-    (void) tab;
+    (void)tab;
     client_error_unauthorized();
 }

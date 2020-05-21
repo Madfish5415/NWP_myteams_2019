@@ -50,7 +50,7 @@ static const messages_log_t MESSAGES_LOG[] = {
     {"502", &cli_error_unknown_team},
     {"503", &cli_error_unknown_channel},
     {"504", &cli_error_unknown_thread},
-    {"505", &cli_error_unauthorized,
+    {"505", &cli_error_unauthorized},
     {"506", &cli_error_already_exist},
     {NULL, NULL}
 };

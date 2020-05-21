@@ -32,6 +32,8 @@ static void signal_handler(int sig)
 
 exception_t client_loop(client_t client)
 {
+    exception_t exception = {NO_ERROR};
+
     signal(SIGINT, signal_handler);
     while (run(false)) {
         read(STDIN_FILENO, client.printer, sizeof(client.printer));
@@ -49,4 +51,5 @@ exception_t client_loop(client_t client)
         memset(client.printer, 0, sizeof(client.printer));
     }
     client_clean(&client);
+    return exception;
 }

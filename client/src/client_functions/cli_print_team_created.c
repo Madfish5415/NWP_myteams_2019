@@ -6,7 +6,6 @@
 */
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_print_team_created(char **tab)
 {

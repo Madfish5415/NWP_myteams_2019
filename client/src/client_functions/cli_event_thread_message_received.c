@@ -6,7 +6,6 @@
 */
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_event_thread_message_received(char **tab)
 {

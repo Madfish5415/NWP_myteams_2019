@@ -41,6 +41,7 @@ int main(int ac, char **av)
         return (FAILURE);
     }
     set_non_blocking_read(client);
-    client_loop(client);
+    if (catch_and_print(client_loop(client)))
+        return (FAILURE);
     return (SUCCESS);
 }

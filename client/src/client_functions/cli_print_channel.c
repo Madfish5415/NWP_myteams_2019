@@ -6,11 +6,10 @@
 */
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_print_channel(char **tab)
 {
     if (!tab)
         return;
-    client_print_channel(tab[1],tab[2], tab[3]);
+    client_print_channel(tab[1], tab[2], tab[3]);
 }

@@ -8,11 +8,10 @@
 #include <stdlib.h>
 
 #include "logging_client.h"
-#include "utils.h"
 
 void cli_print_user(char **tab)
 {
     if (!tab)
         return;
-    client_print_user(tab[1],tab[2], atoi(tab[3]));
+    client_print_user(tab[1], tab[2], atoi(tab[3]));
 }
