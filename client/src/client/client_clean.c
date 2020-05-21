@@ -6,11 +6,13 @@
 */
 
 #include "client.h"
+#include <unistd.h>
 
 void client_clean(client_t *client)
 {
     if (client->reader) {
         free(client->reader);
     }
+    close(client->sock);
     free(client);
 }

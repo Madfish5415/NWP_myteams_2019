@@ -21,17 +21,48 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		help.c							\
-							arguments/flag.c				\
-							arguments/parser.c				\
-							arguments/port.c				\
-							error/exception.c				\
-							socket/socket_creation.c		\
-							socket/socket_connection.c		\
-							client/client_loop.c			\
-							client/client_init.c			\
-							client/client_read_server.c		\
-							client/client_clean.c			\
+PROJ_SRC			=		help.c													\
+							utils/split.c											\
+							arguments/flag.c										\
+							arguments/parser.c										\
+							arguments/port.c										\
+							error/exception.c										\
+							socket/socket_creation.c								\
+							socket/socket_connection.c								\
+							client/client_loop.c									\
+							client/client_init.c									\
+							client/client_read_server.c								\
+							client/client_clean.c									\
+							client/client_execute_cmd.c								\
+							client_functions/cli_event_loggedin.c					\
+							client_functions/cli_event_loggedout.c					\
+							client_functions/cli_event_private_message_received.c	\
+							client_functions/cli_event_thread_message_received.c	\
+							client_functions/cli_event_team_created.c				\
+							client_functions/cli_event_channel_created.c			\
+							client_functions/cli_event_thread_created.c				\
+							client_functions/cli_print_users.c						\
+							client_functions/cli_print_teams.c						\
+							client_functions/cli_team_print_channels.c				\
+							client_functions/cli_channel_print_threads.c			\
+							client_functions/cli_thread_print_replies.c				\
+							client_functions/cli_private_message_print_messages.c	\
+							client_functions/cli_error_unknown_team.c				\
+							client_functions/cli_error_unknown_channel.c			\
+							client_functions/cli_error_unknown_thread.c				\
+							client_functions/cli_error_unknown_user.c				\
+							client_functions/cli_error_unauthorized.c				\
+							client_functions/cli_error_already_exist.c				\
+							client_functions/cli_print_user.c						\
+							client_functions/cli_print_team.c						\
+							client_functions/cli_print_channel.c					\
+							client_functions/cli_print_thread.c						\
+							client_functions/cli_print_team_created.c				\
+							client_functions/cli_print_channel_created.c			\
+							client_functions/cli_print_thread_created.c				\
+							client_functions/cli_print_reply_created.c				\
+							client_functions/cli_print_subscribed.c					\
+							client_functions/cli_print_unsubscribed.c				\
 
 TEST_SRC			=
 
