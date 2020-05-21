@@ -11,9 +11,12 @@
 
 void cli_channel_print_threads(char **tab)
 {
+    int i = 0;
+
     if (!tab)
         return;
-    for (int i = 1; tab[i] != NULL; i += 5) {
+    for (; tab[i] != NULL; i++);
+    for (int j = 1; j < i; j += 5) {
         client_channel_print_threads(
             tab[i], tab[i + 1], atoi(tab[i + 2]), tab[i + 3], tab[i + 4]);
     }

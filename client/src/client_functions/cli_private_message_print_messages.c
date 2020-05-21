@@ -11,9 +11,12 @@
 
 void cli_private_message_print_messages(char **tab)
 {
+    int i = 0;
+
     if (!tab)
         return;
-    for (int i = 1; tab[i] != NULL; i += 4) {
+    for (; tab[i] != NULL; i++);
+    for (int j = 1; j < i; j += 3) {
         client_private_message_print_messages(
             tab[i], atoi(tab[i + 1]), tab[i + 2]);
     }
