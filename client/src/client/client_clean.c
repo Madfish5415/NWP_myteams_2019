@@ -5,14 +5,21 @@
 ** client_clean.c
 */
 
-#include "client.h"
+#include <string.h>
 #include <unistd.h>
 
-void client_clean(client_t *client)
+#include "client.h"
+
+exception_t client_clean(client_t *client)
 {
+    exception_t exception = {NO_ERROR};
     if (client->reader) {
         free(client->reader);
     }
+    if (send(client->sock, "/logout", strlen("/logout"), 0) < 0)
+        return new_exception(RUNTIME_ERROR,
+            "client_loop (client/client_loop.c)", "Bad send execution.");
     close(client->sock);
     free(client);
+    return exception;
 }

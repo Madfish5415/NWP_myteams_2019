@@ -11,11 +11,12 @@
 
 #include "client.h"
 
-void client_read_server(client_t *client)
+exception_t client_read_server(client_t *client)
 {
     char buffer_read[BUFFER_SIZE] = {0};
     ssize_t read_size = 0;
     int idx = 0;
+    exception_t exception = {NO_ERROR};
 
     read_size = read(client->sock, buffer_read, READ_SIZE);
     while (read_size != -1 && read_size != 0) {
@@ -29,8 +30,7 @@ void client_read_server(client_t *client)
         idx += read_size;
         read_size = read(client->sock, buffer_read, 1024);
     }
-    if (read_size == 0) {
-        client_clean(client);
-        exit(0);
-    }
+    if (read_size == 0)
+        return client_clean(client);
+    return exception;
 }

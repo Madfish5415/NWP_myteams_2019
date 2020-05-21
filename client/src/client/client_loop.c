@@ -45,11 +45,11 @@ exception_t client_loop(client_t client)
                 return new_exception(RUNTIME_ERROR,
                     "client_loop (client/client_loop.c)",
                     "Bad send execution.");
-        }
-        client_read_server(&client);
+        } exception = client_read_server(&client);
+        if (catch(exception))
+            return exception;
         client_execute_cmd(&client);
         memset(client.printer, 0, sizeof(client.printer));
-    }
-    client_clean(&client);
+    } exception = client_clean(&client);
     return exception;
 }
