@@ -17,8 +17,8 @@ SERVER_BIN = myteams_server
 CLIENT_BIN = myteams_cli
 
 all:
-		$(CD) $(SERVER_DIR) && $(MAKE) all && $(CP) $(SERVER_BIN) ../
-		$(CD) $(CLIENT_DIR) && $(MAKE) all && $(CP) $(CLIENT_BIN) ../
+		$(CD) $(SERVER_DIR) && $(MAKE) && $(CP) $(SERVER_BIN) ../
+		$(CD) $(CLIENT_DIR) && $(MAKE) && $(CP) $(CLIENT_BIN) ../
 
 clean:
 		$(CD) $(SERVER_DIR) && $(MAKE) clean
