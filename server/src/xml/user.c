@@ -20,7 +20,7 @@ xmlNodePtr user_create(const char *username, const char *passwd)
     uuid_t uuid;
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
-    char time_str[64];
+    char time_str[TIME_SIZE];
     char uuid_str[UUID_SIZE];
 
     strftime(time_str, sizeof(time_str), "%c", localt);

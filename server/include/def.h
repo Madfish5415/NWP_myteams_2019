@@ -32,5 +32,6 @@ static const char* const XML_FILENAME = "server_data.xml";
 #define PASSWORD_SIZE (32)
 
 #define UUID_SIZE (37)
+#define TIME_SIZE (64)
 
 #endif  // NWP_MYTEAMS_2019_DEF_H
