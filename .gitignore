@@ -12,9 +12,7 @@ myteams_cli
 
 # Resources
 resources/
-
-# ClangFormat
-.clang-format
+server_data.xml
 
 # Jetbrains
 compile_commands.json
