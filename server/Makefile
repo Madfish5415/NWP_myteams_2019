@@ -60,6 +60,13 @@ PROJ_SRC			=		arguments/flag.c				\
 							server/server_send.c			\
 							user/user_authorize.c			\
 							utils/split.c					\
+							xml/user.c						\
+							xml/team.c						\
+							xml/channel.c					\
+							xml/thread.c					\
+							xml/subscribe.c					\
+							xml/message.c					\
+							xml/discussion.c				\
 							help.c							\
 
 TEST_SRC			=
@@ -69,7 +76,7 @@ CFLAGS				+=		-W -Wall -Wextra
 CFLAGS				+=		`xml2-config --cflags`
 CFLAGS				+=		-I "../libs/myteams/"
 
-LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams/ -lmyteams
+LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

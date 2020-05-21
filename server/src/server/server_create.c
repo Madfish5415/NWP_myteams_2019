@@ -14,33 +14,33 @@
 
 static xmlDocPtr create_new_xml(void)
 {
-    xmlDocPtr xmlTree = xmlNewDoc(BAD_CAST "1.0");
+    xmlDocPtr xml_tree = xmlNewDoc(BAD_CAST "1.0");
     xmlNodePtr serverNode = xmlNewNode(NULL, BAD_CAST "server");
     xmlNodePtr usersNode = xmlNewNode(NULL, BAD_CAST "users");
     xmlNodePtr teamsNode = xmlNewNode(NULL, BAD_CAST "teams");
     xmlNodePtr discussionsNode = xmlNewNode(NULL, BAD_CAST "discussions");
 
-    if (xmlTree == NULL)
+    if (xml_tree == NULL)
         return (NULL);
-    xmlDocSetRootElement(xmlTree, serverNode);
+    xmlDocSetRootElement(xml_tree, serverNode);
     xmlAddChild(serverNode, usersNode);
     xmlAddSibling(usersNode, teamsNode);
     xmlAddSibling(usersNode, discussionsNode);
-    return (xmlTree);
+    return (xml_tree);
 }
 
 static xmlDocPtr load_xml(void)
 {
-    xmlDocPtr xmlTree = NULL;
+    xmlDocPtr xml_tree = NULL;
 
     if (access(XML_FILENAME, R_OK) != -1) {
-        xmlTree = xmlParseFile(XML_FILENAME);
+        xml_tree = xmlParseFile(XML_FILENAME);
     } else {
-        if (xmlTree == NULL) {
-            xmlTree = create_new_xml();
+        if (xml_tree == NULL) {
+            xml_tree = create_new_xml();
         }
     }
-    return (xmlTree);
+    return (xml_tree);
 }
 
 exception_t server_create(server_t **server, args_t *arguments)
@@ -58,7 +58,7 @@ exception_t server_create(server_t **server, args_t *arguments)
     new_server->socket = -1;
     new_server->exception.code = NO_ERROR;
     new_server->clients = NULL;
-    if ((new_server->xmlTree = load_xml()) == NULL)
+    if ((new_server->xml_tree = load_xml()) == NULL)
         return (new_exception(INVALID_ARGUMENT,
             "server_create (server/server_create.c)",
             "Can't load xml in memory"));

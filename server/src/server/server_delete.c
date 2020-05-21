@@ -13,6 +13,6 @@
 void server_delete(server_t **server)
 {
     close((*server)->socket);
-    xmlSaveFormatFile(XML_FILENAME, (*server)->xmlTree, 1);
+    xmlSaveFormatFile(XML_FILENAME, (*server)->xml_tree, 1);
     free((*server));
 }
