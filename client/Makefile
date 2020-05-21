@@ -23,6 +23,7 @@ MAIN_SRC			=		main.c
 
 PROJ_SRC			=		help.c													\
 							utils/split.c											\
+							utils/strptime.c										\
 							arguments/flag.c										\
 							arguments/parser.c										\
 							arguments/port.c										\

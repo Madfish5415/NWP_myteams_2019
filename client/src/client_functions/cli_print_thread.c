@@ -5,13 +5,12 @@
 ** cli_print_thread.c
 */
 
-#include <stdlib.h>
-
 #include "logging_client.h"
+#include "utils.h"
 
 void cli_print_thread(char **tab)
 {
     if (!tab)
         return;
-    client_print_thread(tab[1], tab[2], atoi(tab[3]), tab[4], tab[5]);
+    client_print_thread(tab[1], tab[2], strptime(tab[3]), tab[4], tab[5]);
 }

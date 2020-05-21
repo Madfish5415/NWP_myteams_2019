@@ -11,4 +11,7 @@
 /*  split.c  */
 char **split(char *str, char *delim);
 
+/* strptime */
+time_t strptime(char *string);
+
 #endif // NWP_MYTEAMS_2019_UTILS_H

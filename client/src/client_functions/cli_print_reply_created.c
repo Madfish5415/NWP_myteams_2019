@@ -5,13 +5,12 @@
 ** cli_print_reply_created.c
 */
 
-#include <stdlib.h>
-
 #include "logging_client.h"
+#include "utils.h"
 
 void cli_print_reply_created(char **tab)
 {
     if (!tab)
         return;
-    client_print_reply_created(tab[1], tab[2], atoi(tab[3]), tab[4]);
+    client_print_reply_created(tab[1], tab[2], strptime(tab[3]), tab[4]);
 }

@@ -5,9 +5,8 @@
 ** cli_private_message_print_messages.c
 */
 
-#include <stdlib.h>
-
 #include "logging_client.h"
+#include "utils.h"
 
 void cli_private_message_print_messages(char **tab)
 {
@@ -18,6 +17,6 @@ void cli_private_message_print_messages(char **tab)
     for (; tab[i] != NULL; i++);
     for (int j = 1; j < i; j += 3) {
         client_private_message_print_messages(
-            tab[i], atoi(tab[i + 1]), tab[i + 2]);
+            tab[i], strptime(tab[i + 1]), tab[i + 2]);
     }
 }
