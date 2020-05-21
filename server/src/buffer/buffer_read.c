@@ -11,8 +11,13 @@
 
 char *buffer_read_string(buffer_t *buffer)
 {
-    char *result = strdup(buffer->buffer);
+    char *result = NULL;
 
+    if (buffer == NULL)
+        return NULL;
+    if (buffer->buffer == NULL)
+        return NULL;
+    result = strdup(buffer->buffer);
     free(buffer->buffer);
     buffer->buffer = NULL;
     buffer->buffer_length = 0;
