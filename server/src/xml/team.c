@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "def.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -21,7 +22,7 @@ xmlNodePtr team_create(
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
     char time_str[64];
-    char uuid_str[37];
+    char uuid_str[UUID_SIZE];
 
     strftime(time_str, sizeof(time_str), "%c", localt);
     uuid_generate((unsigned char *)&uuid);
@@ -68,7 +69,7 @@ xmlNodePtr team_get(xmlDocPtr xml_tree, const char *team_uid)
     if (strcmp((char *)root->children->next->name, "teams") != 0) return NULL;
     if (!root->children->next->children) return NULL;
     for (xmlNodePtr tmp = root->children->next->children; tmp;
-         tmp = tmp->next) {
+            tmp = tmp->next) {
         if (!tmp->children) return NULL;
         if (strcmp((char *)tmp->children->name, team_uid) == 0) return tmp;
     }

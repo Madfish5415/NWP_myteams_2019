@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "def.h"
 #include "exception.h"
 #include "logging_server.h"
 
@@ -20,7 +21,7 @@ xmlNodePtr user_create(const char *username, const char *passwd)
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
     char time_str[64];
-    char uuid_str[37];
+    char uuid_str[UUID_SIZE];
 
     strftime(time_str, sizeof(time_str), "%c", localt);
     uuid_generate((unsigned char *)&uuid);

@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "def.h"
 #include "exception.h"
 #include "logging_server.h"
 #include "xml.h"
@@ -22,7 +23,7 @@ xmlNodePtr thread_create(const char *thread_name, const char *body,
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
     char time_str[64];
-    char uuid_str[37];
+    char uuid_str[UUID_SIZE];
 
     strftime(time_str, sizeof(time_str), "%c", localt);
     uuid_generate((unsigned char *)&uuid);
@@ -37,8 +38,8 @@ xmlNodePtr thread_create(const char *thread_name, const char *body,
     return thread;
 }
 
-exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
-    const char *team_uid, const char *channel_uid)
+exception_t thread_add(
+    xmlNodePtr thread, xmlDocPtr xml_tree, const char *channel_uid)
 {
     exception_t exception = {NO_ERROR};
     xmlNodePtr channel = channel_get(xml_tree, channel_uid);
@@ -49,7 +50,7 @@ exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
         return exception;
     }
     for (xmlNodePtr threads = channel->children; threads;
-         threads = threads->next) {
+            threads = threads->next) {
         if (strcmp((char *)threads->name, "threads") == 0) {
             xmlAddChild(threads, thread);
             return exception;
@@ -60,20 +61,50 @@ exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
     return exception;
 }
 
-xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *team_uid,
-    const char *channel_uid, const char *thread_uid)
+xmlNodePtr find_thread(xmlNodePtr channels, const char *thread_uid)
 {
-    xmlNodePtr channel = channel_get(xml_tree, channel_uid);
-    xmlNodePtr tmp = NULL;
+    xmlNodePtr channel = NULL;
+    xmlNodePtr attr = NULL;
+    xmlNodePtr thread = NULL;
 
-    if (!channel || !channel->children) return NULL;
-    for (tmp = channel->children; tmp; tmp = tmp->next) {
-        if (strcmp((char *)tmp->name, "threads") == 0) break;
+    if (!channels->children) return NULL;
+    for (channel = channels->children; channel; channel = channel->next) {
+        if (!channel->children) return NULL;
+        for (attr = channel->children; attr; attr = attr->next)
+            if (strcmp((char *)attr->name, "threads") == 0) break;
+        if (!attr->children) return NULL;
+        for (thread = attr->children; thread; thread = thread->next) {
+            if (!thread->children) return NULL;
+            if (strcmp((char *)thread->children, thread_uid) == 0)
+                return thread;
+        }
     }
-    if (!tmp || !tmp->children) return NULL;
-    for (tmp = tmp->children; tmp; tmp = tmp->next) {
-        if (!tmp->children) return NULL;
-        if (strcmp((char *)tmp->children->name, thread_uid) == 0) return tmp;
+}
+
+xmlNodePtr get_threads_channel(xmlNodePtr team)
+{
+    if (!team || !team->children) return NULL;
+    for (xmlNodePtr tmp = team->children; tmp; tmp = tmp->next) {
+        if (strcmp((char *)tmp->name, "threads") == 0) return tmp;
     }
-    return tmp;
+    return NULL;
+}
+
+xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *thread_uid)
+{
+    xmlNodePtr root = xmlDocGetRootElement(xml_tree);
+    xmlNodePtr res = NULL;
+    xmlNodePtr channels = NULL;
+
+    if (!root || !root->children || !root->children->next ||
+        !root->children->next->children)
+        return NULL;
+    for (xmlNodePtr team = root->children->next->children; team;
+            team = team->next) {
+        channels = get_channels_team(team);
+        if (!channels || !channels->children) return NULL;
+        res = find_thread(channels, thread_uid);
+        if (res) return res;
+    }
+    return NULL;
 }

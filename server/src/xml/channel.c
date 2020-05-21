@@ -10,6 +10,7 @@
 #include <time.h>
 #include <uuid/uuid.h>
 
+#include "def.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -21,7 +22,7 @@ xmlNodePtr channel_create(const char *channel_name, const char *desc,
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
     char time_str[64];
-    char uuid_str[37];
+    char uuid_str[UUID_SIZE];
 
     strftime(time_str, sizeof(time_str), "%c", localt);
     uuid_generate((unsigned char *)&uuid);
@@ -48,7 +49,7 @@ exception_t channel_add(
         return exception;
     }
     for (xmlNodePtr channels = team->children; channels;
-         channels = channels->next) {
+            channels = channels->next) {
         if (strcmp((char *)channels->name, "channels") == 0) {
             xmlAddChild(channels, channel);
             return exception;
@@ -64,7 +65,7 @@ xmlNodePtr find_channel(xmlNodePtr channels, const char *channel_uid)
     if (strcmp((char *)channels->name, "channels") != 0) return NULL;
     if (!channels->children) return NULL;
     for (xmlNodePtr channel = channels->children->children; channel;
-         channel = channel->next) {
+            channel = channel->next) {
         if (!channel->children) return NULL;
         if (strcmp((char *)channel->children->name, channel_uid) == 0)
             return channel;
@@ -81,11 +82,20 @@ xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid)
         !root->children->next->children)
         return NULL;
     for (xmlNodePtr team = root->children->next->children; team;
-         team = team->next) {
+            team = team->next) {
         for (xmlNodePtr attr = team->children; attr; attr = attr->next) {
             res = find_channel(attr, channel_uid);
             if (res) return res;
         }
+    }
+    return NULL;
+}
+
+xmlNodePtr get_channels_team(xmlNodePtr team)
+{
+    if (!team || !team->children) return NULL;
+    for (xmlNodePtr tmp = team->children; tmp; tmp = tmp->next) {
+        if (strcmp((char *)tmp->name, "channels") == 0) return tmp;
     }
     return NULL;
 }

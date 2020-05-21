@@ -49,6 +49,9 @@ PROJ_SRC			=		arguments/flag.c				\
 							xml/team.c						\
 							xml/channel.c					\
 							xml/thread.c					\
+							xml/subscribe.c					\
+							xml/message.c					\
+							xml/discussion.c				\
 							help.c							\
 
 TEST_SRC			=
