@@ -5,48 +5,33 @@
 ** buffer_write.c
 */
 
-#include <stdbool.h>
+#include <string.h>
 
 #include "buffer.h"
 
-static bool is_valid(buffer_t *buffer)
+static char *concat(const char *s1, const char *s2)
 {
-    if (!buffer) return false;
-    if (buffer->buffer_length == BUFFER_SIZE) {
-        buffer->exception = new_exception(RANGE_ERROR,
-            "is_valid (buffer/buffer_write.c)", "Buffer is currently full");
-        return false;
-    }
-    if (buffer->write_index < 0 || buffer->write_index >= BUFFER_SIZE) {
-        buffer->exception = new_exception(RANGE_ERROR,
-            "is_valid (buffer/buffer_write.c)", "Invalid write index");
-        return false;
-    }
-    if (buffer->buffer_length < 0 || buffer->buffer_length >= BUFFER_SIZE) {
-        buffer->exception = new_exception(RANGE_ERROR,
-            "is_valid (buffer/buffer_write.c)", "Invalid buffer length");
-        return false;
-    }
-    return true;
+    char *result = malloc(strlen(s1) + strlen(s2) + 1);
+
+    if (result == NULL)
+        return NULL;
+    strcpy(result, s1);
+    strcat(result, s2);
+    return result;
 }
 
-void buffer_write_character(buffer_t *buffer, const char c)
+void buffer_write_string(buffer_t *buffer, const char *str)
 {
-    if (!is_valid(buffer)) return;
+    char *tmp = NULL;
 
-    buffer->buffer[buffer->write_index] = c;
-
-    buffer->write_index++;
-    buffer->buffer_length++;
-    buffer->write_index %= BUFFER_SIZE;
-}
-
-void buffer_write_string(buffer_t *buffer, const char *const str)
-{
-    if (!is_valid(buffer)) return;
-
-    for (int i = 0; str && str[i] != '\0'; i++) {
-        buffer_write_character(buffer, str[i]);
-        if (buffer->exception.code != NO_ERROR) return;
+    if (str == NULL)
+        return;
+    if (buffer->buffer == NULL) {
+        buffer->buffer = strdup(str);
+    } else {
+        tmp = concat(buffer->buffer, str);
+        free(buffer->buffer);
+        buffer->buffer = tmp;
     }
+    buffer->buffer_length = (int) strlen(buffer->buffer);
 }

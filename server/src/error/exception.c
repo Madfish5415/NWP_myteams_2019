@@ -12,14 +12,13 @@
 #include <string.h>
 
 static const code_match_t ERROR_CODE_MAPPING[] = {{NO_ERROR, NULL},
-    {BAD_ALLOC, "BAD ALLOC"}, {BAD_CAST, "BAD CAST"},
-    {BAD_TYPEID, "BAD TYPEID"}, {BAD_EXCEPTION, "BAD EXCEPTION"},
-    {LOGIC_FAILURE, "LOGIC FAILURE"}, {DOMAIN_ERROR, "DOMAIN_ERROR"},
-    {INVALID_ARGUMENT, "INVALID ARGUMENT"}, {LENGTH_ERROR, "LENGTH ERROR"},
-    {OUT_OF_RANGE, "OUT OF RANGE"}, {RUNTIME_ERROR, "RUNTIME ERROR"},
-    {OVERFLOW_ERROR, "OVERFLOW ERROR"}, {RANGE_ERROR, "RANGE ERROR"},
-    {UNDERFLOW_ERROR, "UNDERFLOW ERROR"}, {UNKNOWN_ERROR, "UNKNOWN ERROR"},
-    {-1, NULL}};
+    {BAD_ALLOC, "BAD ALLOC"}, {BAD_TYPEID, "BAD TYPEID"},
+    {BAD_EXCEPTION, "BAD EXCEPTION"}, {LOGIC_FAILURE, "LOGIC FAILURE"},
+    {DOMAIN_ERROR, "DOMAIN_ERROR"}, {INVALID_ARGUMENT, "INVALID ARGUMENT"},
+    {LENGTH_ERROR, "LENGTH ERROR"}, {OUT_OF_RANGE, "OUT OF RANGE"},
+    {RUNTIME_ERROR, "RUNTIME ERROR"}, {OVERFLOW_ERROR, "OVERFLOW ERROR"},
+    {RANGE_ERROR, "RANGE ERROR"}, {UNDERFLOW_ERROR, "UNDERFLOW ERROR"},
+    {UNKNOWN_ERROR, "UNKNOWN ERROR"}, {-1, NULL}};
 
 static const char *error_code_to_string(int16_t code)
 {
@@ -40,15 +39,17 @@ exception_t new_exception(int16_t code, const char *where, const char *what)
     return (exception);
 }
 
-bool catch (exception_t exception)
+bool catch(exception_t exception)
 {
-    if (exception.code == NO_ERROR) return (false);
+    if (exception.code == NO_ERROR)
+        return (false);
     return (true);
 }
 
 void print_exception(exception_t exception)
 {
-    if (exception.code == NO_ERROR) return;
+    if (exception.code == NO_ERROR)
+        return;
 
     fprintf(stderr, "An error has occurred (%s)\nwhere(): %s\nwhat(): %s\n",
         error_code_to_string(exception.code), exception.where, exception.what);
@@ -58,7 +59,8 @@ void print_exception(exception_t exception)
 
 bool catch_and_print(exception_t exception)
 {
-    if (exception.code == NO_ERROR) return (false);
+    if (exception.code == NO_ERROR)
+        return (false);
 
     print_exception(exception);
     return (true);

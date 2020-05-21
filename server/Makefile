@@ -27,9 +27,24 @@ PROJ_SRC			=		arguments/flag.c				\
 							buffer/buffer_create.c			\
 							buffer/buffer_read.c			\
 							buffer/buffer_write.c			\
+							client/client_connect.c			\
+							client/client_disconnect.c		\
+							client/client_execute.c			\
+							client/client_read.c			\
+							client/client_write.c			\
 							error/exception.c				\
+							server/server_add.c				\
 							server/server_create.c			\
 							server/server_delete.c			\
+							server/server_get.c				\
+							server/server_handle_execute.c	\
+							server/server_handle_read.c		\
+							server/server_handle_write.c	\
+							server/server_init.c			\
+							server/server_remove.c			\
+							server/server_run.c				\
+							server/server_send.c			\
+							utils/split.c					\
 							xml/user.c						\
 							xml/team.c						\
 							xml/channel.c					\
@@ -39,11 +54,11 @@ PROJ_SRC			=		arguments/flag.c				\
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra -Werror
+CFLAGS				+=		-W -Wall -Wextra
 CFLAGS				+=		`xml2-config --cflags`
 CFLAGS				+=		-I "../libs/myteams/"
 
-LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams/ -lmyteams
+LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

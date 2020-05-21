@@ -12,8 +12,7 @@ buffer_t buffer_create(void)
     buffer_t buffer;
 
     buffer.buffer_length = 0;
-    buffer.read_index = 0;
-    buffer.write_index = 0;
+    buffer.buffer = NULL;
     buffer.exception.code = NO_ERROR;
     return (buffer);
 }

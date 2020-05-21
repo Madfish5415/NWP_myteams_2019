@@ -41,7 +41,7 @@ exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
     const char *team_uid, const char *channel_uid)
 {
     exception_t exception = {NO_ERROR};
-    xmlNodePtr channel = channel_get(xml_tree, team_uid, channel_uid);
+    xmlNodePtr channel = channel_get(xml_tree, channel_uid);
 
     if (!channel || !channel->children) {
         exception = new_exception(
@@ -63,7 +63,7 @@ exception_t thread_add(xmlNodePtr thread, xmlDocPtr xml_tree,
 xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *team_uid,
     const char *channel_uid, const char *thread_uid)
 {
-    xmlNodePtr channel = channel_get(xml_tree, team_uid, channel_uid);
+    xmlNodePtr channel = channel_get(xml_tree, channel_uid);
     xmlNodePtr tmp = NULL;
 
     if (!channel || !channel->children) return NULL;

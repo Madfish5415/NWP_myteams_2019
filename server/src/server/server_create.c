@@ -12,7 +12,7 @@
 #include "arguments.h"
 #include "server.h"
 
-static xmlDocPtr create_new_xml()
+static xmlDocPtr create_new_xml(void)
 {
     xmlDocPtr xml_tree = xmlNewDoc(BAD_CAST "1.0");
     xmlNodePtr serverNode = xmlNewNode(NULL, BAD_CAST "server");
@@ -20,7 +20,8 @@ static xmlDocPtr create_new_xml()
     xmlNodePtr teamsNode = xmlNewNode(NULL, BAD_CAST "teams");
     xmlNodePtr discussionsNode = xmlNewNode(NULL, BAD_CAST "discussions");
 
-    if (xml_tree == NULL) return (NULL);
+    if (xml_tree == NULL)
+        return (NULL);
     xmlDocSetRootElement(xml_tree, serverNode);
     xmlAddChild(serverNode, usersNode);
     xmlAddSibling(usersNode, teamsNode);
@@ -28,12 +29,16 @@ static xmlDocPtr create_new_xml()
     return (xml_tree);
 }
 
-static xmlDocPtr load_xml()
+static xmlDocPtr load_xml(void)
 {
-    xmlDocPtr xml_tree = xmlParseFile("server_data.xml");
+    xmlDocPtr xml_tree = NULL;
 
-    if (xml_tree == NULL) {
-        xml_tree = create_new_xml();
+    if (access(XML_FILENAME, R_OK) != -1) {
+        xml_tree = xmlParseFile(XML_FILENAME);
+    } else {
+        if (xml_tree == NULL) {
+            xml_tree = create_new_xml();
+        }
     }
     return (xml_tree);
 }
@@ -52,13 +57,11 @@ exception_t server_create(server_t **server, args_t *arguments)
             "server_create (server/server_create.c)", "Invalid port detected"));
     new_server->socket = -1;
     new_server->exception.code = NO_ERROR;
-    new_server->address_length = sizeof(new_server->address);
     new_server->clients = NULL;
     if ((new_server->xml_tree = load_xml()) == NULL)
         return (new_exception(INVALID_ARGUMENT,
             "server_create (server/server_create.c)",
             "Can't load xml in memory"));
-    new_server->timeout.tv_sec = 0;
     new_server->timeout.tv_usec = 10000;
     return (new_server->exception);
 }

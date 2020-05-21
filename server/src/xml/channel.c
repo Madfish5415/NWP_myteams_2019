@@ -69,6 +69,7 @@ xmlNodePtr find_channel(xmlNodePtr channels, const char *channel_uid)
         if (strcmp((char *)channel->children->name, channel_uid) == 0)
             return channel;
     }
+    return NULL;
 }
 
 xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid)
@@ -86,4 +87,5 @@ xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid)
             if (res) return res;
         }
     }
+    return NULL;
 }

@@ -12,6 +12,7 @@ myteams_cli
 
 # Resources
 resources/
+server_data.xml
 
 # ClangFormat
 .clang-format
