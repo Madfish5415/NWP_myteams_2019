@@ -28,6 +28,7 @@ PROJ_SRC			=		help.c													\
 							arguments/parser.c										\
 							arguments/port.c										\
 							error/exception.c										\
+							error/check_missing_quote.c								\
 							socket/socket_creation.c								\
 							socket/socket_connection.c								\
 							client/client_loop.c									\
@@ -35,6 +36,7 @@ PROJ_SRC			=		help.c													\
 							client/client_read_server.c								\
 							client/client_clean.c									\
 							client/client_execute_cmd.c								\
+							client/client_format_string.c							\
 							client_functions/cli_event_loggedin.c					\
 							client_functions/cli_event_loggedout.c					\
 							client_functions/cli_event_private_message_received.c	\
@@ -70,7 +72,7 @@ TEST_SRC			=
 CFLAGS				+=		-I $(INCL_DIR) -I ../libs/myteams/
 CFLAGS				+=		-W -Wall -Wextra -Werror
 
-LDLIBS				=		-luuid -L../libs/myteams/ -lmyteams
+LDLIBS				=		-luuid -Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

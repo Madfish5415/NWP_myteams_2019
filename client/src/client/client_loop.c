@@ -12,6 +12,7 @@
 
 #include "client.h"
 #include "help.h"
+#include "error.h"
 
 static bool run(bool stop)
 {
@@ -36,20 +37,19 @@ exception_t client_loop(client_t client)
 
     signal(SIGINT, signal_handler);
     while (run(false)) {
+        memset(client.printer, 0, sizeof(client.printer));
         read(STDIN_FILENO, client.printer, sizeof(client.printer));
+        if (!check_missing_quote(client.printer))
+            continue;
         if (strncmp(client.printer, "/help", 5) == 0)
             printf("%s\n", HELP_STRING);
-        else {
-            if (send(client.sock, client.printer, strlen(client.printer), 0) <
-                0)
-                return new_exception(RUNTIME_ERROR,
-                    "client_loop (client/client_loop.c)",
-                    "Bad send execution.");
+        else if (send(client.sock, format_string(client.printer),
+                     strlen(client.printer), 0) < 0) {
+            return new_exception(RUNTIME_ERROR,
+                "client_loop (client/client_loop.c)", "Bad send execution.");
         } exception = client_read_server(&client);
-        if (catch(exception))
-            return exception;
+        if (catch (exception)) return exception;
         client_execute_cmd(&client);
-        memset(client.printer, 0, sizeof(client.printer));
     } exception = client_clean(&client);
     return exception;
 }
