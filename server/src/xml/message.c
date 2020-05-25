@@ -16,20 +16,34 @@
 #include "xml.h"
 
 xmlNodePtr message_create(
-    const char *body, const char *creator, const char *thread_uid)
+    const char *body, const char *creator)
 {
     xmlNodePtr message;
     time_t t = time(NULL);
     struct tm *localt = localtime(&t);
     char time_str[TIME_SIZE];
 
-    strftime(time_str, sizeof(time_str), "%c", localt);
-    message = xmlNewNode(NULL, BAD_CAST "channel");
+    strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
+    message = xmlNewNode(NULL, BAD_CAST "message");
     xmlNewTextChild(message, NULL, BAD_CAST "body", BAD_CAST body);
     xmlNewTextChild(message, NULL, BAD_CAST "date", BAD_CAST time_str);
     xmlNewTextChild(message, NULL, BAD_CAST "creator", BAD_CAST creator);
-    server_event_thread_new_message(thread_uid, creator, body);
+
     return message;
+}
+
+xmlNodePtr message_thread_create(
+    const char *body, const char *creator, const char *thread_uid)
+{
+    server_event_thread_new_message(thread_uid, creator, body);
+    return message_create(body, creator);
+}
+
+xmlNodePtr message_discussion_create(
+    const char *sender_id, const char *receiver_id, const char *body)
+{
+    server_event_private_message_sended(sender_id, receiver_id, body);
+    return message_create(body, sender_id);
 }
 
 exception_t message_add(
