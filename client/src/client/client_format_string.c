@@ -48,16 +48,16 @@ char *format_string(char *string)
     tmp = strdup(string);
     cmd = strtok(tmp, " ");
     if (!cmd) return NULL;
-    format = strdup(cmd);
+    format = malloc(sizeof(char) * (strlen(cmd) + 3));
+    format = strcat(format, cmd);
     for (unsigned int i = 1; i < get_args(string); i++) {
         tmp = find_string(string);
         format =
             realloc(format, sizeof(char) * (strlen(format) + strlen(tmp) + 3));
         format = strcat(format, "\r\n\0");
         format = strcat(format, tmp);
-    }
+    } if (cmd != tmp) free(tmp);
     free(cmd);
-    free(tmp);
     format = strcat(format, "\r\n\0");
     return format;
 }
