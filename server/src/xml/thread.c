@@ -25,15 +25,16 @@ xmlNodePtr thread_create(const char *thread_name, const char *body,
     char time_str[TIME_SIZE];
     char uuid_str[UUID_SIZE];
 
-    strftime(time_str, sizeof(time_str), "%c", localt);
+    strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    thread = xmlNewNode(NULL, BAD_CAST "channel");
+    thread = xmlNewNode(NULL, BAD_CAST "thread");
     xmlNewTextChild(thread, NULL, BAD_CAST "uuid", BAD_CAST uuid_str);
     xmlNewTextChild(thread, NULL, BAD_CAST "name", BAD_CAST thread_name);
     xmlNewTextChild(thread, NULL, BAD_CAST "body", BAD_CAST body);
     xmlNewTextChild(thread, NULL, BAD_CAST "date", BAD_CAST time_str);
     xmlNewTextChild(thread, NULL, BAD_CAST "creator", BAD_CAST creator);
+    xmlAddChild(thread, xmlNewNode(NULL, BAD_CAST "messages"));
     server_event_thread_created(channel_uid, uuid_str, creator, body);
     return thread;
 }
@@ -50,7 +51,7 @@ exception_t thread_add(
         return exception;
     }
     for (xmlNodePtr threads = channel->children; threads;
-            threads = threads->next) {
+        threads = threads->next) {
         if (strcmp((char *)threads->name, "threads") == 0) {
             xmlAddChild(threads, thread);
             return exception;
@@ -61,7 +62,7 @@ exception_t thread_add(
     return exception;
 }
 
-xmlNodePtr find_thread(xmlNodePtr channels, const char *thread_uid)
+static xmlNodePtr find_thread(xmlNodePtr channels, const char *thread_uid)
 {
     xmlNodePtr channel = NULL;
     xmlNodePtr attr = NULL;
@@ -69,23 +70,26 @@ xmlNodePtr find_thread(xmlNodePtr channels, const char *thread_uid)
 
     if (!channels->children) return NULL;
     for (channel = channels->children; channel; channel = channel->next) {
-        if (!channel->children) return NULL;
+        if (!channel->children) continue;
         for (attr = channel->children; attr; attr = attr->next)
             if (strcmp((char *)attr->name, "threads") == 0) break;
-        if (!attr->children) return NULL;
+        if (!attr->children) continue;
         for (thread = attr->children; thread; thread = thread->next) {
-            if (!thread->children) return NULL;
-            if (strcmp((char *)thread->children, thread_uid) == 0)
-                return thread;
+            if (!thread->children) continue;
+            if (strcmp((char *)xmlNodeGetContent(thread->children),
+                    thread_uid) == 0) return thread;
         }
     }
+    return NULL;
 }
 
 xmlNodePtr get_threads_channel(xmlNodePtr team)
 {
-    if (!team || !team->children) return NULL;
+    if (!team || !team->children)
+        return NULL;
     for (xmlNodePtr tmp = team->children; tmp; tmp = tmp->next) {
-        if (strcmp((char *)tmp->name, "threads") == 0) return tmp;
+        if (strcmp((char *)tmp->name, "threads") == 0)
+            return tmp;
     }
     return NULL;
 }
@@ -100,11 +104,13 @@ xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *thread_uid)
         !root->children->next->children)
         return NULL;
     for (xmlNodePtr team = root->children->next->children; team;
-            team = team->next) {
+        team = team->next) {
         channels = get_channels_team(team);
-        if (!channels || !channels->children) return NULL;
+        if (!channels || !channels->children)
+            return NULL;
         res = find_thread(channels, thread_uid);
-        if (res) return res;
+        if (res)
+            return res;
     }
     return NULL;
 }
