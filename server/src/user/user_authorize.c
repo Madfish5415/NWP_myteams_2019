@@ -28,6 +28,6 @@ bool user_get_authorize(server_t *server, client_t *client, char **cmds)
     }
     is_authorize = (is_connected(client)) ? true : is_authorize;
     if (!is_authorize)
-        server_send_response(server, client, "530\r\n"); // TODO: Set response
+        server_send_response(server, client, RESPONSE_505, false);
     return is_authorize;
 }
