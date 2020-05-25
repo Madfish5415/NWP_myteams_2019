@@ -12,6 +12,7 @@
 
 #include "def.h"
 #include "logging_server.h"
+#include "server.h"
 #include "xml.h"
 
 xmlNodePtr team_create(
@@ -24,7 +25,7 @@ xmlNodePtr team_create(
     char time_str[TIME_SIZE];
     char uuid_str[UUID_SIZE];
 
-    strftime(time_str, sizeof(time_str), "%c", localt);
+    strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
     team = xmlNewNode(NULL, BAD_CAST "team");
@@ -33,6 +34,8 @@ xmlNodePtr team_create(
     xmlNewTextChild(team, NULL, BAD_CAST "desc", BAD_CAST desc);
     xmlNewTextChild(team, NULL, BAD_CAST "date", BAD_CAST time_str);
     xmlNewTextChild(team, NULL, BAD_CAST "creator", BAD_CAST creator);
+    xmlAddChild(team, xmlNewNode(NULL, BAD_CAST "channels"));
+    xmlAddChild(team, xmlNewNode(NULL, BAD_CAST "subscribes"));
     server_event_team_created(uuid_str, team_name, creator);
     return team;
 }
@@ -71,7 +74,8 @@ xmlNodePtr team_get(xmlDocPtr xml_tree, const char *team_uid)
     for (xmlNodePtr tmp = root->children->next->children; tmp;
             tmp = tmp->next) {
         if (!tmp->children) return NULL;
-        if (strcmp((char *)tmp->children->name, team_uid) == 0) return tmp;
+        if (strcmp((char *)xmlNodeGetContent(tmp->children), team_uid) == 0)
+            return tmp;
     }
     return NULL;
 }
