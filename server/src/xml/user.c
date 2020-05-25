@@ -23,7 +23,7 @@ xmlNodePtr user_create(const char *username, const char *passwd)
     char time_str[TIME_SIZE];
     char uuid_str[UUID_SIZE];
 
-    strftime(time_str, sizeof(time_str), "%c", localt);
+    strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
     user = xmlNewNode(NULL, BAD_CAST "user");
@@ -53,4 +53,35 @@ exception_t user_add(xmlNodePtr user, xmlDocPtr xml_tree)
     }
     xmlAddChild(root->children, user);
     return exception;
+}
+
+xmlNodePtr user_get_by_name(xmlDocPtr xml_tree, const char *username)
+{
+    xmlNodePtr root = xmlDocGetRootElement(xml_tree);
+
+    if (!root || !root->children || !root->children->children)
+        return NULL;
+    for (xmlNodePtr user = root->children->children; user; user = user->next) {
+        if (!user->children || !user->children->next)
+            return NULL;
+        if (strcmp((char *)xmlNodeGetContent(user->children->next),
+                username) == 0)
+            return user;
+    }
+    return NULL;
+}
+
+xmlNodePtr user_get_by_uuid(xmlDocPtr xml_tree, const char *uuid)
+{
+    xmlNodePtr root = xmlDocGetRootElement(xml_tree);
+
+    if (!root || !root->children || !root->children->children)
+        return NULL;
+    for (xmlNodePtr user = root->children->children; user; user = user->next) {
+        if (!user->children || !user->children->next)
+            return NULL;
+        if (strcmp((char *)xmlNodeGetContent(user->children), uuid) == 0)
+            return user;
+    }
+    return NULL;
 }
