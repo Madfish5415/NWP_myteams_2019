@@ -15,6 +15,24 @@ typedef struct cmd_s {
     void (*callback)(server_t *, client_t *, char **);
 } cmd_t;
 
+/*  create/  */
+void create_channel(server_t *server, client_t *client, char **cmds);
+void create_nocontext(server_t *server, client_t *client, char **cmds);
+void create_team(server_t *server, client_t *client, char **cmds);
+void create_thread(server_t *server, client_t *client, char **cmds);
+
+/*  info/  */
+void info_channel(server_t *server, client_t *client, char **cmds);
+void info_nocontext(server_t *server, client_t *client, char **cmds);
+void info_team(server_t *server, client_t *client, char **cmds);
+void info_thread(server_t *server, client_t *client, char **cmds);
+
+/*  list/  */
+void list_channel(server_t *server, client_t *client, char **cmds);
+void list_nocontext(server_t *server, client_t *client, char **cmds);
+void list_team(server_t *server, client_t *client, char **cmds);
+void list_thread(server_t *server, client_t *client, char **cmds);
+
 /*  create.c  */
 void cmd_create(server_t *server, client_t *client, char **cmds);
 
