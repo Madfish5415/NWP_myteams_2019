@@ -24,7 +24,7 @@ xmlNodePtr channel_create(const char *channel_name, const char *desc,
     char time_str[TIME_SIZE];
     char uuid_str[UUID_SIZE];
 
-    strftime(time_str, sizeof(time_str), "%c", localt);
+    strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
     channel = xmlNewNode(NULL, BAD_CAST "channel");
@@ -33,6 +33,7 @@ xmlNodePtr channel_create(const char *channel_name, const char *desc,
     xmlNewTextChild(channel, NULL, BAD_CAST "desc", BAD_CAST desc);
     xmlNewTextChild(channel, NULL, BAD_CAST "date", BAD_CAST time_str);
     xmlNewTextChild(channel, NULL, BAD_CAST "creator", BAD_CAST creator);
+    xmlAddChild(channel, xmlNewNode(NULL, BAD_CAST "threads"));
     server_event_channel_created(team_uid, uuid_str, channel_name);
     return channel;
 }
@@ -49,7 +50,7 @@ exception_t channel_add(
         return exception;
     }
     for (xmlNodePtr channels = team->children; channels;
-            channels = channels->next) {
+        channels = channels->next) {
         if (strcmp((char *)channels->name, "channels") == 0) {
             xmlAddChild(channels, channel);
             return exception;
@@ -60,14 +61,18 @@ exception_t channel_add(
     return exception;
 }
 
-xmlNodePtr find_channel(xmlNodePtr channels, const char *channel_uid)
+static xmlNodePtr find_channel(xmlNodePtr channels, const char *channel_uid)
 {
-    if (strcmp((char *)channels->name, "channels") != 0) return NULL;
-    if (!channels->children) return NULL;
-    for (xmlNodePtr channel = channels->children->children; channel;
-            channel = channel->next) {
-        if (!channel->children) return NULL;
-        if (strcmp((char *)channel->children->name, channel_uid) == 0)
+    if (strcmp((char *)channels->name, "channels") != 0)
+        return NULL;
+    if (!channels->children)
+        return NULL;
+    for (xmlNodePtr channel = channels->children; channel;
+        channel = channel->next) {
+        if (!channel->children)
+            return NULL;
+        if (strcmp((char *)xmlNodeGetContent(channel->children), channel_uid) ==
+            0)
             return channel;
     }
     return NULL;
@@ -82,10 +87,11 @@ xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid)
         !root->children->next->children)
         return NULL;
     for (xmlNodePtr team = root->children->next->children; team;
-            team = team->next) {
+        team = team->next) {
         for (xmlNodePtr attr = team->children; attr; attr = attr->next) {
             res = find_channel(attr, channel_uid);
-            if (res) return res;
+            if (res)
+                return res;
         }
     }
     return NULL;
@@ -93,9 +99,11 @@ xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid)
 
 xmlNodePtr get_channels_team(xmlNodePtr team)
 {
-    if (!team || !team->children) return NULL;
+    if (!team || !team->children)
+        return NULL;
     for (xmlNodePtr tmp = team->children; tmp; tmp = tmp->next) {
-        if (strcmp((char *)tmp->name, "channels") == 0) return tmp;
+        if (strcmp((char *)tmp->name, "channels") == 0)
+            return tmp;
     }
     return NULL;
 }
