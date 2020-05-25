@@ -17,6 +17,7 @@
 #include "exception.h"
 #include "response.h"
 #include "user.h"
+#include "xml.h"
 
 typedef struct server_s {
     uint16_t port;
@@ -65,6 +66,11 @@ void server_run(server_t *server);
 
 /*  server_send.c  */
 void server_send_response(
-    server_t *server, client_t *client, const char *response);
+    server_t *server, client_t *client, const char *response, bool separate);
+void server_broadcast(server_t *server, const char *response, bool separate);
+void server_send_to_uuid(
+    server_t *server, const char *uuid, const char *response, bool separate);
+void server_send_event(
+    server_t *server, client_t *client, const char *response, bool separate);
 
 #endif // NWP_MYTEAMS_2019_SERVER_H

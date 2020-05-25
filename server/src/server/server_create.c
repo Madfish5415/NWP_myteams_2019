@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #include "arguments.h"
+#include "logging_server.h"
 #include "server.h"
 
 static xmlDocPtr create_new_xml(void)
@@ -34,6 +35,7 @@ static xmlDocPtr load_xml(void)
     xmlDocPtr xml_tree = NULL;
 
     if (access(XML_FILENAME, R_OK) != -1) {
+        xmlKeepBlanksDefault(0);
         xml_tree = xmlParseFile(XML_FILENAME);
     } else {
         if (xml_tree == NULL) {
@@ -41,6 +43,19 @@ static xmlDocPtr load_xml(void)
         }
     }
     return (xml_tree);
+}
+
+static void load_existing_users(server_t *server)
+{
+    xmlNodePtr root = xmlDocGetRootElement(server->xml_tree);
+
+    if (!root || !root->children)
+        return;
+    for (xmlNodePtr user = root->children->children; user; user = user->next) {
+        if (user->children && user->children->next)
+            server_event_user_loaded((char *)xmlNodeGetContent(user->children),
+                (char *)xmlNodeGetContent(user->children->next));
+    }
 }
 
 exception_t server_create(server_t **server, args_t *arguments)
@@ -62,6 +77,7 @@ exception_t server_create(server_t **server, args_t *arguments)
         return (new_exception(INVALID_ARGUMENT,
             "server_create (server/server_create.c)",
             "Can't load xml in memory"));
+    load_existing_users((*server));
     new_server->timeout.tv_usec = 10000;
     return (new_server->exception);
 }
