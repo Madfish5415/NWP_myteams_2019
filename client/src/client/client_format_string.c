@@ -15,11 +15,9 @@ static char *find_string(char *string)
     unsigned int i = 0;
     char *tmp = NULL;
 
-    for (; string[idx] && string[idx] != '"'; idx++)
-        ;
+    for (; string[idx] && string[idx] != '"'; idx++);
     idx++;
-    for (size = idx; string[size] && string[size] != '"'; size++)
-        ;
+    for (size = idx; string[size] && string[size] != '"'; size++);
     tmp = malloc(sizeof(char) * (size - idx + 1));
     for (i = 0; string[idx] && string[idx] != '"'; idx++, i++)
         tmp[i] = string[idx];
