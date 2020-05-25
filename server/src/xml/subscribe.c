@@ -16,8 +16,11 @@
 xmlNodePtr subscribe_create(const char *uid)
 {
     xmlNodePtr subscribe;
+    xmlNodePtr text;
 
-    subscribe = xmlNewText(BAD_CAST uid);
+    subscribe = xmlNewNode(NULL, BAD_CAST "uuid");
+    text = xmlNewText(BAD_CAST uid);
+    xmlAddChild(subscribe, text);
     return subscribe;
 }
 
@@ -41,11 +44,11 @@ exception_t subscribe_add(
     return exception;
 }
 
-bool check_users(xmlNodePtr subscribers, const char *user_uid)
+static bool check_users(xmlNodePtr subscribers, const char *user_uid)
 {
     if (!subscribers->children) return false;
     for (xmlNodePtr sub = subscribers->children; sub; sub = sub->next) {
-        if (strcmp((char *)sub->name, user_uid) == 0) return true;
+        if (strcmp((char *)xmlNodeGetContent(sub), user_uid) == 0) return true;
     }
     return false;
 }
