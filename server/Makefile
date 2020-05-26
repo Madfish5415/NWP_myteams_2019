@@ -86,7 +86,7 @@ PROJ_SRC			=		arguments/flag.c					\
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra
+CFLAGS				+=		-W -Wall -Wextra -Werror
 CFLAGS				+=		`xml2-config --cflags`
 CFLAGS				+=		-I "../libs/myteams/"
 

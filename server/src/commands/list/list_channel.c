@@ -11,6 +11,7 @@ void list_channel(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr channel = channel_get(server->xml_tree, client->use_uuid);
 
+    (void) cmds;
     if (!channel)
         return;
     server_send_response(server, client, RESPONSE_253, false);

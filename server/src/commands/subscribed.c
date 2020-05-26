@@ -59,7 +59,6 @@ void cmd_subscribed(server_t *server, client_t *client, char **cmds)
 {
     if (!user_get_authorize(server, client, cmds))
         return;
-
     if (client->use_uuid[0] == '\0') {
         list_subscribed_team(server, client);
     } else {

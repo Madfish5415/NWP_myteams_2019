@@ -12,6 +12,7 @@ void list_nocontext(server_t *server, client_t *client, char **cmds)
     xmlNodePtr root = xmlDocGetRootElement(server->xml_tree);
     xmlNodePtr team = root->children->next->children;
 
+    (void) cmds;
     if (!team)
         return;
     server_send_response(server, client, RESPONSE_241, false);
