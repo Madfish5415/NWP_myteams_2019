@@ -31,6 +31,18 @@ static void signal_handler(int sig)
     run(true);
 }
 
+static exception_t send_message(client_t client)
+{
+    exception_t exception = {NO_ERROR};
+
+    if (send(client.sock, format_string(client.printer),
+                  strlen(client.printer), 0) < 0) {
+        return new_exception(RUNTIME_ERROR,
+            "client_loop (client/client_loop.c)", "Bad send execution.");
+    }
+    return exception;
+}
+
 exception_t client_loop(client_t client)
 {
     exception_t exception = {NO_ERROR};
@@ -43,12 +55,10 @@ exception_t client_loop(client_t client)
             continue;
         if (strncmp(client.printer, "/help", 5) == 0)
             printf("%s\n", HELP_STRING);
-        else if (send(client.sock, format_string(client.printer),
-                     strlen(client.printer), 0) < 0) {
-            return new_exception(RUNTIME_ERROR,
-                "client_loop (client/client_loop.c)", "Bad send execution.");
-        } exception = client_read_server(&client);
-        if (catch (exception)) return exception;
+        exception = send_message(client);
+        if (catch(exception)) return exception;
+        exception = client_read_server(&client);
+        if (catch(exception)) return exception;
         client_execute_cmd(&client);
     } exception = client_clean(&client);
     return exception;
