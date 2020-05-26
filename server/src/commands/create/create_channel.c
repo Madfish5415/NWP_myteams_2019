@@ -14,7 +14,7 @@ static void send_to_others(
 
     for (int i = 0; server->clients[i]; i++)
         if (server->clients[i] != client &&
-            subscriber_get(server->xml_tree, (char *)xmlNodeGetContent(
+            is_subscribe(server->xml_tree, (char *)xmlNodeGetContent(
                 channel->parent->prev->prev->prev->prev->prev),
                 server->clients[i]->user)) {
             server_send_response(server, server->clients[i], RESPONSE_236,

@@ -33,7 +33,7 @@ void cmd_subscribe(server_t *server, client_t *client, char **cmds)
         server_send_response(server, client, cmds[1], true);
         return;
     }
-    if (subscriber_get(server->xml_tree, cmds[1], client->user)) {
+    if (is_subscribe(server->xml_tree, cmds[1], client->user)) {
         server_send_response(server, client, RESPONSE_506, true);
         return;
     }
