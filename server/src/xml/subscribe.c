@@ -32,28 +32,55 @@ exception_t subscribe_add(
 
     if (!team || !team->children) {
         exception = new_exception(
-            OUT_OF_RANGE, "subscribe (xml/subscribe.c)", "Team not found");
+            OUT_OF_RANGE, "subscribe_add (xml/subscribe.c)", "Team not found");
         return exception;
     }
     for (xmlNodePtr attr = team->children; attr; attr = attr->next) {
         if (strcmp((char *)attr->name, "subscribes") == 0)
             xmlAddChild(attr, subscribe);
     }
-    exception = new_exception(
-        OUT_OF_RANGE, "subscribe (xml/subscribe.c)", "Subscribes not found");
+    exception = new_exception(OUT_OF_RANGE, "subscribe_add (xml/subscribe.c)",
+        "Subscribes not found");
+    return exception;
+}
+
+exception_t subscribe_del(
+    xmlDocPtr xml_tree, const char *team_uid, const char *user_id)
+{
+    exception_t exception = {NO_ERROR};
+    xmlNodePtr team = team_get(xml_tree, team_uid);
+    xmlNodePtr sub = NULL;
+
+    if (!team)
+        return new_exception(
+            OUT_OF_RANGE, "subscribe_del (xml/subscribe.c)", "Team not found");
+    for (xmlNodePtr attr = team->children; attr; attr = attr->next)
+        if (strcmp((char *)attr->name, "subscribes") == 0)
+            sub = attr;
+    if (!sub)
+        return new_exception(OUT_OF_RANGE, "subscribe_del (xml/subscribe.c)",
+            "Subscribes not found");
+    for (sub = sub->children; sub; sub = sub->next)
+        if (strcmp((char *)xmlNodeGetContent(sub), user_id) == 0) {
+            xmlUnlinkNode(sub);
+            xmlFreeNode(sub);
+            return exception;
+        }
     return exception;
 }
 
 static bool check_users(xmlNodePtr subscribers, const char *user_uid)
 {
-    if (!subscribers->children) return false;
+    if (!subscribers->children)
+        return false;
     for (xmlNodePtr sub = subscribers->children; sub; sub = sub->next) {
-        if (strcmp((char *)xmlNodeGetContent(sub), user_uid) == 0) return true;
+        if (strcmp((char *)xmlNodeGetContent(sub), user_uid) == 0)
+            return true;
     }
     return false;
 }
 
-bool subscriber_get(
+bool is_subscribe(
     xmlDocPtr xml_tree, const char *team_uid, const char *user_uid)
 {
     xmlNodePtr team = team_get(xml_tree, team_uid);

@@ -46,7 +46,9 @@ exception_t message_add(
 xmlNodePtr subscribe_create(const char *uid);
 exception_t subscribe_add(
     xmlNodePtr subscribe, xmlDocPtr xml_tree, const char *team_uid);
-bool subscriber_get(
+exception_t subscribe_del(
+    xmlDocPtr xml_tree, const char *team_uid, const char *user_id);
+bool is_subscribe(
     xmlDocPtr xml_tree, const char *team_uid, const char *user_uid);
 
 /*  team.c  */
