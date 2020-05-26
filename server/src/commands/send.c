@@ -27,7 +27,7 @@ void cmd_send(server_t *server, client_t *client, char **cmds)
         return;
     }
     if (cmds[2] == NULL || strncmp(client->user, cmds[1], UUID_SIZE) == 0) {
-        server_send_response(server, client, RESPONSE_506, false);
+        server_send_response(server, client, RESPONSE_505, false);
         return;
     }
     if (!user_get_by_uuid(server->xml_tree, cmds[1])) {

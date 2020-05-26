@@ -52,7 +52,7 @@ void cmd_login(server_t *server, client_t *client, char **cmds)
         return;
 
     if (cmds[1] == NULL) {
-        server_send_response(server, client, RESPONSE_506, false);
+        server_send_response(server, client, RESPONSE_505, false);
         return;
     }
     user = user_get_by_name(server->xml_tree, cmds[1]);
