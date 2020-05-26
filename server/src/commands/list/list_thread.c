@@ -21,8 +21,6 @@ void list_thread(server_t *server, client_t *client, char **cmds)
         server_send_response(server, client,
             (char *)xmlNodeGetContent(message->children->next->next), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(message->children->next->next), true);
-        server_send_response(server, client,
             (char *)xmlNodeGetContent(message->children->next), true);
         server_send_response(
             server, client, (char *)xmlNodeGetContent(message->children), true);
