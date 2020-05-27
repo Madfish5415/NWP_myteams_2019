@@ -5,7 +5,6 @@
 ** check_missing_quote.c
 */
 
-#include <unistd.h>
 #include <string.h>
 #include <stdio.h>
 

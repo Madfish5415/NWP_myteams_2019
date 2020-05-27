@@ -14,5 +14,10 @@
 typedef int socket_t;
 
 #define MSG_MAX_SIZE (1024)
+#define SET_NUMBER (3)
+
+#define READ_SET (0)
+#define WRITE_SET (1)
+#define EXCEPT_SET (2)
 
 #endif  // NWP_MYTEAMS_2019_DEF_H
