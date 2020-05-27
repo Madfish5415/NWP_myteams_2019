@@ -28,7 +28,6 @@ void cmd_user(server_t *server, client_t *client, char **cmds)
 
     if (!user_get_authorize(server, client, cmds))
         return;
-
     if (cmds[1] == NULL) {
         server_send_response(server, client, RESPONSE_501, true);
         return;
