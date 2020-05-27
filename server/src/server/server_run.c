@@ -51,8 +51,6 @@ void server_run(server_t *server)
         if (select(FD_SETSIZE, &server->worker[READ_SET],
                 &server->worker[WRITE_SET], &server->worker[EXCEPT_SET],
                 &server->timeout) < 0) {
-            server->exception =
-                new_exception(RUNTIME_ERROR, "server", "Select failed");
             return;
         }
         server_handle_fd(server);
