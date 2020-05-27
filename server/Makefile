@@ -21,40 +21,77 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		arguments/flag.c				\
-							arguments/parser.c				\
-							arguments/port.c				\
-							buffer/buffer_create.c			\
-							buffer/buffer_read.c			\
-							buffer/buffer_write.c			\
-							client/client_connect.c			\
-							client/client_disconnect.c		\
-							client/client_execute.c			\
-							client/client_read.c			\
-							client/client_write.c			\
-							error/exception.c				\
-							server/server_add.c				\
-							server/server_create.c			\
-							server/server_delete.c			\
-							server/server_get.c				\
-							server/server_handle_execute.c	\
-							server/server_handle_read.c		\
-							server/server_handle_write.c	\
-							server/server_init.c			\
-							server/server_remove.c			\
-							server/server_run.c				\
-							server/server_send.c			\
-							utils/split.c					\
-							help.c							\
+PROJ_SRC			=		arguments/flag.c					\
+							arguments/parser.c					\
+							arguments/port.c					\
+							buffer/buffer_create.c				\
+							buffer/buffer_delete.c				\
+							buffer/buffer_read.c				\
+							buffer/buffer_write.c				\
+							client/client_connect.c				\
+							client/client_disconnect.c			\
+							client/client_execute.c				\
+							client/client_read.c				\
+							client/client_write.c				\
+							commands/create/create_channel.c	\
+							commands/create/create_nocontext.c	\
+							commands/create/create_team.c		\
+							commands/create/create_thread.c		\
+							commands/info/info_channel.c		\
+                            commands/info/info_nocontext.c		\
+                            commands/info/info_team.c			\
+                            commands/info/info_thread.c			\
+                            commands/list/list_channel.c		\
+                            commands/list/list_nocontext.c		\
+                            commands/list/list_team.c			\
+                            commands/list/list_thread.c			\
+							commands/create.c					\
+							commands/info.c						\
+							commands/list.c						\
+							commands/login.c					\
+							commands/logout.c					\
+							commands/messages.c					\
+							commands/send.c						\
+							commands/subscribe.c				\
+							commands/subscribed.c				\
+							commands/unknown.c					\
+							commands/unsubscribe.c				\
+							commands/use.c						\
+							commands/user.c						\
+							commands/users.c					\
+							error/exception.c					\
+							server/server_add.c					\
+							server/server_create.c				\
+							server/server_delete.c				\
+							server/server_get.c					\
+							server/server_handle_execute.c		\
+							server/server_handle_read.c			\
+							server/server_handle_write.c		\
+							server/server_init.c				\
+							server/server_remove.c				\
+							server/server_run.c					\
+							server/server_send.c				\
+							user/user_authorize.c				\
+							utils/split.c						\
+							xml/belongs_to.c					\
+							xml/channel.c						\
+							xml/discussion.c					\
+							xml/message.c						\
+							xml/subscribe.c						\
+							xml/team.c							\
+							xml/thread.c						\
+							xml/user.c							\
+							help.c								\
 
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra
+CFLAGS				+=		-W -Wall -Wextra -Werror
 CFLAGS				+=		`xml2-config --cflags`
 CFLAGS				+=		-I "../libs/myteams/"
 
-LDLIBS				+=		-luuid `xml2-config --libs` -L../libs/myteams/ -lmyteams
+LDLIBS				+=		-luuid `xml2-config --libs`
+LDLIBS				+=		-Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
