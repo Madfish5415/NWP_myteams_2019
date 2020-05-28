@@ -22,7 +22,7 @@ xmlNodePtr xmlNewNode(const char *name)
     node->next = NULL;
     node->parent = NULL;
     node->prev = NULL;
-    node->name = strdup(name);
+    node->name = (name) ? strdup(name) : NULL;
     return node;
 }
 
@@ -38,7 +38,7 @@ xmlNodePtr xmlNewText(const char *content)
     node->parent = NULL;
     node->prev = NULL;
     node->name = NULL;
-    node->content = strdup(content);
+    node->content = (content) ? strdup(content) : NULL;
     return node;
 }
 
@@ -47,6 +47,8 @@ xmlNodePtr xmlNewTextChild(
 {
     xmlNodePtr node = NULL;
 
+    if (!parent)
+        return NULL;
     node = malloc(sizeof(xmlNode));
     if (!node)
         return NULL;
@@ -54,8 +56,8 @@ xmlNodePtr xmlNewTextChild(
     node->next = NULL;
     node->prev = NULL;
     node->parent = parent;
-    node->name = strdup(name);
-    node->content = strdup(content);
+    node->name = (name) ? strdup(name) : NULL;
+    node->content = (content) ? strdup(content) : NULL;
     return node;
 }
 
@@ -69,5 +71,5 @@ xmlDocPtr xmlNewDoc(const char *version)
     doc->children = NULL;
     doc->encoding = NULL;
     doc->name = NULL;
-    doc->version = strdup(version);
+    doc->version = (version) ? strdup(version) : NULL;
 }
