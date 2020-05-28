@@ -9,10 +9,10 @@
 #define NWP_MYTEAMS_2019_LIBXML2_H
 
 typedef struct _xmlNode {
-    struct node_s *next;
-    struct node_s *prev;
-    struct node_s *parent;
-    struct node_s *children;
+    struct _xmlNode *next;
+    struct _xmlNode *prev;
+    struct _xmlNode *parent;
+    struct _xmlNode *children;
     char *content;
     char *name;
 } xmlNode;
