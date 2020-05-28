@@ -8,7 +8,11 @@
 #ifndef NWP_MYTEAMS_2019_LIBXML3_H
 #define NWP_MYTEAMS_2019_LIBXML3_H
 
+#define SUCCESS (0)
+#define FAILURE (84)
 #define BAD_CAST (char *)
+
+#include <stdio.h>
 
 typedef struct _xmlNode {
     struct _xmlNode *next;
@@ -56,5 +60,7 @@ void xmlFreeNode(xmlNodePtr cur);
 
 int xmlSaveFile(const char *filename, xmlDocPtr cur);
 int xmlSaveFormatFile(const char *filename, xmlDocPtr cur, int format);
+
+void write_children(FILE *file, xmlNodePtr node, int depth, int format);
 
 #endif // NWP_MYTEAMS_2019_LIBXML3_H
