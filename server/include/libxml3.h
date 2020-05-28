@@ -31,7 +31,7 @@ typedef struct _xmlDoc {
 typedef xmlDoc *xmlDocPtr;
 
 char *xmlNodeGetContent(xmlNodePtr cur);
-void xmlNodeSetContent(xmlNodePtr cur, const char *content);
+xmlNodePtr xmlNodeSetContent(xmlNodePtr cur, const char *content);
 
 xmlNodePtr xmlDocGetRootElement(xmlDocPtr doc);
 xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root);
