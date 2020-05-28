@@ -73,6 +73,8 @@ clean:
 
 fclean:			clean
 				$(RM) $(NAME)
+				$(RM) $(LIB_NAME)
+				$(RM) $(LIB_ST_NAME)
 
 re:				fclean all
 
