@@ -12,11 +12,13 @@ MAKE = make
 
 SERVER_DIR = ./server/
 CLIENT_DIR = ./client/
+XML3_DIR = ./bonus/libxml3
 
 SERVER_BIN = myteams_server
 CLIENT_BIN = myteams_cli
 
 all:
+		$(CD) $(XML3_DIR) && $(MAKE)
 		$(CD) $(SERVER_DIR) && $(MAKE) && $(CP) $(SERVER_BIN) ../
 		$(CD) $(CLIENT_DIR) && $(MAKE) && $(CP) $(CLIENT_BIN) ../
 

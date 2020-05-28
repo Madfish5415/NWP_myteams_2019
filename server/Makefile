@@ -18,6 +18,8 @@ TEST_DIR			=		tests
 AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
+MAKE				= 		make
+CD					= 		cd
 
 MAIN_SRC			=		main.c
 
@@ -92,7 +94,7 @@ CFLAGS				+=		-I "../bonus/libxml3/include/"
 
 LDLIBS				+=		-luuid
 LDLIBS				+=		-Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
-LDLIBS				+=		-Wl,-rpath=`realpath ../bonus/libxml3/include` -L`realpath ../bonus/libxml3/include` -lxml3
+LDLIBS				+=		-Wl,-rpath=`realpath ../bonus/libxml3` -L`realpath ../bonus/libxml3` -lxml3
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -131,7 +133,7 @@ $(NAME):			$(MAIN_OBJ) $(PROJ_OBJ)
 					&& echo "$(GREEN_B_COLOR)$(NAME) successfully created$(NO_COLOR)" \
 					|| { echo "$(RED_B_COLOR)$(NAME) couldn't be created$(NO_COLOR)"; exit 1; }
 
-all:				$(NAME)
+all:				$(MAKE_LIBS) $(NAME)
 
 clean:
 					$(RM) $(MAIN_OBJ) $(PROJ_OBJ)
