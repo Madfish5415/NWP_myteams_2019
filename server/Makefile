@@ -88,9 +88,11 @@ TEST_SRC			=
 CFLAGS				+=		-I $(INCL_DIR)
 CFLAGS				+=		-W -Wall -Wextra -Werror
 CFLAGS				+=		-I "../libs/myteams/"
+CFLAGS				+=		-I "../bonus/libxml3/include/"
 
 LDLIBS				+=		-luuid
 LDLIBS				+=		-Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
+LDLIBS				+=		-Wl,-rpath=`realpath ../bonus/libxml3/include` -L`realpath ../bonus/libxml3/include` -lxml3
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

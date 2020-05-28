@@ -37,21 +37,19 @@ xmlNodePtr xmlDocGetRootElement(xmlDocPtr doc);
 xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root);
 
 xmlNodePtr xmlNewNode(const char *name);
-
 xmlNodePtr xmlNewText(const char *content);
 xmlNodePtr xmlNewTextChild(
     xmlNodePtr parent, const char *name, const char *content);
+xmlDocPtr xmlNewDoc(const char *version);
 
 xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);
-
 xmlNodePtr xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem);
 xmlNodePtr xmlAddSibling(xmlNodePtr cur, xmlNodePtr elem);
-
-xmlDocPtr xmlNewDoc(const char *version);
 
 xmlDocPtr xmlParseFile(const char *filename);
 
 void xmlUnlinkNode(xmlNodePtr cur);
+
 void xmlFreeNode(xmlNodePtr cur);
 
 int xmlSaveFile(const char *filename, xmlDocPtr cur);
