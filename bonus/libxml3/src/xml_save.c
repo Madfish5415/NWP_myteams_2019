@@ -26,15 +26,15 @@ void write_info(FILE *file, xmlNodePtr child, int depth, int format)
 
 void write_children(FILE *file, xmlNodePtr node, int depth, int format)
 {
-    if (!node)
+    if (!node || !node->name)
         return;
+    fprintf(file, "%*s<%s>\n", depth * format, "", node->name);
     if (node->children) {
-        fprintf(file, "%*s<%s>\n", depth * format, "", node->name);
         for (xmlNodePtr child = node->children; child; child = child->next) {
             write_info(file, child, depth, format);
         }
-        fprintf(file, "%*s</%s>\n", depth * format, "", node->name);
     }
+    fprintf(file, "%*s</%s>\n", depth * format, "", node->name);
 }
 
 void write_file(FILE *file, xmlNodePtr root, int format)
@@ -46,9 +46,7 @@ void write_file(FILE *file, xmlNodePtr root, int format)
     if (root->children) {
         depth = 1;
         for (xmlNodePtr child = root->children; child; child = child->next) {
-            fprintf(file, "%*s<%s>\n", depth * format, "", root->name);
             write_children(file, child->children, depth + 1, format);
-            fprintf(file, "%*s</%s>\n", depth * format, "", root->name);
         }
     }
     if (root->name)
