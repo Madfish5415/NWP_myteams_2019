@@ -22,6 +22,7 @@ xmlNodePtr xmlNewNode(const char *name)
     node->next = NULL;
     node->parent = NULL;
     node->prev = NULL;
+    node->last = NULL;
     node->name = (name) ? strdup(name) : NULL;
     return node;
 }
@@ -38,6 +39,7 @@ xmlNodePtr xmlNewText(const char *content)
     node->parent = NULL;
     node->prev = NULL;
     node->name = NULL;
+    node->last = NULL;
     node->content = (content) ? strdup(content) : NULL;
     return node;
 }
@@ -55,6 +57,7 @@ xmlNodePtr xmlNewTextChild(
     node->children = NULL;
     node->next = NULL;
     node->prev = NULL;
+    node->last = NULL;
     node->parent = parent;
     node->name = (name) ? strdup(name) : NULL;
     node->content = (content) ? strdup(content) : NULL;
