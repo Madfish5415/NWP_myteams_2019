@@ -8,13 +8,13 @@
 #ifndef NWP_MYTEAMS_2019_SERVER_H
 #define NWP_MYTEAMS_2019_SERVER_H
 
-#include "libxml2.h"
 #include <netinet/in.h>
 
 #include "arguments.h"
 #include "client.h"
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "response.h"
 #include "user.h"
 #include "xml.h"

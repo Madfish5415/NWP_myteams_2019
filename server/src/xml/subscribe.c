@@ -5,11 +5,11 @@
 ** subscribe.c
 */
 
-#include "libxml2.h"
 #include <string.h>
 
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -18,7 +18,7 @@ xmlNodePtr subscribe_create(const char *uid)
     xmlNodePtr subscribe;
     xmlNodePtr text;
 
-    subscribe = xmlNewNode(NULL, BAD_CAST "uuid");
+    subscribe = xmlNewNode(BAD_CAST "uuid");
     text = xmlNewText(BAD_CAST uid);
     xmlAddChild(subscribe, text);
     return subscribe;

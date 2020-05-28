@@ -5,13 +5,13 @@
 ** thread.c
 */
 
-#include "libxml2.h"
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>
 
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -28,13 +28,13 @@ xmlNodePtr thread_create(const char *thread_name, const char *body,
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    thread = xmlNewNode(NULL, BAD_CAST "thread");
-    xmlNewTextChild(thread, NULL, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xmlNewTextChild(thread, NULL, BAD_CAST "name", BAD_CAST thread_name);
-    xmlNewTextChild(thread, NULL, BAD_CAST "body", BAD_CAST body);
-    xmlNewTextChild(thread, NULL, BAD_CAST "date", BAD_CAST time_str);
-    xmlNewTextChild(thread, NULL, BAD_CAST "creator", BAD_CAST creator);
-    xmlAddChild(thread, xmlNewNode(NULL, BAD_CAST "messages"));
+    thread = xmlNewNode(BAD_CAST "thread");
+    xmlNewTextChild(thread, BAD_CAST "uuid", BAD_CAST uuid_str);
+    xmlNewTextChild(thread, BAD_CAST "name", BAD_CAST thread_name);
+    xmlNewTextChild(thread, BAD_CAST "body", BAD_CAST body);
+    xmlNewTextChild(thread, BAD_CAST "date", BAD_CAST time_str);
+    xmlNewTextChild(thread, BAD_CAST "creator", BAD_CAST creator);
+    xmlAddChild(thread, xmlNewNode(BAD_CAST "messages"));
     server_event_thread_created(channel_uid, uuid_str, creator, body);
     return thread;
 }

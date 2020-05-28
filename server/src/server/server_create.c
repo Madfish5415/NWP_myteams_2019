@@ -16,10 +16,10 @@
 static xmlDocPtr create_new_xml(void)
 {
     xmlDocPtr xml_tree = xmlNewDoc(BAD_CAST "1.0");
-    xmlNodePtr serverNode = xmlNewNode(NULL, BAD_CAST "server");
-    xmlNodePtr usersNode = xmlNewNode(NULL, BAD_CAST "users");
-    xmlNodePtr teamsNode = xmlNewNode(NULL, BAD_CAST "teams");
-    xmlNodePtr discussionsNode = xmlNewNode(NULL, BAD_CAST "discussions");
+    xmlNodePtr serverNode = xmlNewNode(BAD_CAST "server");
+    xmlNodePtr usersNode = xmlNewNode(BAD_CAST "users");
+    xmlNodePtr teamsNode = xmlNewNode(BAD_CAST "teams");
+    xmlNodePtr discussionsNode = xmlNewNode(BAD_CAST "discussions");
 
     if (xml_tree == NULL)
         return (NULL);
@@ -35,7 +35,6 @@ static xmlDocPtr load_xml(void)
     xmlDocPtr xml_tree = NULL;
 
     if (access(XML_FILENAME, R_OK) != -1) {
-        xmlKeepBlanksDefault(0);
         xml_tree = xmlParseFile(XML_FILENAME);
     } else {
         if (xml_tree == NULL) {

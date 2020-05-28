@@ -5,13 +5,13 @@
 ** discussion.c
 */
 
-#include "libxml2.h"
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>
 
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -20,10 +20,10 @@ xmlNodePtr discussion_create(const char *user_id, const char *user_id2)
     xmlNodePtr discussion;
     xmlNodePtr messages;
 
-    discussion = xmlNewNode(NULL, BAD_CAST "discussion");
-    xmlNewTextChild(discussion, NULL, BAD_CAST "uuid", BAD_CAST user_id);
-    xmlNewTextChild(discussion, NULL, BAD_CAST "uuid", BAD_CAST user_id2);
-    messages = xmlNewNode(NULL, BAD_CAST "messages");
+    discussion = xmlNewNode(BAD_CAST "discussion");
+    xmlNewTextChild(discussion, BAD_CAST "uuid", BAD_CAST user_id);
+    xmlNewTextChild(discussion, BAD_CAST "uuid", BAD_CAST user_id2);
+    messages = xmlNewNode(BAD_CAST "messages");
     xmlAddChild(discussion, messages);
     return discussion;
 }

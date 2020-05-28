@@ -9,8 +9,7 @@
 #define NWP_MYTEAMS_2019_XML_H
 
 #include "exception.h"
-#include "libxml2.h"
-#include "libxml2.h"
+#include "libxml3.h"
 
 /*  belongs_to.c  */
 bool channel_belongs_to_team(
