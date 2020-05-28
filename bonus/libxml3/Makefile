@@ -22,14 +22,14 @@ RM				=		rm -rf
 
 MAIN_SRC		=		main.c						\
 
-PROJ_SRC		=		src/xmlAdd.c				\
-						src/xmlDoc.c				\
-						src/xmlFree.c				\
-						src/xmlNew.c				\
-						src/xmlNode.c				\
-						src/xmlParse.c				\
-						src/xmlSave.c				\
-						src/xmlUnlink.c				\
+PROJ_SRC		=		src/xml_add.c				\
+						src/xml_doc.c				\
+						src/xml_free.c				\
+						src/xml_new.c				\
+						src/xml_node.c				\
+						src/xml_parse.c				\
+						src/xml_save.c				\
+						src/xml_unlink.c			\
 
 TEST_SRC		=		tests/test_src.c
 
