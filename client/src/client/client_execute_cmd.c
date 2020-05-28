@@ -22,7 +22,6 @@ void client_execute_cmd(client_t *client)
     for (int i = 0; MESSAGES_LOG[i].code != NULL; i++) {
         if (strncmp(tab[0], MESSAGES_LOG[i].code, 3) == 0) {
             MESSAGES_LOG[i].ptr(tab);
-            FD_SET(client->sock, &client->worker[WRITE_SET]);
         }
     }
 }

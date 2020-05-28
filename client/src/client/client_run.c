@@ -6,7 +6,6 @@
 */
 
 #include <signal.h>
-#include <string.h>
 
 #include "client.h"
 #include "help.h"

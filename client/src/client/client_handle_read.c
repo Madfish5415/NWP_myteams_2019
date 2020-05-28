@@ -25,8 +25,11 @@ void client_handle_read(client_t *client)
             read(STDIN_FILENO, client->printer, sizeof(client->printer));
             if (!check_missing_quote(client->printer))
                 memset(client->printer, 0, sizeof(client->printer));
-            if (strncmp(client->printer, "/help", 5) == 0)
+            if (strncmp(client->printer, "/help", 5) == 0) {
                 printf("%s\n", HELP_STRING);
+                return;
+            }
+            FD_SET(client->sock, &client->worker[WRITE_SET]);
         }
         if (fd == client->sock) {
             exception = client_read_server(client);
