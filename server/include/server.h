@@ -8,7 +8,7 @@
 #ifndef NWP_MYTEAMS_2019_SERVER_H
 #define NWP_MYTEAMS_2019_SERVER_H
 
-#include <libxml/tree.h>
+#include "libxml2.h"
 #include <netinet/in.h>
 
 #include "arguments.h"

@@ -5,7 +5,7 @@
 ** server_delete.c
 */
 
-#include <libxml/tree.h>
+#include "libxml2.h"
 #include <unistd.h>
 
 #include "server.h"

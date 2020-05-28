@@ -5,7 +5,7 @@
 ** discussion.c
 */
 
-#include <libxml/tree.h>
+#include "libxml2.h"
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>

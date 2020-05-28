@@ -5,7 +5,7 @@
 ** subscribe.c
 */
 
-#include <libxml/tree.h>
+#include "libxml2.h"
 #include <string.h>
 
 #include "def.h"
