@@ -15,6 +15,7 @@ typedef struct _xmlNode {
     struct _xmlNode *prev;
     struct _xmlNode *parent;
     struct _xmlNode *children;
+    struct _xmlNode *last;
     char *content;
     char *name;
 } xmlNode;
@@ -43,6 +44,7 @@ xmlNodePtr xmlNewTextChild(
 xmlDocPtr xmlNewDoc(const char *version);
 
 xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);
+xmlNodePtr xmlAddNextSibling(xmlNodePtr cur, xmlNodePtr elem);
 xmlNodePtr xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem);
 xmlNodePtr xmlAddSibling(xmlNodePtr cur, xmlNodePtr elem);
 

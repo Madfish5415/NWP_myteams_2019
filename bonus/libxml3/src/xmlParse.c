@@ -4,3 +4,17 @@
 ** File description:
 ** xmlParse.c
 */
+
+#include <stdlib.h>
+
+#include "libxml3.h"
+
+xmlDocPtr xmlParseFile(const char *filename)
+{
+    xmlDocPtr doc = NULL;
+
+    if (filename == NULL)
+        return NULL;
+
+    return doc;
+}
