@@ -13,10 +13,9 @@ static void send_to_others(
     xmlNodePtr channel = channel_get(server->xml_tree, client->user);
 
     for (int i = 0; server->clients[i]; i++)
-        if (server->clients[i] != client &&
-            is_subscribe(server->xml_tree, (char *)xmlNodeGetContent(
-                channel->parent->prev->prev->prev->prev->prev),
-                server->clients[i]->user)) {
+        if (is_subscribe(server->xml_tree, (char *)xmlNodeGetContent(
+            channel->parent->prev->prev->prev->prev->prev),
+            server->clients[i]->user)) {
             server_send_response(server, server->clients[i], RESPONSE_236,
                 false);
             server_send_response(server, server->clients[i],
@@ -47,16 +46,20 @@ static void send_to_client(
 void create_channel(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr thread = NULL;
+    xmlNodePtr channel = channel_get(server->xml_tree, client->use_uuid);
 
+    if (!is_subscribe(server->xml_tree,
+        xmlNodeGetContent(channel->parent->parent->children), client->user)) {
+        server_send_response(server, client, RESPONSE_505, false);
+    }
     if (!cmds[1])
         return;
     if (!cmds[2])
         return;
-
     thread = thread_create(cmds[1], cmds[2], client->user, client->use_uuid);
     if (!thread)
         return;
     thread_add(thread, server->xml_tree, client->use_uuid);
-    send_to_others(server, client, cmds, thread);
     send_to_client(server, client, cmds, thread);
+    send_to_others(server, client, cmds, thread);
 }

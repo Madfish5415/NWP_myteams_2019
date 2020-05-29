@@ -11,7 +11,7 @@ static void send_to_others(
     server_t *server, client_t *client, char **cmds, xmlNodePtr channel)
 {
     for (int i = 0; server->clients[i]; i++)
-        if (server->clients[i] != client && is_subscribe(
+        if (is_subscribe(
             server->xml_tree, client->use_uuid, server->clients[i]->user)) {
             server_send_response(server, server->clients[i],
                 RESPONSE_235,false);
@@ -36,6 +36,9 @@ void create_team(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr channel = NULL;
 
+    if (!is_subscribe(server->xml_tree, client->use_uuid, client->user)) {
+        server_send_response(server, client, RESPONSE_505, false);
+    }
     if (!cmds[1])
         return;
     if (!cmds[2])
@@ -44,6 +47,6 @@ void create_team(server_t *server, client_t *client, char **cmds)
     if (!channel)
         return;
     channel_add(channel, server->xml_tree, client->use_uuid);
-    send_to_others(server, client, cmds, channel);
     send_to_client(server, client, cmds, channel);
+    send_to_others(server, client, cmds, channel);
 }
