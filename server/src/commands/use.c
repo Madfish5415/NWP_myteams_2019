@@ -24,10 +24,6 @@ static bool use_team(server_t *server, client_t *client, char **cmds)
         server_send_response(server, client, cmds[1], true);
         return true;
     }
-    if (!is_subscribe(server->xml_tree, cmds[1], client->user)) {
-        server_send_response(server, client, RESPONSE_505, false);
-        return true;
-    }
     for (int i = 0; i < UUID_SIZE && cmds[1][i] != '\0'; i++)
         client->use_uuid[i] = cmds[1][i];
     client->use_type = TEAM;

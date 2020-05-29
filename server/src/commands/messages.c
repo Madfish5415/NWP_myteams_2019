@@ -17,8 +17,8 @@ static void send_all_messages(server_t *server, client_t *client, char **cmds)
     }
     if (discussion->children->next->next->children)
         server_send_response(server, client, RESPONSE_255, false);
-    for (xmlNodePtr message = discussion->children->next->next->children;
-        message; message = message->next) {
+    for (xmlNodePtr message = discussion->children->next->next->last;
+        message; message = message->prev) {
         server_send_response(
             server, client, (char *)xmlNodeGetContent(message->children), true);
         server_send_response(server, client,
