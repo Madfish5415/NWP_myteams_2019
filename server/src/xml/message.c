@@ -5,13 +5,13 @@
 ** message.c
 */
 
-#include <libxml/tree.h>
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>
 
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "logging_server.h"
 #include "xml.h"
 
@@ -24,10 +24,10 @@ xmlNodePtr message_create(
     char time_str[TIME_SIZE];
 
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
-    message = xmlNewNode(NULL, BAD_CAST "message");
-    xmlNewTextChild(message, NULL, BAD_CAST "body", BAD_CAST body);
-    xmlNewTextChild(message, NULL, BAD_CAST "date", BAD_CAST time_str);
-    xmlNewTextChild(message, NULL, BAD_CAST "creator", BAD_CAST creator);
+    message = xmlNewNode(BAD_CAST "message");
+    xmlNewTextChild(message, BAD_CAST "body", BAD_CAST body);
+    xmlNewTextChild(message, BAD_CAST "date", BAD_CAST time_str);
+    xmlNewTextChild(message, BAD_CAST "creator", BAD_CAST creator);
 
     return message;
 }

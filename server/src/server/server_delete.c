@@ -5,11 +5,11 @@
 ** server_delete.c
 */
 
-#include <libxml/tree.h>
 #include <unistd.h>
 
-#include "server.h"
 #include "cmd.h"
+#include "libxml3.h"
+#include "server.h"
 
 static void deconnect_all(server_t *server)
 {

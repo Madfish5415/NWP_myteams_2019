@@ -5,13 +5,13 @@
 ** user.c
 */
 
-#include <libxml/tree.h>
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>
 
 #include "def.h"
 #include "exception.h"
+#include "libxml3.h"
 #include "logging_server.h"
 
 xmlNodePtr user_create(const char *username, const char *passwd)
@@ -26,12 +26,12 @@ xmlNodePtr user_create(const char *username, const char *passwd)
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    user = xmlNewNode(NULL, BAD_CAST "user");
-    xmlNewTextChild(user, NULL, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xmlNewTextChild(user, NULL, BAD_CAST "username", BAD_CAST username);
-    xmlNewTextChild(user, NULL, BAD_CAST "password", BAD_CAST passwd);
-    xmlNewTextChild(user, NULL, BAD_CAST "date", BAD_CAST time_str);
-    xmlNewTextChild(user, NULL, BAD_CAST "connected", BAD_CAST "false");
+    user = xmlNewNode(BAD_CAST "user");
+    xmlNewTextChild(user, BAD_CAST "uuid", BAD_CAST uuid_str);
+    xmlNewTextChild(user, BAD_CAST "username", BAD_CAST username);
+    xmlNewTextChild(user, BAD_CAST "password", BAD_CAST passwd);
+    xmlNewTextChild(user, BAD_CAST "date", BAD_CAST time_str);
+    xmlNewTextChild(user, BAD_CAST "connected", BAD_CAST "false");
     server_event_user_created(uuid_str, username);
     return user;
 }

@@ -5,12 +5,12 @@
 ** teams.c
 */
 
-#include <libxml/tree.h>
 #include <string.h>
 #include <time.h>
 #include <uuid/uuid.h>
 
 #include "def.h"
+#include "libxml3.h"
 #include "logging_server.h"
 #include "server.h"
 #include "xml.h"
@@ -28,14 +28,14 @@ xmlNodePtr team_create(
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    team = xmlNewNode(NULL, BAD_CAST "team");
-    xmlNewTextChild(team, NULL, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xmlNewTextChild(team, NULL, BAD_CAST "name", BAD_CAST team_name);
-    xmlNewTextChild(team, NULL, BAD_CAST "desc", BAD_CAST desc);
-    xmlNewTextChild(team, NULL, BAD_CAST "date", BAD_CAST time_str);
-    xmlNewTextChild(team, NULL, BAD_CAST "creator", BAD_CAST creator);
-    xmlAddChild(team, xmlNewNode(NULL, BAD_CAST "channels"));
-    xmlAddChild(team, xmlNewNode(NULL, BAD_CAST "subscribes"));
+    team = xmlNewNode(BAD_CAST "team");
+    xmlNewTextChild(team, BAD_CAST "uuid", BAD_CAST uuid_str);
+    xmlNewTextChild(team, BAD_CAST "name", BAD_CAST team_name);
+    xmlNewTextChild(team, BAD_CAST "desc", BAD_CAST desc);
+    xmlNewTextChild(team, BAD_CAST "date", BAD_CAST time_str);
+    xmlNewTextChild(team, BAD_CAST "creator", BAD_CAST creator);
+    xmlAddChild(team, xmlNewNode(BAD_CAST "channels"));
+    xmlAddChild(team, xmlNewNode(BAD_CAST "subscribes"));
     server_event_team_created(uuid_str, team_name, creator);
     return team;
 }

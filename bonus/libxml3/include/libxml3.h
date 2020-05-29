@@ -1,0 +1,65 @@
+/*
+** EPITECH PROJECT, 2020
+** NWP_myteams_2019
+** File description:
+** libxml3.h
+*/
+
+#ifndef NWP_MYTEAMS_2019_LIBXML3_H
+#define NWP_MYTEAMS_2019_LIBXML3_H
+
+#define SUCCESS (0)
+#define FAILURE (84)
+#define BAD_CAST (char *)
+
+#include <stdio.h>
+
+typedef struct _xmlNode {
+    struct _xmlNode *next;
+    struct _xmlNode *prev;
+    struct _xmlNode *parent;
+    struct _xmlNode *children;
+    struct _xmlNode *last;
+    char *content;
+    char *name;
+} xmlNode;
+
+typedef xmlNode *xmlNodePtr;
+
+typedef struct _xmlDoc {
+    char *name;
+    struct _xmlNode *children;
+    char *version;
+    char *encoding;
+} xmlDoc;
+
+typedef xmlDoc *xmlDocPtr;
+
+char *xmlNodeGetContent(xmlNodePtr cur);
+xmlNodePtr xmlNodeSetContent(xmlNodePtr cur, const char *content);
+
+xmlNodePtr xmlDocGetRootElement(xmlDocPtr doc);
+xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root);
+
+xmlNodePtr xmlNewNode(const char *name);
+xmlNodePtr xmlNewText(const char *name, const char *content);
+xmlNodePtr xmlNewTextChild(
+    xmlNodePtr parent, const char *name, const char *content);
+xmlDocPtr xmlNewDoc(const char *version);
+
+xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);
+xmlNodePtr xmlAddNextSibling(xmlNodePtr cur, xmlNodePtr elem);
+xmlNodePtr xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem);
+xmlNodePtr xmlAddSibling(xmlNodePtr cur, xmlNodePtr elem);
+
+xmlDocPtr xmlParseFile(const char *filename);
+
+void xmlUnlinkNode(xmlNodePtr cur);
+
+void xmlFreeNode(xmlNodePtr cur);
+void xmlFreeDoc(xmlDocPtr doc);
+
+int xmlSaveFile(const char *filename, xmlDocPtr cur);
+int xmlSaveFormatFile(const char *filename, xmlDocPtr cur, int format);
+
+#endif // NWP_MYTEAMS_2019_LIBXML3_H
