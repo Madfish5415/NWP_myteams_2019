@@ -9,29 +9,19 @@
 
 #include "libxml3.h"
 
-void write_info(FILE *file, xmlNodePtr child, int depth, int format)
-{
-    if (child->children)
-        write_children(file, child->children, depth + 1, format);
-    else {
-        if (child->content)
-            fprintf(file, "%*s<%s>%s</%s>\n", depth * format, "",
-                child->parent->name, child->parent->content,
-                child->parent->name);
-        else
-            fprintf(file, "%*s<%s></%s>\n", depth * format, "",
-                child->parent->name, child->parent->name);
-    }
-}
-
 void write_children(FILE *file, xmlNodePtr node, int depth, int format)
 {
     if (!node || !node->name)
         return;
+    if (node->content) {
+        fprintf(file, "%*s<%s>%s</%s>\n", depth * format, "", node->name,
+            node->content, node->name);
+        return;
+    }
     fprintf(file, "%*s<%s>\n", depth * format, "", node->name);
     if (node->children) {
         for (xmlNodePtr child = node->children; child; child = child->next) {
-            write_info(file, child, depth, format);
+            write_children(file, child, depth + 1, format);
         }
     }
     fprintf(file, "%*s</%s>\n", depth * format, "", node->name);
@@ -44,13 +34,12 @@ void write_file(FILE *file, xmlNodePtr root, int format)
     if (root->name)
         fprintf(file, "%*s<%s>\n", depth * format, "", root->name);
     if (root->children) {
-        depth = 1;
         for (xmlNodePtr child = root->children; child; child = child->next) {
-            write_children(file, child->children, depth + 1, format);
+            write_children(file, child, depth + 1, format);
         }
     }
     if (root->name)
-        fprintf(file, "%*s</%s>\n", depth * format, "", root->name);
+        fprintf(file, "%*s</%s>", depth * format, "", root->name);
 }
 
 void write_doc(FILE *file, xmlDocPtr doc)
@@ -81,6 +70,7 @@ int xmlSaveFormatFile(const char *filename, xmlDocPtr doc, int format)
         return FAILURE;
     write_doc(file, doc);
     write_file(file, root, format);
+    fclose(file);
     return SUCCESS;
 }
 
