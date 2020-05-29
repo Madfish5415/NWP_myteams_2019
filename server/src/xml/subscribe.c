@@ -16,11 +16,8 @@
 xmlNodePtr subscribe_create(const char *uid)
 {
     xmlNodePtr subscribe;
-    xmlNodePtr text;
 
-    subscribe = xmlNewNode(BAD_CAST "uuid");
-    text = xmlNewText(BAD_CAST uid);
-    xmlAddChild(subscribe, text);
+    subscribe = xmlNewText(BAD_CAST "uuid", BAD_CAST uid);
     return subscribe;
 }
 
