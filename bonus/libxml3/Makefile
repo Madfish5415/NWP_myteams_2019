@@ -28,6 +28,11 @@ PROJ_SRC		=		src/xml_add.c				\
 						src/xml_new.c				\
 						src/xml_node.c				\
 						src/xml_parse.c				\
+						src/parse/getnextline.c		\
+						src/parse/params.c			\
+						src/parse/regex.c			\
+						src/parse/root.c			\
+						src/parse/tree.c			\
 						src/xml_save.c				\
 						src/xml_unlink.c			\
 
@@ -52,7 +57,7 @@ CFLAGS			+=		-I $(INCL_DIR)
 CFLAGS			+=		-I $(LIB_DIR)/$(LIB_INCL_DIR)
 CFLAGS			+=		-W -Wall -Wextra -fPIC
 
-LDFLAGS			+=		-shared -Wl,-soname,$(LIB_NAME)
+LDFLAGS			+=		 -shared -Wl,-soname,$(LIB_NAME)
 
 MAKEFLAGS		+=		--silent
 

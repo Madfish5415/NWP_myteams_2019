@@ -57,10 +57,9 @@ xmlDocPtr xmlParseFile(const char *filename);
 void xmlUnlinkNode(xmlNodePtr cur);
 
 void xmlFreeNode(xmlNodePtr cur);
+void xmlFreeDoc(xmlDocPtr doc);
 
 int xmlSaveFile(const char *filename, xmlDocPtr cur);
 int xmlSaveFormatFile(const char *filename, xmlDocPtr cur, int format);
-
-void write_children(FILE *file, xmlNodePtr node, int depth, int format);
 
 #endif // NWP_MYTEAMS_2019_LIBXML3_H
