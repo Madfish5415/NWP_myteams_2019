@@ -1,0 +1,62 @@
+@startuml
+
+class server {
+    + uint16_t port
+    + socket_t socket
+    + struct sockaddr_in address
+    + size_t address_length
+    + client_t **clients
+    + fd_set master[SET_NUMBER]
+    + fd_set worker[SET_NUMBER]
+    + struct timeval timeout
+    + exception_t exception
+}
+server  *--  client
+
+class client {
+    + uuid_t user
+    + read_queue
+    + write_queue
+    + int use_type
+    + uuid_t use_uuid
+}
+client  *--  use_type
+
+enum use_type {
+    NONE = "none",
+    TEAM,
+    CHANNEL,
+    THREAD
+}
+
+class cmd {
+    + char *cmd
+    + void (*callback)(server_t *, uuid_t, char **)
+}
+
+class exception {
+    + int16_t code
+    + char *what
+    + char *where
+}
+exception *-- error_type
+
+enum error_type {
+    NO_ERROR = 0,
+    BAD_ALLOC,
+    BAD_CAST,
+    BAD_TYPEID,
+    BAD_EXCEPTION,
+    LOGIC_FAILURE,
+    DOMAIN_ERROR,
+    INVALID_ARGUMENT,
+    LENGTH_ERROR,
+    OUT_OF_RANGE,
+    RUNTIME_ERROR,
+    OVERFLOW_ERROR,
+    RANGE_ERROR,
+    UNDERFLOW_ERROR,
+    UNKNOWN_ERROR
+}
+
+@enduml
