@@ -36,6 +36,11 @@ void client_execute(server_t *server, client_t *client)
         return;
     }
     cmds = split(str, "\r\n");
-    if (cmds)
+    if (cmds) {
         execute(server, client, cmds);
+        for (int i = 0; cmds[i]; i++)
+            free(cmds[i]);
+        free(cmds);
+    }
+    if (str) free(str);
 }

@@ -21,5 +21,5 @@ void client_write(server_t *server, client_t *client)
     }
     write(client->socket, str, strlen(str));
     FD_CLR(client->socket, &server->master[WRITE_SET]);
-    free(str);
+    if (str) free(str);
 }

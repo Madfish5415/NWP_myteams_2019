@@ -32,5 +32,4 @@ void server_add_client(server_t *server, client_t *client)
     server_alloc(server, client);
     if (catch (server->exception))
         return;
-    server_send_response(server, client, RESPONSE_220, false);
 }
