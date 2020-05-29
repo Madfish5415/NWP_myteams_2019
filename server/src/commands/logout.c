@@ -10,6 +10,17 @@
 #include "logging_server.h"
 #include "server.h"
 
+static bool not_already_connected(server_t *server, xmlNodePtr user)
+{
+    if (!server->clients) return false;
+    for (int i = 0; server->clients[i]; i++) {
+        if (strncmp(server->clients[i]->user, xmlNodeGetContent(user->children), UUID_SIZE) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void cmd_logout(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr user = NULL;
@@ -28,5 +39,6 @@ void cmd_logout(server_t *server, client_t *client, char **cmds)
         client->use_uuid[i] = '\0';
     }
     client->use_type = NONE;
-    xmlNodeSetContent(user->children->next->next->next->next, BAD_CAST "false");
+    if (!not_already_connected(server, user))
+        xmlNodeSetContent(user->children->next->next->next->next, BAD_CAST "false");
 }
