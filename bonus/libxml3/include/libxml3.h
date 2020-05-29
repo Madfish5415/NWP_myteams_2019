@@ -38,7 +38,7 @@ xmlNodePtr xmlDocGetRootElement(xmlDocPtr doc);
 xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root);
 
 xmlNodePtr xmlNewNode(const char *name);
-xmlNodePtr xmlNewText(const char *content);
+xmlNodePtr xmlNewText(const char *name, const char *content);
 xmlNodePtr xmlNewTextChild(
     xmlNodePtr parent, const char *name, const char *content);
 xmlDocPtr xmlNewDoc(const char *version);
