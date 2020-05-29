@@ -5,18 +5,10 @@
 ** main.c
 */
 
-#include <fcntl.h>
-
 #include "arguments.h"
 #include "client.h"
 #include "exception.h"
 #include "socket.h"
-
-void set_non_blocking_read_server(int fd)
-{
-    int flags = fcntl(fd, F_GETFL, 0);
-    fcntl(fd, F_SETFL, flags | O_NONBLOCK);
-}
 
 int main(int ac, char **av)
 {
@@ -35,7 +27,6 @@ int main(int ac, char **av)
     if (catch_and_print(socket_connection(av[1], client))) {
         return (FAILURE);
     }
-    set_non_blocking_read_server(client.sock);
     if (catch_and_print(client_run(client)))
         return (FAILURE);
     return (SUCCESS);
