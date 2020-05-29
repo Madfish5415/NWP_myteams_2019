@@ -58,14 +58,22 @@ static const messages_log_t MESSAGES_LOG[] = {
 typedef struct client_s {
     socket_t sock;
     struct sockaddr_in serv_addr;
+    fd_set master[SET_NUMBER];
+    fd_set worker[SET_NUMBER];
+    size_t address_length;
+    struct timeval timeout;
     char printer[MSG_MAX_SIZE];
     char *reader;
 } client_t;
 
-exception_t client_loop(client_t client);
+exception_t client_run(client_t client);
 exception_t client_init(client_t *client, int port);
 exception_t client_read_server(client_t *client);
 exception_t client_clean(client_t *client);
+void client_handle_fd(client_t *client);
+void client_handle_write(client_t *client);
+void client_handle_read(client_t *client);
 void client_execute_cmd(client_t *client);
+char *format_string(char *string);
 
 #endif  // NWP_MYTEAMS_2019_CLIENT_H

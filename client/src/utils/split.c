@@ -18,7 +18,7 @@ char **split(char *str, char *delim)
         if ((result = realloc(result, sizeof(char *) * (i + 1))) == NULL)
             return NULL;
         result[i - 1] = strdup(split_str);
-        split_str = strtok(NULL, "");
+        split_str = strtok(NULL, delim);
     }
     if (result != NULL)
         result[i - 1] = NULL;
