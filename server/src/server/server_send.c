@@ -41,7 +41,6 @@ void server_send_to_uuid(
         if (strncmp(uuid, server->clients[i]->user, UUID_SIZE) == 0) {
             server_send_response(
                 server, server->clients[i], response, separate);
-            return;
         }
     }
 }
