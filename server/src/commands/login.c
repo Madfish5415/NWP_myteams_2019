@@ -33,24 +33,12 @@ static void create_new_user(server_t *server, xmlNodePtr *user, char **cmds)
         (*user)->children->next->next->next->next, BAD_CAST "true");
 }
 
-bool is_already_connected(server_t *server, client_t *client, xmlNodePtr user)
-{
-    if (strcmp(
-            (char *)xmlNodeGetContent(user->children->next->next->next->next),
-            "true") == 0) {
-        server_send_response(server, client, RESPONSE_506, false);
-        return true;
-    }
-    return false;
-}
-
 void cmd_login(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr user = NULL;
 
     if (!user_get_authorize(server, client, cmds))
         return;
-
     if (cmds[1] == NULL) {
         server_send_response(server, client, RESPONSE_505, false);
         return;
@@ -58,9 +46,6 @@ void cmd_login(server_t *server, client_t *client, char **cmds)
     user = user_get_by_name(server->xml_tree, cmds[1]);
     if (user == NULL) {
         create_new_user(server, &user, cmds);
-    } else {
-        if (is_already_connected(server, client, user))
-            return;
     }
     if (client->user[0] != '\0')
         cmd_logout(server, client, cmds);
