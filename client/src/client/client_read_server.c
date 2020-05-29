@@ -28,9 +28,9 @@ exception_t client_read_server(client_t *client)
         if (memchr(buffer_read, '\0', read_size)) break;
         memset(buffer_read, 0, sizeof(buffer_read));
         idx += read_size;
-        read_size = read(client->sock, buffer_read, 1024);
-    }
-    if (read_size == 0)
+        if (read_size < READ_SIZE) break;
+        read_size = read(client->sock, buffer_read, READ_SIZE);
+    } if (read_size == 0)
         return client_clean(client);
     return exception;
 }

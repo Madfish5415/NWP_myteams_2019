@@ -39,7 +39,7 @@ exception_t client_run(client_t client)
         if (select(FD_SETSIZE, &client.worker[READ_SET],
                    &client.worker[WRITE_SET], &client.worker[EXCEPT_SET],
                    &client.timeout) < 0) {
-            return new_exception(RUNTIME_ERROR, "server", "Select failed");
+            return exception;
         }
         client_handle_fd(&client);
     }

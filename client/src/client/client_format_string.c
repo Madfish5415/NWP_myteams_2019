@@ -58,6 +58,5 @@ char *format_string(char *string)
     } if (cmd != tmp) free(tmp);
     free(cmd);
     format = strcat(format, "\r\n\0");
-    printf("[%s]\n", format);
     return format;
 }
