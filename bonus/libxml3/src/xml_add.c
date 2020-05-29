@@ -22,9 +22,10 @@ xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur)
     } else {
         if (parent->children == NULL || parent->last == NULL)
             return NULL;
+        cur->prev = parent->last;
         parent->last->next = cur;
-        cur->prev = parent->last->next;
         parent->last = cur;
+        cur->parent = parent;
     }
     return cur;
 }
@@ -35,10 +36,10 @@ xmlNodePtr xmlAddNextSibling(xmlNodePtr cur, xmlNodePtr elem)
         return NULL;
 
     xmlUnlinkNode(elem);
-    if (elem->parent != NULL) {
+    if (cur->parent != NULL) {
         elem->parent = cur->parent;
-        if (elem->parent->last == cur)
-            elem->parent->last = elem;
+        if (cur->parent->last == cur)
+            cur->parent->last = elem;
     }
     if (cur->next != NULL) {
         cur->next->prev = elem;
@@ -55,10 +56,10 @@ xmlNodePtr xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem)
         return NULL;
 
     xmlUnlinkNode(elem);
-    if (elem->parent != NULL) {
+    if (cur->parent != NULL) {
         elem->parent = cur->parent;
-        if (elem->parent->children == cur)
-            elem->parent->children = elem;
+        if (cur->parent->children == cur)
+            cur->parent->children = elem;
     }
     if (cur->prev != NULL) {
         cur->prev->next = elem;
