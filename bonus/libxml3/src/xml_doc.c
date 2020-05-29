@@ -23,4 +23,5 @@ xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root)
     if (doc->children)
         free(doc->children);
     doc->children = root;
+    return root;
 }
