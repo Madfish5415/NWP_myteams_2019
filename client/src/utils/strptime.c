@@ -28,7 +28,8 @@ static void convert_days(char **tab, struct tm *tm)
     tm->tm_year = atoi(tab[2]);
 }
 
-time_t strptime(char *string) {
+time_t strptime(char *string)
+{
     struct tm tm;
     char **tab = NULL;
     char **date = NULL;

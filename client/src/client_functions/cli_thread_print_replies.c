@@ -13,5 +13,5 @@ char **cli_thread_print_replies(char **tab)
     if (!tab)
         return NULL;
     client_thread_print_replies(tab[1], tab[2], strptime(tab[3]), tab[4]);
-return &tab[5];
+    return &tab[5];
 }
