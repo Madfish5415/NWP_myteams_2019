@@ -107,7 +107,7 @@ xml_node_ptr thread_get(xml_doc_ptr xml_tree, const char *thread_uid)
         team = team->next) {
         channels = get_channels_team(team);
         if (!channels || !channels->children)
-            return NULL;
+            continue;
         res = find_thread(channels, thread_uid);
         if (res)
             return res;

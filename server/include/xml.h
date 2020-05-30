@@ -62,7 +62,7 @@ xml_node_ptr thread_create(const char *thread_name, const char *body,
 exception_t thread_add(
     xml_node_ptr thread, xml_doc_ptr xml_tree, const char *channel_uid);
 xml_node_ptr thread_get(xml_doc_ptr xml_tree, const char *thread_uid);
-xml_node_ptr get_threads_team(xml_node_ptr team);
+xml_node_ptr get_threads_channel(xml_node_ptr channel);
 
 /*  user.c  */
 exception_t user_add(xml_node_ptr user, xml_doc_ptr xml_tree);

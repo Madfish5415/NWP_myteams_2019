@@ -20,5 +20,9 @@ void client_disconnect(server_t *server, client_t *client)
     FD_CLR(client->socket, &server->master[READ_SET]);
     FD_CLR(client->socket, &server->master[WRITE_SET]);
     FD_CLR(client->socket, &server->master[EXCEPT_SET]);
+    buffer_delete(client->write_queue);
+    buffer_delete(client->read_queue);
+    free(client->write_queue);
+    free(client->read_queue);
     server_remove_client(server, server_get_client_index(server, client));
 }

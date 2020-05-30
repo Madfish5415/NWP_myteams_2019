@@ -29,5 +29,6 @@ int main(int argc, char **argv)
     if (catch_and_print(server->exception))
         return (FAILURE);
     server_delete(&server);
+    free(arguments);
     return (SUCCESS);
 }

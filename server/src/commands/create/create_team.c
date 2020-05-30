@@ -5,16 +5,32 @@
 ** create_team.c
 */
 
+#include <string.h>
+
 #include "server.h"
+
+static bool already_exist(server_t *server, client_t *client, const char *name)
+{
+    xml_node_ptr channels =
+        get_channels_team(team_get(server->xml_tree, client->use_uuid));
+
+    if (!channels) return false;
+    for (xml_node_ptr channel = channels->children; channel;
+        channel = channel->next) {
+        if (strcmp(xml_node_get_content(channel->children->next), name) == 0)
+            return true;
+    }
+    return false;
+}
 
 static void send_to_others(
     server_t *server, client_t *client, char **cmds, xml_node_ptr channel)
 {
     for (int i = 0; server->clients[i]; i++)
         if (is_subscribe(
-            server->xml_tree, client->use_uuid, server->clients[i]->user)) {
-            server_send_response(server, server->clients[i],
-                RESPONSE_235, false);
+                server->xml_tree, client->use_uuid, server->clients[i]->user)) {
+            server_send_response(
+                server, server->clients[i], RESPONSE_235, false);
             server_send_response(server, server->clients[i],
                 (char *)xml_node_get_content(channel->children), true);
             server_send_response(server, server->clients[i], cmds[1], true);
@@ -40,10 +56,12 @@ void create_team(server_t *server, client_t *client, char **cmds)
         server_send_response(server, client, RESPONSE_505, false);
         return;
     }
-    if (!cmds[1])
+    if (!cmds[1] || !cmds[2])
         return;
-    if (!cmds[2])
+    if (already_exist(server, client, cmds[1])) {
+        server_send_response(server, client, RESPONSE_506, false);
         return;
+    }
     channel = channel_create(cmds[1], cmds[2], client->user, client->use_uuid);
     if (!channel)
         return;

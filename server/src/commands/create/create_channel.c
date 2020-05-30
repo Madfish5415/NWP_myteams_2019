@@ -5,13 +5,31 @@
 ** create_channel.c
 */
 
+#include <string.h>
+
 #include "server.h"
+#include "xml.h"
+
+static bool already_exist(server_t *server, client_t *client, const char *name)
+{
+    xml_node_ptr threads = get_threads_channel(
+        channel_get(server->xml_tree, client->use_uuid));
+
+    if (!threads) return false;
+    for (xml_node_ptr thread = threads->children; thread;
+        thread = thread->next) {
+        if (strcmp(xml_node_get_content(thread->children->next), name) == 0)
+            return true;
+    }
+    return false;
+}
 
 static void send_to_others(
     server_t *server, client_t *client, char **cmds, xml_node_ptr thread)
 {
-    xml_node_ptr channel = channel_get(server->xml_tree, client->user);
+    xml_node_ptr channel = channel_get(server->xml_tree, client->use_uuid);
 
+    if (!channel) return;
     for (int i = 0; server->clients[i]; i++)
         if (is_subscribe(server->xml_tree, (char *)xml_node_get_content(
                     channel->parent->prev->prev->prev->prev->prev),
@@ -55,13 +73,13 @@ void create_channel(server_t *server, client_t *client, char **cmds)
         server_send_response(server, client, RESPONSE_505, false);
         return;
     }
-    if (!cmds[1])
+    if (!cmds[1] || !cmds[2]) return;
+    if (already_exist(server, client, cmds[1])) {
+        server_send_response(server, client, RESPONSE_506, false);
         return;
-    if (!cmds[2])
-        return;
+    }
     thread = thread_create(cmds[1], cmds[2], client->user, client->use_uuid);
-    if (!thread)
-        return;
+    if (!thread) return;
     thread_add(thread, server->xml_tree, client->use_uuid);
     send_to_client(server, client, cmds, thread);
     send_to_others(server, client, cmds, thread);
