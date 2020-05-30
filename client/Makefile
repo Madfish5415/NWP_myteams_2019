@@ -1,153 +1,189 @@
 ##
 ## EPITECH PROJECT, 2019
-## ${PROJECT_NAME}
+## NWP_myteams_2019
 ## File description:
 ## Makefile
 ##
 
-NAME			=		myteams_cli
-LIB_NAME		=		myteams_cli.so
-LIB_ST_NAME		=		myteams_cli.a
-TEST_NAME		=		tests/unit_tests
+NAME				=		myteams_cli
+TEST_NAME			=		tests/unit_tests
+TEST_SH_NAME		=		tests/tests.sh
 
-NO_COLOR		=		\e[0;0m
-GREEN_COLOR		=		\e[0;32m
-RED_COLOR		=		\e[0;31m
-GREEN_B_COLOR	=		\e[1;32m
-RED_B_COLOR		=		\e[1;31m
+COV_DIR				=		obj
+INCL_DIR			=		include
+OBJ_DIR				=		obj
+SRC_DIR				=		src
+TEST_DIR			=		tests
 
-AR				=		ar rcs
-CC				=		gcc
-RM				=		rm -rf
+AR					=		ar rcs
+CC					=		gcc
+RM					=		rm -rf
 
-MAIN_SRC		=		main.c
+MAIN_SRC			=		main.c
 
-PROJ_SRC		=
+PROJ_SRC			=		help.c													\
+							utils/split.c											\
+							utils/strptime.c										\
+							arguments/flag.c										\
+							arguments/parser.c										\
+							arguments/port.c										\
+							error/exception.c										\
+							error/check_missing_quote.c								\
+							socket/socket_creation.c								\
+							socket/socket_connection.c								\
+							client/client_run.c										\
+							client/client_init.c									\
+							client/client_read_server.c								\
+							client/client_clean.c									\
+							client/client_execute_cmd.c								\
+							client/client_format_string.c							\
+							client/client_handle_fd.c								\
+							client/client_handle_read.c								\
+							client/client_handle_write.c							\
+							client_functions/cli_event_loggedin.c					\
+							client_functions/cli_event_loggedout.c					\
+							client_functions/cli_event_private_message_received.c	\
+							client_functions/cli_event_thread_message_received.c	\
+							client_functions/cli_event_team_created.c				\
+							client_functions/cli_event_channel_created.c			\
+							client_functions/cli_event_thread_created.c				\
+							client_functions/cli_print_users.c						\
+							client_functions/cli_print_teams.c						\
+							client_functions/cli_team_print_channels.c				\
+							client_functions/cli_channel_print_threads.c			\
+							client_functions/cli_thread_print_replies.c				\
+							client_functions/cli_private_message_print_messages.c	\
+							client_functions/cli_error_unknown_team.c				\
+							client_functions/cli_error_unknown_channel.c			\
+							client_functions/cli_error_unknown_thread.c				\
+							client_functions/cli_error_unknown_user.c				\
+							client_functions/cli_error_unauthorized.c				\
+							client_functions/cli_error_already_exist.c				\
+							client_functions/cli_print_user.c						\
+							client_functions/cli_print_team.c						\
+							client_functions/cli_print_channel.c					\
+							client_functions/cli_print_thread.c						\
+							client_functions/cli_print_team_created.c				\
+							client_functions/cli_print_channel_created.c			\
+							client_functions/cli_print_thread_created.c				\
+							client_functions/cli_print_reply_created.c				\
+							client_functions/cli_print_subscribed.c					\
+							client_functions/cli_print_unsubscribed.c				\
 
-TEST_SRC		=
+TEST_SRC			=
 
-MAIN_OBJ		=		$(MAIN_SRC:.c=.o)
+CFLAGS				+=		-I $(INCL_DIR) -I ../libs/myteams/
+CFLAGS				+=		-W -Wall -Wextra -Werror
 
-PROJ_OBJ		=		$(PROJ_SRC:.c=.o)
+LDLIBS				=		-luuid -Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
 
-TEST_OBJ		=		$(TEST_SRC:.c=.o)
+MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
-TEST_COV		=		$(PROJ_SRC:.c=.gcda)	\
-						$(PROJ_SRC:.c=.gcno)	\
-						$(TEST_SRC:.c=.gcda)	\
-						$(TEST_SRC:.c=.gcno)	\
+PROJ_OBJ			=		$(PROJ_SRC:%.c=$(OBJ_DIR)/%.o)
 
-INCL_DIR		=		"include/"
-LIB_DIR			=		"lib/my/"
-LIB_INCL_DIR	=		"include/"
+TEST_OBJ			=		$(TEST_SRC:%.c=$(OBJ_DIR)/%.o)
 
-CFLAGS			+=		-I $(INCL_DIR)
-CFLAGS			+=		-I $(LIB_DIR)/$(LIB_INCL_DIR)
-CFLAGS			+=		-W -Wall -Wextra
+TEST_COV			=		$(PROJ_SRC:%.c=$(COV_DIR)/%.gcda)	\
+							$(PROJ_SRC:%.c=$(COV_DIR)/%.gcno)	\
+							$(TEST_SRC:%.c=$(COV_DIR)/%.gcda)	\
+							$(TEST_SRC:%.c=$(COV_DIR)/%.gcno)	\
 
-MAKEFLAGS		+=		--silent
+MAKEFLAGS			+=		--silent
 
-%.o:			%.c
-				$(CC) $(CFLAGS) -c -o $@ $< \
-				&& echo "$< $(GREEN_COLOR)successfully compiled$(NO_COLOR)" \
-				|| { echo "$< $(RED_COLOR)couldn't be compiled$(NO_COLOR)"; exit 1; }
+NO_COLOR			=		\e[0;0m
+GREEN_COLOR			=		\e[0;32m
+RED_COLOR			=		\e[0;31m
+GREEN_B_COLOR		=		\e[1;32m
+RED_B_COLOR			=		\e[1;31m
+YELLOW_B_COLOR		=		\e[1;33m
 
-all:			$(NAME)
+$(OBJ_DIR)/%.o:		$(SRC_DIR)/%.c
+					mkdir -p $(@D)
+					$(CC) $(CFLAGS) -c $< -o $@ \
+					&& echo "$< $(GREEN_COLOR)successfully compiled$(NO_COLOR)" \
+					|| { echo "$< $(RED_COLOR)couldn't be compiled$(NO_COLOR)"; exit 1; }
 
-$(NAME):		$(MAIN_OBJ) $(PROJ_OBJ)
-				$(CC) $(MAIN_OBJ) $(PROJ_OBJ) -o $(NAME) $(LDFLAGS) $(LDLIBS) \
-				&& echo "$(GREEN_B_COLOR)$(NAME) successfully created$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)$(NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+$(OBJ_DIR)/%.o:		$(TEST_DIR)/%.c
+					mkdir -p $(@D)
+					$(CC) $(CFLAGS) -c $< -o $@ \
+					&& echo "$< $(GREEN_COLOR)successfully compiled$(NO_COLOR)" \
+					|| { echo "$< $(RED_COLOR)couldn't be compiled$(NO_COLOR)"; exit 1; }
+
+$(NAME):			$(MAIN_OBJ) $(PROJ_OBJ)
+					$(CC) $(MAIN_OBJ) $(PROJ_OBJ) -o $(NAME) $(LDFLAGS) $(LDLIBS) \
+					&& echo "$(GREEN_B_COLOR)$(NAME) successfully created$(NO_COLOR)" \
+					|| { echo "$(RED_B_COLOR)$(NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+
+all:				$(NAME)
 
 clean:
-				$(RM) $(MAIN_OBJ) $(PROJ_OBJ)
+					$(RM) $(MAIN_OBJ) $(PROJ_OBJ)
 
-fclean:			clean
-				$(RM) $(NAME)
+fclean:				clean
+					$(RM) $(NAME)
 
-re:				fclean all
+re:					fclean all
 
-sweet:			all clean
+sweet:				all clean
 
-debug:			CFLAGS += -g3
-debug:			all
+debug:				CFLAGS += -g3
+debug:				all
 
-debug_re:		CFLAGS += -g3
-debug_re:		re
+debug_re:			CFLAGS += -g3
+debug_re:			re
 
-debug_sweet:	CFLAGS += -g3
-debug_sweet:	sweet
+debug_sweet:		CFLAGS += -g3
+debug_sweet:		sweet
 
-lib:			CFLAGS += -fPIC
-lib:			LDFLAGS += -shared
-lib:			$(PROJ_OBJ)
-				$(CC) $(PROJ_OBJ) -o $(LIB_NAME) $(LDFLAGS) $(LDLIBS) \
-				&& echo "$(GREEN_B_COLOR)$(LIB_NAME) successfully created$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)$(LIB_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+$(TEST_NAME):		CFLAGS += -fprofile-arcs -ftest-coverage
+$(TEST_NAME):		LDLIBS += -lgcov -lcriterion
+$(TEST_NAME):		$(PROJ_OBJ) $(TEST_OBJ)
+					if [ -d $(TEST_DIR) ]; then \
+						$(CC) $(PROJ_OBJ) $(TEST_OBJ) -o $(TEST_NAME) $(LDFLAGS) $(LDLIBS) \
+						&& echo "$(GREEN_B_COLOR)$(TEST_NAME) successfully created$(NO_COLOR)" \
+						|| { echo "$(RED_B_COLOR)$(TEST_NAME) couldn't be created$(NO_COLOR)"; exit 1; } \
+					fi
 
-lib_clean:
-				$(RM) $(PROJ_OBJ)
+tests_run:			$(TEST_NAME)
+					if [ ! -d $(TEST_DIR) ] || [ ! -f $(TEST_NAME) ]; then \
+						echo "$(YELLOW_B_COLOR)Unit tests not found$(NO_COLOR)"; \
+					else \
+						./$(TEST_NAME) \
+						&& echo "$(GREEN_B_COLOR)Unit tests passed successfully$(NO_COLOR)" \
+						|| { echo "$(RED_B_COLOR)Unit tests did not pass successfully$(NO_COLOR)"; exit 1; } \
+					fi
 
-lib_fclean:		lib_clean
-				$(RM) $(LIB_NAME)
+tests_clean:		clean
+					$(RM) $(TEST_OBJ)
+					$(RM) $(TEST_COV)
 
-lib_re:			lib_fclean lib
+tests_fclean:		tests_clean
+					$(RM) $(TEST_NAME)
 
-lib_sweet:		lib lib_clean
+tests_re:			tests_fclean tests_run
 
-lib_st:			$(PROJ_OBJ)
-				$(AR) $(LIB_ST_NAME) $(PROJ_OBJ) \
-				&& echo "$(GREEN_B_COLOR)$(LIB_ST_NAME) successfully created$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)$(LIB_ST_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+tests_sweet:		tests_run tests_clean
 
-lib_st_clean:	lib_clean
+tests_sh:			re
+					if [ ! -d $(TEST_DIR) ] || [ ! -f $(TEST_SH_NAME) ]; then \
+						echo "$(YELLOW_B_COLOR)Functional tests not found$(NO_COLOR)"; \
+					else \
+						sh $(TEST_SH_NAME) $(NAME) \
+						&& echo "$(GREEN_B_COLOR)Functional tests passed successfully$(NO_COLOR)" \
+						|| { echo "$(RED_B_COLOR)Functional tests did not pass successfully$(NO_COLOR)"; exit 1; } \
+					fi
 
-lib_st_fclean:	lib_st_clean
-				$(RM) $(LIB_ST_NAME)
+full:				all
 
-lib_st_re:		lib_st_fclean lib_st
+full_clean:			clean tests_clean
 
-lib_st_sweet:	lib_st lib_st_clean
+full_fclean:		fclean tests_fclean
 
-tests_run:		CFLAGS += -fprofile-arcs -ftest-coverage
-tests_run:		LDLIBS += -lgcov -lcriterion
-tests_run:		$(PROJ_OBJ) $(TEST_OBJ)
-				$(CC) $(PROJ_OBJ) $(TEST_OBJ) -o $(TEST_NAME) $(LDFLAGS) $(LDLIBS) \
-				&& echo "$(GREEN_B_COLOR)$(TEST_NAME) successfully created$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)$(TEST_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
-				$(TEST_NAME) \
-				&& echo "$(GREEN_B_COLOR)Unit tests passed successfully$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)Unit tests did not pass successfully$(NO_COLOR)"; exit 1; }
+full_re:			full_fclean full
 
-tests_clean:	clean
-				$(RM) $(TEST_OBJ)
-				$(RM) $(TEST_COV)
+full_sweet:			full full_clean
 
-tests_fclean:	tests_clean
-				$(RM) $(TEST_NAME)
-
-tests_re:		tests_fclean tests_run
-
-tests_sweet:	tests_run tests_clean
-
-tests_sh:		sweet
-				sh tests/tests.sh $(NAME) \
-				&& echo "$(GREEN_B_COLOR)Functional tests passed successfully$(NO_COLOR)" \
-				|| { echo "$(RED_B_COLOR)Functional tests did not pass successfully$(NO_COLOR)"; exit 1; }
-
-full:			all lib lib_st
-
-full_clean:		clean lib_clean lib_st_clean tests_clean
-
-full_fclean:	fclean lib_fclean lib_st_fclean tests_fclean
-
-full_re:		re lib_re lib_st_re
-
-full_sweet:		sweet lib_sweet lib_st_sweet
-
-.PHONY:			all clean fclean re sweet											\
-				debug debug_re debug_sweet											\
-				lib lib_clean lib_fclean lib_re lib_sweet							\
-				lib_st lib_st_clean lib_st_fclean lib_st_re lib_st_sweet			\
-				tests_run tests_clean tests_fclean tests_re tests_sweet tests_sh	\
-				full full_clean full_fclean full_re full_sweet						\
+.PHONY:				all clean fclean re sweet											\
+					debug debug_re debug_sweet											\
+					tests_run tests_clean tests_fclean tests_re tests_sweet tests_sh	\
+					full full_clean full_fclean full_re full_sweet						\
