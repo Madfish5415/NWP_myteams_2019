@@ -68,8 +68,8 @@ all:			$(LIB_NAME)
 
 $(LIB_NAME):		$(PROJ_OBJ)
 					$(AR) $(LIB_ST_NAME) $(PROJ_OBJ) \
-                    && echo "$(GREEN_B_COLOR)$(LIB_ST_NAME) successfully created$(NO_COLOR)" \
-                    || { echo "$(RED_B_COLOR)$(LIB_ST_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+					&& echo "$(GREEN_B_COLOR)$(LIB_ST_NAME) successfully created$(NO_COLOR)" \
+					|| { echo "$(RED_B_COLOR)$(LIB_ST_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
 
 clean:
 				$(RM) $(MAIN_OBJ) $(PROJ_OBJ)

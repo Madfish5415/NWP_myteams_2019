@@ -20,7 +20,7 @@ void cmd_users(server_t *server, client_t *client, char **cmds)
         strcmp((char *)root->children->name, "users") != 0)
         return;
     for (xml_node_ptr user = root->children->children; user;
-         user = user->next) {
+        user = user->next) {
         server_send_response(server, client, RESPONSE_240, false);
         server_send_response(
             server, client, (char *)xml_node_get_content(user->children), true);

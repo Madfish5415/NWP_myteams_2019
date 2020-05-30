@@ -18,15 +18,12 @@ void server_remove_client(server_t *server, int client_index)
             "Index is out of range");
         return;
     }
-    tmp = server->clients[client_index];
-    server->clients[client_index] = server->clients[last_client_index];
-    server->clients[last_client_index] = tmp;
+    tmp = server->clients[last_client_index];
+    server->clients[last_client_index] = server->clients[client_index];
+    server->clients[client_index] = tmp;
     free(server->clients[last_client_index]);
-    if ((server->clients = realloc(server->clients,
-    sizeof(client_t *) * (last_client_index))) == NULL &&
-        last_client_index != 0) {
-        server->exception = new_exception(BAD_ALLOC,
-            "server_remove_client (server/server_remove.c)",
-            "Can't realloc 'client_t **'");
-    }
+    server->clients =
+        realloc(server->clients, sizeof(client_t *) * (last_client_index + 1));
+    if (!server->clients) return;
+    server->clients[last_client_index] = NULL;
 }

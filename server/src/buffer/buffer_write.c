@@ -25,7 +25,7 @@ void buffer_write_string(buffer_t *buffer, const char *str)
 {
     char *tmp = NULL;
 
-    if (str == NULL)
+    if (str == NULL || buffer == NULL)
         return;
     if (buffer->buffer == NULL) {
         buffer->buffer = strdup(str);

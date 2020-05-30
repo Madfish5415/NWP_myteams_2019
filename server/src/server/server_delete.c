@@ -15,8 +15,7 @@ static void deconnect_all(server_t *server)
 {
     char *cmds[2] = {"/logout", NULL};
 
-    if (!server->clients)
-        return;
+    if (!server->clients) return;
     for (int i = 0; server->clients[i]; i++)
         if (server->clients[i]->user[0] != '\0') {
             cmd_logout(server, server->clients[i], cmds);
@@ -40,5 +39,6 @@ void server_delete(server_t **server)
     deconnect_all((*server));
     close((*server)->socket);
     xml_save_format_file(XML_FILENAME, (*server)->xml_tree, 2);
+    xml_free_doc((*server)->xml_tree);
     free((*server));
 }

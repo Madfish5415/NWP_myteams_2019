@@ -62,7 +62,7 @@ xml_node_ptr user_get_by_name(xml_doc_ptr xml_tree, const char *username)
     if (!root || !root->children || !root->children->children)
         return NULL;
     for (xml_node_ptr user = root->children->children; user;
-         user = user->next) {
+        user = user->next) {
         if (!user->children || !user->children->next)
             return NULL;
         if (strcmp((char *)xml_node_get_content(user->children->next),
@@ -79,7 +79,7 @@ xml_node_ptr user_get_by_uuid(xml_doc_ptr xml_tree, const char *uuid)
     if (!root || !root->children || !root->children->children)
         return NULL;
     for (xml_node_ptr user = root->children->children; user;
-         user = user->next) {
+        user = user->next) {
         if (!user->children || !user->children->next)
             return NULL;
         if (strcmp((char *)xml_node_get_content(user->children), uuid) == 0)

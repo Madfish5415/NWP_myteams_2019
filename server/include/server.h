@@ -73,4 +73,6 @@ void server_send_to_uuid(
 void server_send_event(
     server_t *server, client_t *client, const char *response, bool separate);
 
+bool run_wrapper(bool stop); //TODO: Delete that
+
 #endif // NWP_MYTEAMS_2019_SERVER_H

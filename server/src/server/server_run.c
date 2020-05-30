@@ -12,7 +12,7 @@
 #include "exception.h"
 #include "server.h"
 
-static bool run_wrapper(bool stop)
+bool run_wrapper(bool stop)
 {
     static bool is_running = true;
 

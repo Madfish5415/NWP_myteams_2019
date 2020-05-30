@@ -24,8 +24,8 @@ static void convert_days(char **tab, struct tm *tm)
     if (!tab)
         return;
     tm->tm_mday = atoi(tab[0]);
-    tm->tm_mon = atoi(tab[1]);
-    tm->tm_year = atoi(tab[2]);
+    tm->tm_mon = atoi(tab[1]) - 1;
+    tm->tm_year = atoi(tab[2]) + 100;
 }
 
 time_t strptime(char *string)
@@ -36,7 +36,7 @@ time_t strptime(char *string)
     char **hours = NULL;
 
     if (!string)
-        return (time_t)NULL;
+        return (time_t) NULL;
     tab = split(string, " ");
     date = split(tab[0], "-");
     hours = split(tab[1], ":");

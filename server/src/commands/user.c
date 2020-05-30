@@ -29,7 +29,9 @@ void cmd_user(server_t *server, client_t *client, char **cmds)
     if (!user_get_authorize(server, client, cmds))
         return;
     if (cmds[1] == NULL) {
-        server_send_response(server, client, RESPONSE_501, true);
+        server_send_response(server, client, RESPONSE_501, false);
+        server_send_response(
+            server, client, "00000000-0000-0000-0000-000000000000", true);
         return;
     }
     user = user_get_by_uuid(server->xml_tree, cmds[1]);

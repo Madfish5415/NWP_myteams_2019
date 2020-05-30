@@ -34,6 +34,8 @@ void client_execute_cmd(client_t *client)
     if (!tab)
         return;
     execute(client, tab);
+    if (strncmp(client->printer, "/logout", 7) == 0)
+        run(true);
     for (int i = 0; tab[i]; i++)
         free(tab[i]);
     free(tab);

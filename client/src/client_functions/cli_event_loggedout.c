@@ -13,6 +13,5 @@ char **cli_event_loggedout(char **tab)
     if (!tab)
         return NULL;
     client_event_loggedout(tab[1], tab[2]);
-    run(true);
     return &tab[3];
 }

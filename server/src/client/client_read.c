@@ -6,14 +6,16 @@
 */
 
 #include <unistd.h>
+#include <string.h>
 
 #include "server.h"
 
 void client_read(server_t *server, client_t *client)
 {
     int read_value = 0;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE + 1];
 
+    memset(buffer, '\0', BUFFER_SIZE + 1);
     if ((read_value = read(client->socket, buffer, BUFFER_SIZE)) < 0) {
         server->exception = new_exception(RUNTIME_ERROR,
             "client_read (client_read.c)", "Can't read on the client fd");

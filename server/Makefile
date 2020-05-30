@@ -40,13 +40,13 @@ PROJ_SRC			=		arguments/flag.c					\
 							commands/create/create_team.c		\
 							commands/create/create_thread.c		\
 							commands/info/info_channel.c		\
-                            commands/info/info_nocontext.c		\
-                            commands/info/info_team.c			\
-                            commands/info/info_thread.c			\
-                            commands/list/list_channel.c		\
-                            commands/list/list_nocontext.c		\
-                            commands/list/list_team.c			\
-                            commands/list/list_thread.c			\
+							commands/info/info_nocontext.c		\
+							commands/info/info_team.c			\
+							commands/info/info_thread.c			\
+							commands/list/list_channel.c		\
+							commands/list/list_nocontext.c		\
+							commands/list/list_team.c			\
+							commands/list/list_thread.c			\
 							commands/create.c					\
 							commands/info.c						\
 							commands/list.c						\

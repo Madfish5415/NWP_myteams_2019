@@ -15,10 +15,10 @@ static void send_all_messages(server_t *server, client_t *client, char **cmds)
     if (!discussion) {
         return;
     }
-    if (discussion->children->next->next->children)
-        server_send_response(server, client, RESPONSE_255, false);
+
     for (xml_node_ptr message = discussion->children->next->next->last;
         message; message = message->prev) {
+        server_send_response(server, client, RESPONSE_255, false);
         server_send_response(server, client,
             (char *)xml_node_get_content(message->children), true);
         server_send_response(server, client,
@@ -34,7 +34,9 @@ void cmd_messages(server_t *server, client_t *client, char **cmds)
         return;
 
     if (cmds[1] == NULL) {
-        server_send_response(server, client, RESPONSE_501, true);
+        server_send_response(server, client, RESPONSE_501, false);
+        server_send_response(
+            server, client, "00000000-0000-0000-0000-000000000000", true);
         return;
     }
     if (!user_get_by_uuid(server->xml_tree, cmds[1])) {

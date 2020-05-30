@@ -5,26 +5,30 @@
 ** server_add.c
 */
 
+#include <string.h>
+
 #include "server.h"
 
 static void server_alloc(server_t *server, client_t *client)
 {
     bool first_one = (server->clients == NULL) ? true : false;
+    int idx = 0;
 
-    if ((server->clients = realloc(server->clients,
-    sizeof(client_t *) * (server_get_client_nbr(server) + 2))) == NULL) {
-        server->exception =
-            new_exception(BAD_ALLOC, "server_add_client (server/server_add.c)",
-                "Can't realloc 'client_t *'");
-        return;
-    }
-    if (first_one == true) {
-        server->clients[0] = NULL;
+    if (first_one) {
+        server->clients = malloc(sizeof(client_t *) * 2);
+        if (!server->clients) return;
+        memset(server->clients, 0, sizeof(client_t *) * 2);
+        server->clients[0] = client;
         server->clients[1] = NULL;
     } else {
-        server->clients[server_get_client_nbr(server) + 1] = NULL;
+        idx = server_get_client_nbr(server);
+        server->clients =
+            realloc(server->clients, sizeof(client_t *) * (idx + 2));
+        if (!server->clients) return;
+        memset(&server->clients[idx], 0, sizeof(client_t *) * 2);
+        server->clients[idx] = client;
+        server->clients[idx + 1] = NULL;
     }
-    server->clients[server_get_client_nbr(server)] = client;
 }
 
 void server_add_client(server_t *server, client_t *client)
