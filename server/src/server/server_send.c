@@ -28,8 +28,11 @@ void server_broadcast(server_t *server, const char *response, bool separate)
 {
     if (!server->clients)
         return;
-    for (int i = 0; server->clients[i] != NULL; i++)
+    for (int i = 0; server->clients[i] != NULL; i++) {
+        if (server->clients[i]->user[0] == '\0')
+            continue;
         server_send_response(server, server->clients[i], response, separate);
+    }
 }
 
 void server_send_to_uuid(

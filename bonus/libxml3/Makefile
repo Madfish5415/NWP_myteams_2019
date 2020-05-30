@@ -55,9 +55,7 @@ LIB_INCL_DIR	=		"include/"
 
 CFLAGS			+=		-I $(INCL_DIR)
 CFLAGS			+=		-I $(LIB_DIR)/$(LIB_INCL_DIR)
-CFLAGS			+=		-W -Wall -Wextra -fPIC
-
-LDFLAGS			+=		 -shared -Wl,-soname,$(LIB_NAME)
+CFLAGS			+=		-W -Wall -Wextra -Werror
 
 MAKEFLAGS		+=		--silent
 
@@ -69,9 +67,9 @@ MAKEFLAGS		+=		--silent
 all:			$(LIB_NAME)
 
 $(LIB_NAME):		$(PROJ_OBJ)
-					$(CC) $(PROJ_OBJ) $(LDFLAGS) $(LDLIBS) -o $(LIB_NAME) \
-					&& echo "$(GREEN_B_COLOR)$(LIB_NAME) successfully created$(NO_COLOR)" \
-					|| { echo "$(RED_B_COLOR)$(LIB_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
+					$(AR) $(LIB_ST_NAME) $(PROJ_OBJ) \
+                    && echo "$(GREEN_B_COLOR)$(LIB_ST_NAME) successfully created$(NO_COLOR)" \
+                    || { echo "$(RED_B_COLOR)$(LIB_ST_NAME) couldn't be created$(NO_COLOR)"; exit 1; }
 
 clean:
 				$(RM) $(MAIN_OBJ) $(PROJ_OBJ)

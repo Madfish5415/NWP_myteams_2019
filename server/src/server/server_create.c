@@ -13,29 +13,29 @@
 #include "logging_server.h"
 #include "server.h"
 
-static xmlDocPtr create_new_xml(void)
+static xml_doc_ptr create_new_xml(void)
 {
-    xmlDocPtr xml_tree = xmlNewDoc(BAD_CAST "1.0");
-    xmlNodePtr serverNode = xmlNewNode(BAD_CAST "server");
-    xmlNodePtr usersNode = xmlNewNode(BAD_CAST "users");
-    xmlNodePtr teamsNode = xmlNewNode(BAD_CAST "teams");
-    xmlNodePtr discussionsNode = xmlNewNode(BAD_CAST "discussions");
+    xml_doc_ptr xml_tree = xml_new_doc(BAD_CAST "1.0");
+    xml_node_ptr serverNode = xml_new_node(BAD_CAST "server");
+    xml_node_ptr usersNode = xml_new_node(BAD_CAST "users");
+    xml_node_ptr teamsNode = xml_new_node(BAD_CAST "teams");
+    xml_node_ptr discussionsNode = xml_new_node(BAD_CAST "discussions");
 
     if (xml_tree == NULL)
         return (NULL);
-    xmlDocSetRootElement(xml_tree, serverNode);
-    xmlAddChild(serverNode, usersNode);
-    xmlAddSibling(usersNode, teamsNode);
-    xmlAddSibling(usersNode, discussionsNode);
+    xml_doc_set_root_element(xml_tree, serverNode);
+    xml_add_child(serverNode, usersNode);
+    xml_add_sibling(usersNode, teamsNode);
+    xml_add_sibling(usersNode, discussionsNode);
     return (xml_tree);
 }
 
-static xmlDocPtr load_xml(void)
+static xml_doc_ptr load_xml(void)
 {
-    xmlDocPtr xml_tree = NULL;
+    xml_doc_ptr xml_tree = NULL;
 
     if (access(XML_FILENAME, R_OK) != -1) {
-        xml_tree = xmlParseFile(XML_FILENAME);
+        xml_tree = xml_parse_file(XML_FILENAME);
     } else {
         if (xml_tree == NULL) {
             xml_tree = create_new_xml();
@@ -46,14 +46,16 @@ static xmlDocPtr load_xml(void)
 
 static void load_existing_users(server_t *server)
 {
-    xmlNodePtr root = xmlDocGetRootElement(server->xml_tree);
+    xml_node_ptr root = xml_doc_get_root_element(server->xml_tree);
 
     if (!root || !root->children)
         return;
-    for (xmlNodePtr user = root->children->children; user; user = user->next) {
+    for (xml_node_ptr user = root->children->children; user;
+        user = user->next) {
         if (user->children && user->children->next)
-            server_event_user_loaded((char *)xmlNodeGetContent(user->children),
-                (char *)xmlNodeGetContent(user->children->next));
+            server_event_user_loaded(
+                (char *)xml_node_get_content(user->children),
+                (char *)xml_node_get_content(user->children->next));
     }
 }
 

@@ -93,8 +93,8 @@ CFLAGS				+=		-I "../libs/myteams/"
 CFLAGS				+=		-I "../bonus/libxml3/include/"
 
 LDLIBS				+=		-luuid
-LDLIBS				+=		-Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
-LDLIBS				+=		-Wl,-rpath=`realpath ../bonus/libxml3` -L`realpath ../bonus/libxml3` -lxml3
+LDLIBS				+=		-L../libs/myteams -lmyteams
+LDLIBS				+=		-L../bonus/libxml3 -lxml3
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

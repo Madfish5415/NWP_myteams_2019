@@ -10,7 +10,7 @@
 
 static void subscribe_to_team(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr subscribe = subscribe_create(client->user);
+    xml_node_ptr subscribe = subscribe_create(client->user);
     subscribe_add(subscribe, server->xml_tree, cmds[1]);
     server_event_user_join_a_team(cmds[1], client->user);
     for (int i = 0; server->clients[i]; i++)
@@ -25,7 +25,7 @@ static void subscribe_to_team(server_t *server, client_t *client, char **cmds)
 
 void cmd_subscribe(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr team = NULL;
+    xml_node_ptr team = NULL;
 
     if (!user_get_authorize(server, client, cmds)) return;
     if (cmds[1] == NULL) {

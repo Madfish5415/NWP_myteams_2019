@@ -2,7 +2,7 @@
 a.out
 myteams_server
 myteams_cli
-libxml3.so
+libxml3.a
 
 # Objects
 *.o

@@ -14,11 +14,11 @@
 
 char *readFile(const char *filename);
 
-void setParams(char *content, xmlDocPtr doc);
+void setParams(char *content, xml_doc_ptr doc);
 
 char *getRootElem(char *content);
 
-void createTree(char *content, xmlDocPtr doc);
+void createTree(char *content, xml_doc_ptr doc);
 
 char *getOpenBalise(char *string);
 char *getCloseBalise(char *string);

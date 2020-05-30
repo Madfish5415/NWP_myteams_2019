@@ -10,22 +10,22 @@
 #include "libxml3.h"
 #include "parse.h"
 
-static void addBranch(xmlNodePtr parent, char *str);
+static void addBranch(xml_node_ptr parent, char *str);
 
-static void addDeeper(xmlNodePtr parent, char *str, char *open)
+static void addDeeper(xml_node_ptr parent, char *str, char *open)
 {
-    xmlNodePtr node = NULL;
+    xml_node_ptr node = NULL;
     char *close = NULL;
 
     close = getCloseBalise(str);
-    node = xmlAddChild(parent, xmlNewNode(open));
+    node = xml_add_child(parent, xml_new_node(open));
     if (close == NULL)
         addBranch(node, getnextline(str));
     else addBranch(parent, getnextline(str));
     if (close) free(close);
 }
 
-static void addBranch(xmlNodePtr parent, char *str)
+static void addBranch(xml_node_ptr parent, char *str)
 {
     char *open = getOpenBalise(str);
     char *content = NULL;
@@ -37,7 +37,7 @@ static void addBranch(xmlNodePtr parent, char *str)
     content = getBaliseContent(str);
 
     if (content != NULL) {
-        xmlNewTextChild(parent, open, content);
+        xml_new_text_child(parent, open, content);
         addBranch(parent, getnextline(str));
     } else {
         addDeeper(parent, str, open);
@@ -46,7 +46,7 @@ static void addBranch(xmlNodePtr parent, char *str)
     if (content) free(content);
 }
 
-void createTree(char *str, xmlDocPtr doc)
+void createTree(char *str, xml_doc_ptr doc)
 {
     char *open = NULL;
     char *close = NULL;
@@ -57,9 +57,9 @@ void createTree(char *str, xmlDocPtr doc)
     content = getBaliseContent(str);
     close = getCloseBalise(str);
     if (content != NULL) {
-        doc->children = xmlNewText(open, content);
+        doc->children = xml_new_text(open, content);
     } else {
-        doc->children = xmlNewNode(open);
+        doc->children = xml_new_node(open);
         if (!close)
             addBranch(doc->children, getnextline(str));
     }

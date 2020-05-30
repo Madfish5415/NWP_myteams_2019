@@ -9,27 +9,28 @@
 
 #include "libxml3.h"
 
-void xmlFreeNode(xmlNodePtr cur)
+void xml_free_node(xml_node_ptr cur)
 {
     if (!cur)
         return;
     if (cur->children) {
-        xmlFreeNode(cur->children);
+        xml_free_node(cur->children);
     }
     if (cur->next) {
-        xmlFreeNode(cur->next);
+        xml_free_node(cur->next);
     }
     if (cur->name) free(cur->name);
     if (cur->content) free(cur->content);
     free(cur);
 }
 
-void xmlFreeDoc(xmlDocPtr doc)
+void xml_free_doc(xml_doc_ptr doc)
 {
     if (!doc) return;
     if (doc->name) free(doc->name);
     if (doc->encoding) free(doc->encoding);
     if (doc->version) free(doc->version);
-    if (doc->children) xmlFreeNode(doc->children);
+    if (doc->children)
+        xml_free_node(doc->children);
     free(doc);
 }

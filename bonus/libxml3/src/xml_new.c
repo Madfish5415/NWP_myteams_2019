@@ -10,11 +10,11 @@
 
 #include "libxml3.h"
 
-xmlNodePtr xmlNewNode(const char *name)
+xml_node_ptr xml_new_node(const char *name)
 {
-    xmlNodePtr node = NULL;
+    xml_node_ptr node = NULL;
 
-    node = malloc(sizeof(xmlNode));
+    node = malloc(sizeof(xml_node));
     if (!node)
         return NULL;
     node->children = NULL;
@@ -27,11 +27,11 @@ xmlNodePtr xmlNewNode(const char *name)
     return node;
 }
 
-xmlNodePtr xmlNewText(const char *name, const char *content)
+xml_node_ptr xml_new_text(const char *name, const char *content)
 {
-    xmlNodePtr node = NULL;
+    xml_node_ptr node = NULL;
 
-    node = malloc(sizeof(xmlNode));
+    node = malloc(sizeof(xml_node));
     if (!node)
         return NULL;
     node->children = NULL;
@@ -44,14 +44,14 @@ xmlNodePtr xmlNewText(const char *name, const char *content)
     return node;
 }
 
-xmlNodePtr xmlNewTextChild(
-    xmlNodePtr parent, const char *name, const char *content)
+xml_node_ptr xml_new_text_child(
+    xml_node_ptr parent, const char *name, const char *content)
 {
-    xmlNodePtr node = NULL;
+    xml_node_ptr node = NULL;
 
     if (!parent)
         return NULL;
-    node = malloc(sizeof(xmlNode));
+    node = malloc(sizeof(xml_node));
     if (!node)
         return NULL;
     node->children = NULL;
@@ -61,15 +61,15 @@ xmlNodePtr xmlNewTextChild(
     node->parent = NULL;
     node->name = (name) ? strdup(name) : NULL;
     node->content = (content) ? strdup(content) : NULL;
-    xmlAddChild(parent, node);
+    xml_add_child(parent, node);
     return node;
 }
 
-xmlDocPtr xmlNewDoc(const char *version)
+xml_doc_ptr xml_new_doc(const char *version)
 {
-    xmlDocPtr doc = NULL;
+    xml_doc_ptr doc = NULL;
 
-    doc = malloc(sizeof(xmlDoc));
+    doc = malloc(sizeof(xml_doc));
     if (!doc)
         return NULL;
     doc->children = NULL;

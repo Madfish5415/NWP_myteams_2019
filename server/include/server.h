@@ -25,7 +25,7 @@ typedef struct server_s {
     struct sockaddr_in address;
     size_t address_length;
     client_t **clients;
-    xmlDocPtr xml_tree;
+    xml_doc_ptr xml_tree;
     fd_set master[SET_NUMBER];
     fd_set worker[SET_NUMBER];
     struct timeval timeout;
