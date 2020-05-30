@@ -12,30 +12,32 @@
 #include "cmd.h"
 
 static void succesfully_connected(
-    server_t *server, client_t *client, xmlNodePtr user)
+    server_t *server, client_t *client, xml_node_ptr user)
 {
     server_broadcast(server, RESPONSE_230, false);
-    server_broadcast(server, (char *)xmlNodeGetContent(user->children), true);
     server_broadcast(
-        server, (char *)xmlNodeGetContent(user->children->next), true);
-    server_event_user_logged_in((char *)xmlNodeGetContent(user->children));
+        server, (char *)xml_node_get_content(user->children), true);
+    server_broadcast(
+        server, (char *)xml_node_get_content(user->children->next), true);
+    server_event_user_logged_in((char *)xml_node_get_content(user->children));
     for (int i = 0; i < UUID_SIZE &&
-        ((char *)xmlNodeGetContent(user->children))[i] != '\0'; i++)
-        client->user[i] = ((char *)xmlNodeGetContent(user->children))[i];
-    xmlNodeSetContent(user->children->next->next->next->next, BAD_CAST "true");
+        ((char *)xml_node_get_content(user->children))[i] != '\0'; i++)
+        client->user[i] = ((char *)xml_node_get_content(user->children))[i];
+    xml_node_set_content(
+        user->children->next->next->next->next, BAD_CAST "true");
 }
 
-static void create_new_user(server_t *server, xmlNodePtr *user, char **cmds)
+static void create_new_user(server_t *server, xml_node_ptr *user, char **cmds)
 {
     (*user) = user_create(cmds[1], "");
     user_add((*user), server->xml_tree);
-    xmlNodeSetContent(
+    xml_node_set_content(
         (*user)->children->next->next->next->next, BAD_CAST "true");
 }
 
 void cmd_login(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr user = NULL;
+    xml_node_ptr user = NULL;
 
     if (!user_get_authorize(server, client, cmds))
         return;

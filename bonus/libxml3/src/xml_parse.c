@@ -36,15 +36,15 @@ char *readFile(const char *filename)
     return result;
 }
 
-xmlDocPtr xmlParseFile(const char *filename)
+xml_doc_ptr xml_parse_file(const char *filename)
 {
-    xmlDocPtr doc = NULL;
+    xml_doc_ptr doc = NULL;
     char *content = NULL;
 
     if (filename == NULL) return NULL;
     content = readFile(filename);
     if (content == NULL) return NULL;
-    if ((doc = xmlNewDoc(NULL)) == NULL) return NULL;
+    if ((doc = xml_new_doc(NULL)) == NULL) return NULL;
     setParams(content, doc);
     createTree(getRootElem(content), doc);
     free(content);

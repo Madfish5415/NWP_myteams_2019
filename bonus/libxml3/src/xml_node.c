@@ -10,14 +10,14 @@
 
 #include "libxml3.h"
 
-char *xmlNodeGetContent(xmlNodePtr cur)
+char *xml_node_get_content(xml_node_ptr cur)
 {
     if (!cur)
         return NULL;
     return cur->content;
 }
 
-xmlNodePtr xmlNodeSetContent(xmlNodePtr cur, const char *content)
+xml_node_ptr xml_node_set_content(xml_node_ptr cur, const char *content)
 {
     if (!cur)
         return NULL;

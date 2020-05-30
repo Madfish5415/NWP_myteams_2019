@@ -9,22 +9,23 @@
 
 #include "server.h"
 
-static void print_user(server_t *server, client_t *client, xmlNodePtr user)
+static void print_user(server_t *server, client_t *client, xml_node_ptr user)
 {
     server_send_response(server, client, RESPONSE_242, false);
     server_send_response(
-        server, client, (char *)xmlNodeGetContent(user->children), true);
-    server_send_response(
-        server, client, (char *)xmlNodeGetContent(user->children->next), true);
+        server, client, (char *)xml_node_get_content(user->children), true);
+    server_send_response(server, client,
+        (char *)xml_node_get_content(user->children->next), true);
     server_send_response(server, client,
         ((strcmp(
-        (char *)xmlNodeGetContent(user->children->next->next->next->next),
+        (char *)xml_node_get_content(
+                     user->children->next->next->next->next),
         "false") == 0) ? "0" : "1"), true);
 }
 
 void cmd_user(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr user = NULL;
+    xml_node_ptr user = NULL;
 
     if (!user_get_authorize(server, client, cmds))
         return;

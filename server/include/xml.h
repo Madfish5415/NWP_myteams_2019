@@ -13,62 +13,62 @@
 
 /*  belongs_to.c  */
 bool channel_belongs_to_team(
-    xmlDocPtr xml_tree, const char *channel_uuid, const char *team_uuid);
+    xml_doc_ptr xml_tree, const char *channel_uuid, const char *team_uuid);
 bool thread_belongs_to_channel(
-    xmlDocPtr xml_tree, const char *thread_uuid, const char *channel_uuid);
+    xml_doc_ptr xml_tree, const char *thread_uuid, const char *channel_uuid);
 
 /*  channel.c  */
 exception_t channel_add(
-    xmlNodePtr channel, xmlDocPtr xml_tree, const char *team_uid);
-xmlNodePtr channel_create(const char *channel_name, const char *desc,
+    xml_node_ptr channel, xml_doc_ptr xml_tree, const char *team_uid);
+xml_node_ptr channel_create(const char *channel_name, const char *desc,
     const char *creator, const char *team_uid);
-xmlNodePtr channel_get(xmlDocPtr xml_tree, const char *channel_uid);
-xmlNodePtr get_channels_team(xmlNodePtr team);
+xml_node_ptr channel_get(xml_doc_ptr xml_tree, const char *channel_uid);
+xml_node_ptr get_channels_team(xml_node_ptr team);
 
 /*  discussion.c  */
-xmlNodePtr discussion_create(const char *user_id, const char *user_id2);
-exception_t discussion_add_message(xmlDocPtr xml_tree, const char *user_id,
-    const char *user_id2, xmlNodePtr message);
-xmlNodePtr discussion_get(
-    xmlDocPtr xml_tree, const char *user_id, const char *user_id2);
+xml_node_ptr discussion_create(const char *user_id, const char *user_id2);
+exception_t discussion_add_message(xml_doc_ptr xml_tree, const char *user_id,
+    const char *user_id2, xml_node_ptr message);
+xml_node_ptr discussion_get(
+    xml_doc_ptr xml_tree, const char *user_id, const char *user_id2);
 
 /*  message.c  */
-xmlNodePtr message_create(const char *body, const char *creator);
-xmlNodePtr message_thread_create(
+xml_node_ptr message_create(const char *body, const char *creator);
+xml_node_ptr message_thread_create(
     const char *body, const char *creator, const char *thread_uid);
-xmlNodePtr message_discussion_create(
+xml_node_ptr message_discussion_create(
     const char *sender_id, const char *receiver_id, const char *body);
 exception_t message_add(
-    xmlNodePtr message, xmlDocPtr xml_tree, const char *thread_uid);
+    xml_node_ptr message, xml_doc_ptr xml_tree, const char *thread_uid);
 
 /*  subscribe.c  */
-xmlNodePtr subscribe_create(const char *uid);
+xml_node_ptr subscribe_create(const char *uid);
 exception_t subscribe_add(
-    xmlNodePtr subscribe, xmlDocPtr xml_tree, const char *team_uid);
+    xml_node_ptr subscribe, xml_doc_ptr xml_tree, const char *team_uid);
 exception_t subscribe_del(
-    xmlDocPtr xml_tree, const char *team_uid, const char *user_id);
+    xml_doc_ptr xml_tree, const char *team_uid, const char *user_id);
 bool is_subscribe(
-    xmlDocPtr xml_tree, const char *team_uid, const char *user_uid);
+    xml_doc_ptr xml_tree, const char *team_uid, const char *user_uid);
 
 /*  team.c  */
-exception_t team_add(xmlNodePtr team, xmlDocPtr xml_tree);
-xmlNodePtr team_create(
+exception_t team_add(xml_node_ptr team, xml_doc_ptr xml_tree);
+xml_node_ptr team_create(
     const char *team_name, const char *desc, const char *creator);
-xmlNodePtr team_get(xmlDocPtr xml_tree, const char *team_uid);
+xml_node_ptr team_get(xml_doc_ptr xml_tree, const char *team_uid);
 
 /*  thread.c  */
-xmlNodePtr thread_create(const char *thread_name, const char *body,
+xml_node_ptr thread_create(const char *thread_name, const char *body,
     const char *creator, const char *channel_uid);
 exception_t thread_add(
-    xmlNodePtr thread, xmlDocPtr xml_tree, const char *channel_uid);
-xmlNodePtr thread_get(xmlDocPtr xml_tree, const char *thread_uid);
-xmlNodePtr get_threads_team(xmlNodePtr team);
+    xml_node_ptr thread, xml_doc_ptr xml_tree, const char *channel_uid);
+xml_node_ptr thread_get(xml_doc_ptr xml_tree, const char *thread_uid);
+xml_node_ptr get_threads_team(xml_node_ptr team);
 
 /*  user.c  */
-exception_t user_add(xmlNodePtr user, xmlDocPtr xml_tree);
-xmlNodePtr user_create(const char *username, const char *passwd);
-xmlNodePtr user_get_by_name(xmlDocPtr xml_tree, const char *username);
-xmlNodePtr user_get_by_uuid(xmlDocPtr xml_tree, const char *uuid);
+exception_t user_add(xml_node_ptr user, xml_doc_ptr xml_tree);
+xml_node_ptr user_create(const char *username, const char *passwd);
+xml_node_ptr user_get_by_name(xml_doc_ptr xml_tree, const char *username);
+xml_node_ptr user_get_by_uuid(xml_doc_ptr xml_tree, const char *uuid);
 
 
 #endif // NWP_MYTEAMS_2019_XML_H

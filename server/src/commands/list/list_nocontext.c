@@ -9,8 +9,8 @@
 
 void list_nocontext(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr root = xmlDocGetRootElement(server->xml_tree);
-    xmlNodePtr team = root->children->next->last;
+    xml_node_ptr root = xml_doc_get_root_element(server->xml_tree);
+    xml_node_ptr team = root->children->next->last;
 
     (void) cmds;
     if (!team)
@@ -18,10 +18,10 @@ void list_nocontext(server_t *server, client_t *client, char **cmds)
     for (; team; team = team->prev) {
         server_send_response(server, client, RESPONSE_241, false);
         server_send_response(
-            server, client, (char *)xmlNodeGetContent(team->children), true);
+            server, client, (char *)xml_node_get_content(team->children), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(team->children->next), true);
+            (char *)xml_node_get_content(team->children->next), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(team->children->next->next), true);
+            (char *)xml_node_get_content(team->children->next->next), true);
     }
 }

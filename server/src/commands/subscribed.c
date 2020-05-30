@@ -11,42 +11,42 @@
 
 void list_subscribed_team(server_t *server, client_t *client)
 {
-    xmlNodePtr root = xmlDocGetRootElement(server->xml_tree);
-    xmlNodePtr team = root->children->next->children;
+    xml_node_ptr root = xml_doc_get_root_element(server->xml_tree);
+    xml_node_ptr team = root->children->next->children;
 
     server_send_response(server, client, RESPONSE_241, false);
     for (; team; team = team->next) {
         if (is_subscribe(server->xml_tree,
-                (char *)xmlNodeGetContent(team->children), client->user)) {
+                (char *)xml_node_get_content(team->children), client->user)) {
             server_send_response(server, client,
-                (char *)xmlNodeGetContent(team->children), true);
+                (char *)xml_node_get_content(team->children), true);
             server_send_response(server, client,
-                (char *)xmlNodeGetContent(team->children->next), true);
+                (char *)xml_node_get_content(team->children->next), true);
             server_send_response(server, client,
-                (char *)xmlNodeGetContent(team->children->next->next), true);
+                (char *)xml_node_get_content(team->children->next->next), true);
         }
     }
 }
 
 void list_subscribed_users(server_t *server, client_t *client)
 {
-    xmlNodePtr team = team_get(server->xml_tree, client->use_uuid);
-    xmlNodePtr user = NULL;
+    xml_node_ptr team = team_get(server->xml_tree, client->use_uuid);
+    xml_node_ptr user = NULL;
 
     if (!team)
         return;
     server_send_response(server, client, RESPONSE_240, false);
-    for (xmlNodePtr subscribe =
+    for (xml_node_ptr subscribe =
         team->children->next->next->next->next->next->next->children;
         subscribe; subscribe = subscribe->next) {
         user = user_get_by_uuid(
-            server->xml_tree, (char *)xmlNodeGetContent(subscribe));
+            server->xml_tree, (char *)xml_node_get_content(subscribe));
         server_send_response(
-            server, client, (char *)xmlNodeGetContent(user->children), true);
+            server, client, (char *)xml_node_get_content(user->children), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(user->children->next), true);
+            (char *)xml_node_get_content(user->children->next), true);
         server_send_response(server, client,
-            ((strcmp((char *)xmlNodeGetContent(
+            ((strcmp((char *)xml_node_get_content(
             user->children->next->next->next->next), "false") == 0) ?
             "0" : "1"), true);
     }

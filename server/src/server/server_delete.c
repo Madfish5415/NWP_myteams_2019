@@ -39,6 +39,6 @@ void server_delete(server_t **server)
 {
     deconnect_all((*server));
     close((*server)->socket);
-    xmlSaveFormatFile(XML_FILENAME, (*server)->xml_tree, 2);
+    xml_save_format_file(XML_FILENAME, (*server)->xml_tree, 2);
     free((*server));
 }

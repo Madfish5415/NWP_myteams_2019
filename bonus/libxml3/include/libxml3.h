@@ -14,52 +14,52 @@
 
 #include <stdio.h>
 
-typedef struct _xmlNode {
-    struct _xmlNode *next;
-    struct _xmlNode *prev;
-    struct _xmlNode *parent;
-    struct _xmlNode *children;
-    struct _xmlNode *last;
+typedef struct _xml_node {
+    struct _xml_node *next;
+    struct _xml_node *prev;
+    struct _xml_node *parent;
+    struct _xml_node *children;
+    struct _xml_node *last;
     char *content;
     char *name;
-} xmlNode;
+} xml_node;
 
-typedef xmlNode *xmlNodePtr;
+typedef xml_node *xml_node_ptr;
 
-typedef struct _xmlDoc {
+typedef struct _xml_doc {
     char *name;
-    struct _xmlNode *children;
+    struct _xml_node *children;
     char *version;
     char *encoding;
-} xmlDoc;
+} xml_doc;
 
-typedef xmlDoc *xmlDocPtr;
+typedef xml_doc *xml_doc_ptr;
 
-char *xmlNodeGetContent(xmlNodePtr cur);
-xmlNodePtr xmlNodeSetContent(xmlNodePtr cur, const char *content);
+char *xml_node_get_content(xml_node_ptr cur);
+xml_node_ptr xml_node_set_content(xml_node_ptr cur, const char *content);
 
-xmlNodePtr xmlDocGetRootElement(xmlDocPtr doc);
-xmlNodePtr xmlDocSetRootElement(xmlDocPtr doc, xmlNodePtr root);
+xml_node_ptr xml_doc_get_root_element(xml_doc_ptr doc);
+xml_node_ptr xml_doc_set_root_element(xml_doc_ptr doc, xml_node_ptr root);
 
-xmlNodePtr xmlNewNode(const char *name);
-xmlNodePtr xmlNewText(const char *name, const char *content);
-xmlNodePtr xmlNewTextChild(
-    xmlNodePtr parent, const char *name, const char *content);
-xmlDocPtr xmlNewDoc(const char *version);
+xml_node_ptr xml_new_node(const char *name);
+xml_node_ptr xml_new_text(const char *name, const char *content);
+xml_node_ptr xml_new_text_child(
+    xml_node_ptr parent, const char *name, const char *content);
+xml_doc_ptr xml_new_doc(const char *version);
 
-xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur);
-xmlNodePtr xmlAddNextSibling(xmlNodePtr cur, xmlNodePtr elem);
-xmlNodePtr xmlAddPrevSibling(xmlNodePtr cur, xmlNodePtr elem);
-xmlNodePtr xmlAddSibling(xmlNodePtr cur, xmlNodePtr elem);
+xml_node_ptr xml_add_child(xml_node_ptr parent, xml_node_ptr cur);
+xml_node_ptr xml_add_next_sibling(xml_node_ptr cur, xml_node_ptr elem);
+xml_node_ptr xml_add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem);
+xml_node_ptr xml_add_sibling(xml_node_ptr cur, xml_node_ptr elem);
 
-xmlDocPtr xmlParseFile(const char *filename);
+xml_doc_ptr xml_parse_file(const char *filename);
 
-void xmlUnlinkNode(xmlNodePtr cur);
+void xml_unlink_node(xml_node_ptr cur);
 
-void xmlFreeNode(xmlNodePtr cur);
-void xmlFreeDoc(xmlDocPtr doc);
+void xml_free_node(xml_node_ptr cur);
+void xml_free_doc(xml_doc_ptr doc);
 
-int xmlSaveFile(const char *filename, xmlDocPtr cur);
-int xmlSaveFormatFile(const char *filename, xmlDocPtr cur, int format);
+int xml_save_file(const char *filename, xml_doc_ptr cur);
+int xml_save_format_file(const char *filename, xml_doc_ptr cur, int format);
 
 #endif // NWP_MYTEAMS_2019_LIBXML3_H

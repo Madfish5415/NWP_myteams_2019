@@ -9,7 +9,7 @@
 
 #include "libxml3.h"
 
-void write_children(FILE *file, xmlNodePtr node, int depth, int format)
+void write_children(FILE *file, xml_node_ptr node, int depth, int format)
 {
     if (!node || !node->name)
         return;
@@ -20,21 +20,21 @@ void write_children(FILE *file, xmlNodePtr node, int depth, int format)
     }
     fprintf(file, "%*s<%s>\n", depth * format, "", node->name);
     if (node->children) {
-        for (xmlNodePtr child = node->children; child; child = child->next) {
+        for (xml_node_ptr child = node->children; child; child = child->next) {
             write_children(file, child, depth + 1, format);
         }
     }
     fprintf(file, "%*s</%s>\n", depth * format, "", node->name);
 }
 
-void write_file(FILE *file, xmlNodePtr root, int format)
+void write_file(FILE *file, xml_node_ptr root, int format)
 {
     int depth = 0;
 
     if (root->name)
         fprintf(file, "%*s<%s>\n", depth * format, "", root->name);
     if (root->children) {
-        for (xmlNodePtr child = root->children; child; child = child->next) {
+        for (xml_node_ptr child = root->children; child; child = child->next) {
             write_children(file, child, depth + 1, format);
         }
     }
@@ -42,7 +42,7 @@ void write_file(FILE *file, xmlNodePtr root, int format)
         fprintf(file, "%*s</%s>", depth * format, "", root->name);
 }
 
-void write_doc(FILE *file, xmlDocPtr doc)
+void write_doc(FILE *file, xml_doc_ptr doc)
 {
     if (!doc->version && !doc->encoding)
         return;
@@ -55,26 +55,26 @@ void write_doc(FILE *file, xmlDocPtr doc)
             doc->encoding);
 }
 
-int xmlSaveFormatFile(const char *filename, xmlDocPtr doc, int format)
+int xml_save_format_file(const char *filename, xml_doc_ptr cur, int format)
 {
     FILE *file = NULL;
-    xmlNodePtr root = NULL;
+    xml_node_ptr root = NULL;
 
-    if (!filename || !doc)
+    if (!filename || !cur)
         return FAILURE;
-    root = xmlDocGetRootElement(doc);
+    root = xml_doc_get_root_element(cur);
     if (!root)
         return FAILURE;
     file = fopen(filename, "w");
     if (!file)
         return FAILURE;
-    write_doc(file, doc);
+    write_doc(file, cur);
     write_file(file, root, format);
     fclose(file);
     return SUCCESS;
 }
 
-int xmlSaveFile(const char *filename, xmlDocPtr doc)
+int xml_save_file(const char *filename, xml_doc_ptr cur)
 {
-    return xmlSaveFormatFile(filename, doc, 0);
+    return xml_save_format_file(filename, cur, 0);
 }

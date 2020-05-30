@@ -21,7 +21,7 @@ static char *getValue(char *str)
     return result;
 }
 
-void setParams(char *content, xmlDocPtr doc)
+void setParams(char *content, xml_doc_ptr doc)
 {
     if (!content) return;
     if (strncmp(content, "<?", 2) != 0) return;

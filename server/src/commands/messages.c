@@ -9,7 +9,7 @@
 
 static void send_all_messages(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr discussion =
+    xml_node_ptr discussion =
         discussion_get(server->xml_tree, client->user, cmds[1]);
 
     if (!discussion) {
@@ -17,14 +17,14 @@ static void send_all_messages(server_t *server, client_t *client, char **cmds)
     }
     if (discussion->children->next->next->children)
         server_send_response(server, client, RESPONSE_255, false);
-    for (xmlNodePtr message = discussion->children->next->next->last;
+    for (xml_node_ptr message = discussion->children->next->next->last;
         message; message = message->prev) {
-        server_send_response(
-            server, client, (char *)xmlNodeGetContent(message->children), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(message->children->next), true);
+            (char *)xml_node_get_content(message->children), true);
         server_send_response(server, client,
-            (char *)xmlNodeGetContent(message->children->next->next), true);
+            (char *)xml_node_get_content(message->children->next), true);
+        server_send_response(server, client,
+            (char *)xml_node_get_content(message->children->next->next), true);
     }
 }
 

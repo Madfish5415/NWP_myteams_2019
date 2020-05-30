@@ -17,7 +17,7 @@ static void use_nocontext(client_t *client)
 
 static bool use_team(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr team = team_get(server->xml_tree, cmds[1]);
+    xml_node_ptr team = team_get(server->xml_tree, cmds[1]);
 
     if (!team) {
         server_send_response(server, client, RESPONSE_502, false);
@@ -32,7 +32,7 @@ static bool use_team(server_t *server, client_t *client, char **cmds)
 
 static bool use_channel(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr channel = channel_get(server->xml_tree, cmds[2]);
+    xml_node_ptr channel = channel_get(server->xml_tree, cmds[2]);
 
     if (use_team(server, client, cmds))
         return true;
@@ -50,7 +50,7 @@ static bool use_channel(server_t *server, client_t *client, char **cmds)
 
 static bool use_thread(server_t *server, client_t *client, char **cmds)
 {
-    xmlNodePtr thread = thread_get(server->xml_tree, cmds[3]);
+    xml_node_ptr thread = thread_get(server->xml_tree, cmds[3]);
 
     if (use_channel(server, client, cmds))
         return true;
