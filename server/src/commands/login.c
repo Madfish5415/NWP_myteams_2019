@@ -15,7 +15,7 @@ static void succesfully_connected(
     server_t *server, client_t *client, xml_node_ptr user)
 {
     for (int i = 0; i < UUID_SIZE &&
-                    ((char *)xml_node_get_content(user->children))[i] != '\0'; i++)
+        ((char *)xml_node_get_content(user->children))[i] != '\0'; i++)
         client->user[i] = ((char *)xml_node_get_content(user->children))[i];
     xml_node_set_content(
         user->children->next->next->next->next, BAD_CAST "true");

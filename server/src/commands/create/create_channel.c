@@ -34,7 +34,7 @@ static void send_to_others(
 static void send_to_client(
     server_t *server, client_t *client, char **cmds, xml_node_ptr thread)
 {
-    server_send_response(server, client, RESPONSE_236, false);
+    server_send_response(server, client, RESPONSE_248, false);
     server_send_response(
         server, client, (char *)xml_node_get_content(thread->children), true);
     server_send_response(server, client, client->user, true);
