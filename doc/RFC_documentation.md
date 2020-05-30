@@ -40,4 +40,4 @@ Code            |Signification                      | Args number   | Arguments
 503             |Unknown channel                    |1              |channel_id
 504             |Unknown thread                     |1              |thread_id
 505             |Command unauthorized               |0              |
-506             |User already exist                 |0              |
+506             |Already exist                 |0              |
