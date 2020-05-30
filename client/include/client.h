@@ -19,7 +19,7 @@
 
 typedef struct messages_log_s {
     const char *code;
-    void (*ptr)(char **tab);
+    char **(*ptr)(char **tab);
 } messages_log_t;
 
 static const messages_log_t MESSAGES_LOG[] = {
@@ -75,5 +75,6 @@ void client_handle_write(client_t *client);
 void client_handle_read(client_t *client);
 void client_execute_cmd(client_t *client);
 char *format_string(char *string);
+bool run(bool stop);
 
 #endif  // NWP_MYTEAMS_2019_CLIENT_H

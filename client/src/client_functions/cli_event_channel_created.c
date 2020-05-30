@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_event_channel_created(char **tab)
+char **cli_event_channel_created(char **tab)
 {
-    if (tab)
-        client_event_channel_created(tab[1], tab[2], tab[3]);
+    if (!tab)
+        return NULL;
+    client_event_channel_created(tab[1], tab[2], tab[3]);
+    return &tab[4];
 }

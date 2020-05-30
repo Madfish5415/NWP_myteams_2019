@@ -7,30 +7,50 @@
 
 #include <string.h>
 #include <stdio.h>
+#include <regex.h>
 
 #include "exception.h"
 #include "utils.h"
 
+static bool valid_arg(const char *string)
+{
+    char *regex_str = "^\\/[a-z]+(\\s+\\\"[^\\\"]+\\\")+\n$";
+    regex_t regex;
+    size_t max_group = 2;
+    regmatch_t group[max_group];
+
+    if (regcomp(&regex, regex_str, REG_EXTENDED))
+        return NULL;
+    if (regexec(&regex, string, max_group, group, 0) == 0) {
+        regfree(&regex);
+        return true;
+    }
+    regfree(&regex);
+    return false;
+}
+
+static bool valid_cmd(const char *string)
+{
+    char *regex_str = "^\\/[a-z]+\n$";
+    regex_t regex;
+    size_t max_group = 2;
+    regmatch_t group[max_group];
+
+    if (regcomp(&regex, regex_str, REG_EXTENDED))
+        return NULL;
+    if (regexec(&regex, string, max_group, group, 0) == 0) {
+        regfree(&regex);
+        return true;
+    }
+    regfree(&regex);
+    return false;
+}
+
 bool check_missing_quote(const char *string)
 {
-    char **tab = NULL;
-    int nb_quote = 0;
-    int nb_args = 0;
-    char *tmp = NULL;
-
-    if (string[0] == 0)
-        return false;
-    tmp = strdup(string);
-    tab = split(tmp, " ");
-    if (!tab) return false;
-    for (; tab[nb_args]; nb_args++);
-    for (int i = 0; tab[i]; i++)
-        for (int j = 0; tab[i][j]; j++)
-            nb_quote += (tab[i][j] == '"');
-    if (nb_quote != ((nb_args - 1) * 2)) {
+    if (!valid_arg(string) && !valid_cmd(string)) {
         printf("Invalid argument.\n");
-        free(tmp);
         return false;
-    } free(tmp);
+    }
     return true;
 }

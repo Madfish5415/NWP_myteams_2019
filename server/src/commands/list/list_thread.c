@@ -14,10 +14,10 @@ void list_thread(server_t *server, client_t *client, char **cmds)
     (void) cmds;
     if (!thread)
         return;
-    server_send_response(server, client, RESPONSE_254, false);
     for (xmlNodePtr message =
-             thread->children->next->next->next->next->next->children;
-         message; message = message->next) {
+        thread->children->next->next->next->next->next->last;
+        message; message = message->prev) {
+        server_send_response(server, client, RESPONSE_254, false);
         server_send_response(server, client, client->use_uuid, true);
         server_send_response(server, client,
             (char *)xmlNodeGetContent(message->children->next->next), true);

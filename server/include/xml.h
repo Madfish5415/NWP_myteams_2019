@@ -9,8 +9,7 @@
 #define NWP_MYTEAMS_2019_XML_H
 
 #include "exception.h"
-#include "libxml/parser.h"
-#include "libxml/tree.h"
+#include "libxml3.h"
 
 /*  belongs_to.c  */
 bool channel_belongs_to_team(
@@ -70,5 +69,6 @@ exception_t user_add(xmlNodePtr user, xmlDocPtr xml_tree);
 xmlNodePtr user_create(const char *username, const char *passwd);
 xmlNodePtr user_get_by_name(xmlDocPtr xml_tree, const char *username);
 xmlNodePtr user_get_by_uuid(xmlDocPtr xml_tree, const char *uuid);
+
 
 #endif // NWP_MYTEAMS_2019_XML_H

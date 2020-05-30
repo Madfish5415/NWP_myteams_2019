@@ -10,7 +10,7 @@
 #include "client.h"
 #include "help.h"
 
-static bool run(bool stop)
+bool run(bool stop)
 {
     static bool is_running = true;
 
@@ -37,8 +37,8 @@ exception_t client_run(client_t client)
         client.worker[WRITE_SET] = client.master[WRITE_SET];
         client.worker[EXCEPT_SET] = client.master[EXCEPT_SET];
         if (select(FD_SETSIZE, &client.worker[READ_SET],
-                   &client.worker[WRITE_SET], &client.worker[EXCEPT_SET],
-                   &client.timeout) < 0) {
+            &client.worker[WRITE_SET], &client.worker[EXCEPT_SET],
+            &client.timeout) < 0) {
             return exception;
         }
         client_handle_fd(&client);

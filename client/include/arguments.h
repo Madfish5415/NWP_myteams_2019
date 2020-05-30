@@ -13,7 +13,7 @@
 
 #include "exception.h"
 
-#define MAX_FLAGS 2
+#define MAX_FLAGS (2)
 
 enum flag_id_list { NULL_FLAG = -1, HELP_FLAG = 0, VERBOSE_FLAG };
 

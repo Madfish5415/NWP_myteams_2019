@@ -11,7 +11,7 @@
 
 #include "arguments.h"
 
-bool display_help(args_t* arguments)
+bool display_help(args_t *arguments)
 {
     if (arguments->flags[HELP_FLAG] == true) {
         printf("%s", HELP_MESSAGE);

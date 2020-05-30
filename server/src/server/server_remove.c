@@ -18,7 +18,7 @@ void server_remove_client(server_t *server, int client_index)
             "Index is out of range");
         return;
     }
-    tmp = server->clients[last_client_index];
+    tmp = server->clients[client_index];
     server->clients[client_index] = server->clients[last_client_index];
     server->clients[last_client_index] = tmp;
     free(server->clients[last_client_index]);

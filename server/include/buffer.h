@@ -19,7 +19,7 @@ typedef struct buffer_s {
 } buffer_t;
 
 /*  buffer_create.c  */
-buffer_t buffer_create(void);
+buffer_t *buffer_create(void);
 
 /*  buffer_delete.c  */
 void buffer_delete(buffer_t *buffer);

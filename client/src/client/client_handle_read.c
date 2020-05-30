@@ -18,8 +18,7 @@ void client_handle_read(client_t *client)
     exception_t exception = {NO_ERROR};
 
     for (int fd = 0; fd < FD_SETSIZE; fd++) {
-        if (!FD_ISSET(fd, &client->worker[READ_SET]))
-            continue;
+        if (!FD_ISSET(fd, &client->worker[READ_SET])) continue;
         if (fd == 0) {
             memset(client->printer, 0, sizeof(client->printer));
             read(STDIN_FILENO, client->printer, sizeof(client->printer));

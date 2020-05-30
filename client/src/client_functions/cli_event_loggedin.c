@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_event_loggedin(char **tab)
+char **cli_event_loggedin(char **tab)
 {
-    if (tab)
-        client_event_loggedin(tab[1], tab[2]);
+    if (!tab)
+        return NULL;
+    client_event_loggedin(tab[1], tab[2]);
+    return &tab[3];
 }

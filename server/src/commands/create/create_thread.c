@@ -13,15 +13,14 @@ static void send_to_others(
     xmlNodePtr thread = thread_get(server->xml_tree, client->use_uuid);
 
     for (int i = 0; server->clients[i]; i++)
-        if (server->clients[i] != client &&
-            is_subscribe(server->xml_tree,
-                (char *)xmlNodeGetContent(thread->parent->parent->parent->prev
-                ->prev->prev->prev->prev), server->clients[i]->user)) {
+        if (is_subscribe(server->xml_tree,
+            (char *)xmlNodeGetContent(thread->parent->parent->parent->prev
+            ->prev->prev->prev->prev), server->clients[i]->user)) {
             server_send_response(server, server->clients[i], RESPONSE_233,
                 false);
             server_send_response(server, server->clients[i],
                 (char *)xmlNodeGetContent(thread->parent->parent->parent->prev
-                ->prev->prev->prev->prev),true);
+                ->prev->prev->prev->prev), true);
             server_send_response(server, server->clients[i],
                 (char *)xmlNodeGetContent(thread->children), true);
             server_send_response(server, server->clients[i], client->user,
@@ -47,14 +46,20 @@ static void send_to_client(
 void create_thread(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr reply = NULL;
+    xmlNodePtr thread = thread_get(server->xml_tree, client->use_uuid);
 
+    if (!is_subscribe(server->xml_tree,
+        xmlNodeGetContent(thread->parent->parent->parent->parent->children),
+        client->user)) {
+        server_send_response(server, client, RESPONSE_505, false);
+        return;
+    }
     if (!cmds[1])
         return;
-
     reply = message_thread_create(cmds[1], client->user, client->use_uuid);
     if (!reply)
         return;
     message_add(reply, server->xml_tree, client->use_uuid);
-    send_to_others(server, client, cmds);
     send_to_client(server, client, cmds);
+    send_to_others(server, client, cmds);
 }

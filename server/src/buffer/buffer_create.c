@@ -7,12 +7,14 @@
 
 #include "buffer.h"
 
-buffer_t buffer_create(void)
+buffer_t *buffer_create(void)
 {
-    buffer_t buffer;
+    buffer_t *buffer = malloc(sizeof(buffer_t));
 
-    buffer.buffer_length = 0;
-    buffer.buffer = NULL;
-    buffer.exception.code = NO_ERROR;
+    if (!buffer)
+        return (NULL);
+    buffer->buffer_length = 0;
+    buffer->buffer = NULL;
+    buffer->exception.code = NO_ERROR;
     return (buffer);
 }

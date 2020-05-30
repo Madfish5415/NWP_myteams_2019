@@ -14,7 +14,7 @@ static exception_t send_message(client_t client)
     exception_t exception = {NO_ERROR};
 
     if (send(client.sock, format_string(client.printer), strlen(client.printer),
-             0) < 0) {
+        0) < 0) {
         return new_exception(RUNTIME_ERROR,
             "client_loop (client/client_loop.c)", "Bad send execution.");
     }

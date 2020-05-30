@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_event_private_message_received(char **tab)
+char **cli_event_private_message_received(char **tab)
 {
-    if (tab)
-        client_event_private_message_received(tab[1], tab[2]);
+    if (!tab)
+        return NULL;
+    client_event_private_message_received(tab[1], tab[2]);
+    return &tab[3];
 }

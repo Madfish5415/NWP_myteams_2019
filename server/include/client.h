@@ -26,8 +26,8 @@ typedef struct client_s {
     struct sockaddr_in address;
     size_t address_length;
     char user[UUID_SIZE];
-    buffer_t read_queue;
-    buffer_t write_queue;
+    buffer_t *read_queue;
+    buffer_t *write_queue;
     int use_type;
     char use_uuid[UUID_SIZE];
 } client_t;

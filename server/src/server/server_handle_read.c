@@ -19,6 +19,8 @@ static void handle_read(server_t *server, int fd)
             return;
     } else {
         client = server_get_client(server, fd);
+        if (!client)
+            return;
         if (catch(server->exception))
             return;
         client_read(server, client);
