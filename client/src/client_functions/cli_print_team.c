@@ -7,9 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_print_team(char **tab)
+char **cli_print_team(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_print_team(tab[1], tab[2], tab[3]);
+    return &tab[4];
 }

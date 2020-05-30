@@ -20,7 +20,7 @@ static void send_to_others(
                 false);
             server_send_response(server, server->clients[i],
                 (char *)xmlNodeGetContent(thread->parent->parent->parent->prev
-                ->prev->prev->prev->prev),true);
+                ->prev->prev->prev->prev), true);
             server_send_response(server, server->clients[i],
                 (char *)xmlNodeGetContent(thread->children), true);
             server_send_response(server, server->clients[i], client->user,
@@ -52,6 +52,7 @@ void create_thread(server_t *server, client_t *client, char **cmds)
         xmlNodeGetContent(thread->parent->parent->parent->parent->children),
         client->user)) {
         server_send_response(server, client, RESPONSE_505, false);
+        return;
     }
     if (!cmds[1])
         return;

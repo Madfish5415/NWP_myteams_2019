@@ -26,8 +26,10 @@ static void deconnect_all(server_t *server)
         FD_CLR(server->clients[i]->socket, &server->master[READ_SET]);
         FD_CLR(server->clients[i]->socket, &server->master[WRITE_SET]);
         FD_CLR(server->clients[i]->socket, &server->master[EXCEPT_SET]);
-        buffer_delete(&server->clients[i]->write_queue);
-        buffer_delete(&server->clients[i]->read_queue);
+        buffer_delete(server->clients[i]->write_queue);
+        buffer_delete(server->clients[i]->read_queue);
+        free(server->clients[i]->write_queue);
+        free(server->clients[i]->read_queue);
         free(server->clients[i]);
     }
     free(server->clients);

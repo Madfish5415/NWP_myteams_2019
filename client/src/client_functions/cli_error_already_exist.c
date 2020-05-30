@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_error_already_exist(char **tab)
+char **cli_error_already_exist(char **tab)
 {
-    (void)tab;
+    if (!tab)
+        return NULL;
     client_error_already_exist();
+    return &tab[1];
 }

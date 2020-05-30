@@ -8,15 +8,11 @@
 #include "logging_client.h"
 #include "utils.h"
 
-void cli_channel_print_threads(char **tab)
+char **cli_channel_print_threads(char **tab)
 {
-    int i = 0;
-
     if (!tab)
-        return;
-    for (; tab[i] != NULL; i++);
-    for (int j = 1; j < i; j += 5) {
-        client_channel_print_threads(
-            tab[i], tab[i + 1], strptime(tab[i + 2]), tab[i + 3], tab[i + 4]);
-    }
+        return NULL;
+    client_channel_print_threads(
+        tab[1], tab[2], strptime(tab[3]), tab[4], tab[5]);
+    return &tab[6];
 }

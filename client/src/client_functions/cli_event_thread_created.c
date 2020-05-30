@@ -8,9 +8,11 @@
 #include "logging_client.h"
 #include "utils.h"
 
-void cli_event_thread_created(char **tab)
+char **cli_event_thread_created(char **tab)
 {
-    if (tab)
-        client_event_thread_created(
-            tab[1], tab[2], strptime(tab[3]), tab[4], tab[5]);
+    if (!tab)
+        return NULL;
+    client_event_thread_created(
+        tab[1], tab[2], strptime(tab[3]), tab[4], tab[5]);
+    return &tab[6];
 }

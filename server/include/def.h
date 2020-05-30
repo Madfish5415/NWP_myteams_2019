@@ -15,7 +15,7 @@ typedef int socket_t;
 
 #define MAX_CLIENT_QUEUE (10)
 
-static const char* const XML_FILENAME = "server_data.xml";
+static const char *const XML_FILENAME = "server_data.xml";
 
 #define SET_NUMBER (3)
 #define READ_SET (0)

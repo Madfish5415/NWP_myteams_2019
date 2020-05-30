@@ -51,6 +51,7 @@ void create_channel(server_t *server, client_t *client, char **cmds)
     if (!is_subscribe(server->xml_tree,
         xmlNodeGetContent(channel->parent->parent->children), client->user)) {
         server_send_response(server, client, RESPONSE_505, false);
+        return;
     }
     if (!cmds[1])
         return;

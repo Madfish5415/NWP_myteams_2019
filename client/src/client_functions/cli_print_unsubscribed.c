@@ -7,9 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_print_unsubscribed(char **tab)
+char **cli_print_unsubscribed(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_print_unsubscribed(tab[1], tab[2]);
+    return &tab[3];
 }

@@ -8,15 +8,10 @@
 #include "logging_client.h"
 #include "utils.h"
 
-void cli_thread_print_replies(char **tab)
+char **cli_thread_print_replies(char **tab)
 {
-    int i = 0;
-
     if (!tab)
-        return;
-    for (; tab[i] != NULL; i++);
-    for (int j = 1; j < i; j += 4) {
-        client_thread_print_replies(
-            tab[i], tab[i + 1], strptime(tab[i + 2]), tab[i + 3]);
-    }
+        return NULL;
+    client_thread_print_replies(tab[1], tab[2], strptime(tab[3]), tab[4]);
+return &tab[5];
 }

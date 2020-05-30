@@ -8,9 +8,10 @@
 #include "logging_client.h"
 #include "utils.h"
 
-void cli_print_thread(char **tab)
+char **cli_print_thread(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_print_thread(tab[1], tab[2], strptime(tab[3]), tab[4], tab[5]);
+    return &tab[6];
 }

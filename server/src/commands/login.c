@@ -47,7 +47,9 @@ void cmd_login(server_t *server, client_t *client, char **cmds)
     if (user == NULL) {
         create_new_user(server, &user, cmds);
     }
-    if (client->user[0] != '\0')
-        cmd_logout(server, client, cmds);
+    if (client->user[0] != '\0') {
+        server_send_response(server, client, RESPONSE_506, false);
+        return;
+    }
     succesfully_connected(server, client, user);
 }

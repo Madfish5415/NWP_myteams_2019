@@ -37,8 +37,8 @@ void list_subscribed_users(server_t *server, client_t *client)
         return;
     server_send_response(server, client, RESPONSE_240, false);
     for (xmlNodePtr subscribe =
-             team->children->next->next->next->next->next->next->children;
-         subscribe; subscribe = subscribe->next) {
+        team->children->next->next->next->next->next->next->children;
+        subscribe; subscribe = subscribe->next) {
         user = user_get_by_uuid(
             server->xml_tree, (char *)xmlNodeGetContent(subscribe));
         server_send_response(
@@ -47,11 +47,8 @@ void list_subscribed_users(server_t *server, client_t *client)
             (char *)xmlNodeGetContent(user->children->next), true);
         server_send_response(server, client,
             ((strcmp((char *)xmlNodeGetContent(
-                         user->children->next->next->next->next),
-                  "false") == 0) ?
-                    "0" :
-                    "1"),
-            true);
+            user->children->next->next->next->next), "false") == 0) ?
+            "0" : "1"), true);
     }
 }
 

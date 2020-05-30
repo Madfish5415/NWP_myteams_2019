@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_error_unauthorized(char **tab)
+char **cli_error_unauthorized(char **tab)
 {
-    (void)tab;
+    if (!tab)
+        return NULL;
     client_error_unauthorized();
+    return &tab[1];
 }

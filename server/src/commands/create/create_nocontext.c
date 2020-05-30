@@ -11,13 +11,10 @@ void create_nocontext(server_t *server, client_t *client, char **cmds)
 {
     xmlNodePtr team = NULL;
 
-    if (!cmds[1])
-        return;
-    if (!cmds[2])
-        return;
+    if (!cmds[1]) return;
+    if (!cmds[2]) return;
     team = team_create(cmds[1], cmds[2], client->user);
-    if (!team)
-        return;
+    if (!team) return;
     team_add(team, server->xml_tree);
     server_send_response(server, client, RESPONSE_246, false);
     server_send_response(

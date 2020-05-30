@@ -14,7 +14,7 @@ static void send_to_others(
         if (is_subscribe(
             server->xml_tree, client->use_uuid, server->clients[i]->user)) {
             server_send_response(server, server->clients[i],
-                RESPONSE_235,false);
+                RESPONSE_235, false);
             server_send_response(server, server->clients[i],
                 (char *)xmlNodeGetContent(channel->children), true);
             server_send_response(server, server->clients[i], cmds[1], true);
@@ -38,6 +38,7 @@ void create_team(server_t *server, client_t *client, char **cmds)
 
     if (!is_subscribe(server->xml_tree, client->use_uuid, client->user)) {
         server_send_response(server, client, RESPONSE_505, false);
+        return;
     }
     if (!cmds[1])
         return;

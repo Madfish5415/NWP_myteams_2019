@@ -7,9 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_print_subscribed(char **tab)
+char **cli_print_subscribed(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_print_subscribed(tab[1], tab[2]);
+    return &tab[3];
 }

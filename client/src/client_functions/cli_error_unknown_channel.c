@@ -7,9 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_error_unknown_channel(char **tab)
+char **cli_error_unknown_channel(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_error_unknown_channel(tab[1]);
+    return &tab[2];
 }

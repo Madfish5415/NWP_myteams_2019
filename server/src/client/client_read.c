@@ -22,8 +22,8 @@ void client_read(server_t *server, client_t *client)
     if (read_value == 0) {
         client_disconnect(server, client);
     } else {
-        buffer_write_string(&client->read_queue, buffer);
-        if (catch_and_print(client->read_queue.exception)) {
+        buffer_write_string(client->read_queue, buffer);
+        if (catch_and_print(client->read_queue->exception)) {
             server->exception = new_exception(RUNTIME_ERROR,
                 "client_read (client_read.c)", "Can't write string");
             return;

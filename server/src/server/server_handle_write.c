@@ -15,6 +15,8 @@ static void handle_write(server_t *server, int fd)
         return;
     if (fd != server->socket) {
         client = server_get_client(server, fd);
+        if (!client)
+            return;
         if (catch(server->exception))
             return;
         client_write(server, client);

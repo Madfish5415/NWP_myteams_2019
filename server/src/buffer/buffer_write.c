@@ -35,5 +35,5 @@ void buffer_write_string(buffer_t *buffer, const char *str)
         buffer->buffer = tmp;
     }
     if (buffer->buffer)
-        buffer->buffer_length = (int) strlen(buffer->buffer);
+        buffer->buffer_length = strlen(buffer->buffer);
 }

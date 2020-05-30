@@ -7,8 +7,10 @@
 
 #include "logging_client.h"
 
-void cli_event_thread_message_received(char **tab)
+char **cli_event_thread_message_received(char **tab)
 {
-    if (tab)
-        client_event_thread_message_received(tab[1], tab[2], tab[3], tab[4]);
+    if (!tab)
+        return NULL;
+    client_event_thread_message_received(tab[1], tab[2], tab[3], tab[4]);
+    return &tab[5];
 }

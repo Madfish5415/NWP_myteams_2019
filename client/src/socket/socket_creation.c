@@ -10,7 +10,7 @@
 #include "client.h"
 #include "exception.h"
 
-socket_t socket_creation()
+socket_t socket_creation(void)
 {
     int sock = 0;
 

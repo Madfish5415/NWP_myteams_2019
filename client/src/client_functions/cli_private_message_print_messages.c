@@ -8,15 +8,10 @@
 #include "logging_client.h"
 #include "utils.h"
 
-void cli_private_message_print_messages(char **tab)
+char **cli_private_message_print_messages(char **tab)
 {
-    int i = 0;
-
     if (!tab)
-        return;
-    for (; tab[i] != NULL; i++);
-    for (int j = 1; j < i; j += 3) {
-        client_private_message_print_messages(
-            tab[i], strptime(tab[i + 1]), tab[i + 2]);
-    }
+        return NULL;
+    client_private_message_print_messages(tab[1], strptime(tab[2]), tab[3]);
+    return &tab[4];
 }

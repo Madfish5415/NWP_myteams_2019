@@ -9,9 +9,10 @@
 
 #include "logging_client.h"
 
-void cli_print_user(char **tab)
+char **cli_print_user(char **tab)
 {
     if (!tab)
-        return;
+        return NULL;
     client_print_user(tab[1], tab[2], atoi(tab[3]));
+    return &tab[4];
 }

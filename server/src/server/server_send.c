@@ -12,10 +12,10 @@
 void server_send_response(
     server_t *server, client_t *client, const char *response, bool separate)
 {
-    buffer_write_string(&client->write_queue, response);
+    buffer_write_string(client->write_queue, response);
     if (separate == true)
-        buffer_write_string(&client->write_queue, "\r\n");
-    if (catch_and_print(client->write_queue.exception)) {
+        buffer_write_string(client->write_queue, "\r\n");
+    if (catch_and_print(client->write_queue->exception)) {
         server->exception = new_exception(RUNTIME_ERROR,
             "server_send_response (server/server_send.c)",
             "Can't write response");
