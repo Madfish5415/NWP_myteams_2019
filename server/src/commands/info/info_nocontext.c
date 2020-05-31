@@ -16,8 +16,8 @@ void info_nocontext(server_t *server, client_t *client, char **cmds)
         return;
     server_send_response(server, client, RESPONSE_242, false);
     server_send_response(
-        server, client, (char *)xml_node_get_content(user->children), true);
+        server, client, (char *)node_get_content(user->children), true);
     server_send_response(server, client,
-        (char *)xml_node_get_content(user->children->next), true);
+        (char *)node_get_content(user->children->next), true);
     server_send_response(server, client, "1", true);
 }

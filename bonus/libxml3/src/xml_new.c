@@ -10,7 +10,7 @@
 
 #include "libxml3.h"
 
-xml_node_ptr xml_new_node(const char *name)
+xml_node_ptr new_node(const char *name)
 {
     xml_node_ptr node = NULL;
 
@@ -27,7 +27,7 @@ xml_node_ptr xml_new_node(const char *name)
     return node;
 }
 
-xml_node_ptr xml_new_text(const char *name, const char *content)
+xml_node_ptr new_text(const char *name, const char *content)
 {
     xml_node_ptr node = NULL;
 
@@ -44,7 +44,7 @@ xml_node_ptr xml_new_text(const char *name, const char *content)
     return node;
 }
 
-xml_node_ptr xml_new_text_child(
+xml_node_ptr new_text_child(
     xml_node_ptr parent, const char *name, const char *content)
 {
     xml_node_ptr node = NULL;
@@ -61,11 +61,11 @@ xml_node_ptr xml_new_text_child(
     node->parent = NULL;
     node->name = (name) ? strdup(name) : NULL;
     node->content = (content) ? strdup(content) : NULL;
-    xml_add_child(parent, node);
+    add_child(parent, node);
     return node;
 }
 
-xml_doc_ptr xml_new_doc(const char *version)
+xml_doc_ptr new_doc(const char *version)
 {
     xml_doc_ptr doc = NULL;
 

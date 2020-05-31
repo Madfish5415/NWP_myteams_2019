@@ -19,7 +19,7 @@ bool channel_belongs_to_team(
     for (xml_node_ptr channel =
         team->children->next->next->next->next->next->children;
         channel; channel = channel->next) {
-        if (strcmp((char *)xml_node_get_content(channel->children),
+        if (strcmp((char *)node_get_content(channel->children),
                 channel_uuid) == 0)
             return true;
     }
@@ -36,7 +36,7 @@ bool thread_belongs_to_channel(
     for (xml_node_ptr thread =
         channel->children->next->next->next->next->next->children;
         thread; thread = thread->next) {
-        if (strcmp((char *)xml_node_get_content(thread->children),
+        if (strcmp((char *)node_get_content(thread->children),
             thread_uuid) == 0)
             return true;
     }

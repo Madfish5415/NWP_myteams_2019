@@ -36,7 +36,7 @@ char *readFile(const char *filename)
     return result;
 }
 
-xml_doc_ptr xml_parse_file(const char *filename)
+xml_doc_ptr parse_file(const char *filename)
 {
     xml_doc_ptr doc = NULL;
     char *content = NULL;
@@ -44,7 +44,7 @@ xml_doc_ptr xml_parse_file(const char *filename)
     if (filename == NULL) return NULL;
     content = readFile(filename);
     if (content == NULL) return NULL;
-    if ((doc = xml_new_doc(NULL)) == NULL) return NULL;
+    if ((doc = new_doc(NULL)) == NULL) return NULL;
     setParams(content, doc);
     createTree(getRootElem(content), doc);
     free(content);

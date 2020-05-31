@@ -35,31 +35,31 @@ typedef struct _xml_doc {
 
 typedef xml_doc *xml_doc_ptr;
 
-char *xml_node_get_content(xml_node_ptr cur);
-xml_node_ptr xml_node_set_content(xml_node_ptr cur, const char *content);
+char *node_get_content(xml_node_ptr cur);
+xml_node_ptr node_set_content(xml_node_ptr cur, const char *content);
 
-xml_node_ptr xml_doc_get_root_element(xml_doc_ptr doc);
-xml_node_ptr xml_doc_set_root_element(xml_doc_ptr doc, xml_node_ptr root);
+xml_node_ptr doc_get_root_element(xml_doc_ptr doc);
+xml_node_ptr doc_set_root_element(xml_doc_ptr doc, xml_node_ptr root);
 
-xml_node_ptr xml_new_node(const char *name);
-xml_node_ptr xml_new_text(const char *name, const char *content);
-xml_node_ptr xml_new_text_child(
+xml_node_ptr new_node(const char *name);
+xml_node_ptr new_text(const char *name, const char *content);
+xml_node_ptr new_text_child(
     xml_node_ptr parent, const char *name, const char *content);
-xml_doc_ptr xml_new_doc(const char *version);
+xml_doc_ptr new_doc(const char *version);
 
-xml_node_ptr xml_add_child(xml_node_ptr parent, xml_node_ptr cur);
-xml_node_ptr xml_add_next_sibling(xml_node_ptr cur, xml_node_ptr elem);
-xml_node_ptr xml_add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem);
-xml_node_ptr xml_add_sibling(xml_node_ptr cur, xml_node_ptr elem);
+xml_node_ptr add_child(xml_node_ptr parent, xml_node_ptr cur);
+xml_node_ptr add_next_sibling(xml_node_ptr cur, xml_node_ptr elem);
+xml_node_ptr add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem);
+xml_node_ptr add_sibling(xml_node_ptr cur, xml_node_ptr elem);
 
-xml_doc_ptr xml_parse_file(const char *filename);
+xml_doc_ptr parse_file(const char *filename);
 
-void xml_unlink_node(xml_node_ptr cur);
+void unlink_node(xml_node_ptr cur);
 
-void xml_free_node(xml_node_ptr cur);
-void xml_free_doc(xml_doc_ptr doc);
+void free_node(xml_node_ptr cur);
+void free_doc(xml_doc_ptr doc);
 
-int xml_save_file(const char *filename, xml_doc_ptr cur);
-int xml_save_format_file(const char *filename, xml_doc_ptr cur, int format);
+int save_file(const char *filename, xml_doc_ptr cur);
+int save_format_file(const char *filename, xml_doc_ptr cur, int format);
 
 #endif // NWP_MYTEAMS_2019_LIBXML3_H

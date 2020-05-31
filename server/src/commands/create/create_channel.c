@@ -18,7 +18,7 @@ static bool already_exist(server_t *server, client_t *client, const char *name)
     if (!threads) return false;
     for (xml_node_ptr thread = threads->children; thread;
         thread = thread->next) {
-        if (strcmp(xml_node_get_content(thread->children->next), name) == 0)
+        if (strcmp(node_get_content(thread->children->next), name) == 0)
             return true;
     }
     return false;
@@ -31,17 +31,17 @@ static void send_to_others(
 
     if (!channel) return;
     for (int i = 0; server->clients[i]; i++)
-        if (is_subscribe(server->xml_tree, (char *)xml_node_get_content(
+        if (is_subscribe(server->xml_tree, (char *)node_get_content(
                     channel->parent->prev->prev->prev->prev->prev),
             server->clients[i]->user)) {
             server_send_response(server, server->clients[i], RESPONSE_236,
                 false);
             server_send_response(server, server->clients[i],
-                (char *)xml_node_get_content(thread->children), true);
+                (char *)node_get_content(thread->children), true);
             server_send_response(server, server->clients[i], client->user,
                 true);
             server_send_response(server, server->clients[i],
-                (char *)xml_node_get_content(
+                (char *)node_get_content(
                     thread->children->next->next->next),
                 true);
             server_send_response(server, server->clients[i], cmds[1], true);
@@ -54,10 +54,10 @@ static void send_to_client(
 {
     server_send_response(server, client, RESPONSE_248, false);
     server_send_response(
-        server, client, (char *)xml_node_get_content(thread->children), true);
+        server, client, (char *)node_get_content(thread->children), true);
     server_send_response(server, client, client->user, true);
     server_send_response(server, client,
-        (char *)xml_node_get_content(thread->children->next->next->next), true);
+        (char *)node_get_content(thread->children->next->next->next), true);
     server_send_response(server, client, cmds[1], true);
     server_send_response(server, client, cmds[2], true);
 }
@@ -68,7 +68,7 @@ void create_channel(server_t *server, client_t *client, char **cmds)
     xml_node_ptr channel = channel_get(server->xml_tree, client->use_uuid);
 
     if (!is_subscribe(server->xml_tree,
-        xml_node_get_content(channel->parent->parent->children),
+        node_get_content(channel->parent->parent->children),
         client->user)) {
         server_send_response(server, client, RESPONSE_505, false);
         return;

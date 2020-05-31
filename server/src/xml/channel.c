@@ -27,13 +27,13 @@ xml_node_ptr channel_create(const char *channel_name, const char *desc,
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    channel = xml_new_node(BAD_CAST "channel");
-    xml_new_text_child(channel, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xml_new_text_child(channel, BAD_CAST "name", BAD_CAST channel_name);
-    xml_new_text_child(channel, BAD_CAST "desc", BAD_CAST desc);
-    xml_new_text_child(channel, BAD_CAST "date", BAD_CAST time_str);
-    xml_new_text_child(channel, BAD_CAST "creator", BAD_CAST creator);
-    xml_add_child(channel, xml_new_node(BAD_CAST "threads"));
+    channel = new_node(BAD_CAST "channel");
+    new_text_child(channel, BAD_CAST "uuid", BAD_CAST uuid_str);
+    new_text_child(channel, BAD_CAST "name", BAD_CAST channel_name);
+    new_text_child(channel, BAD_CAST "desc", BAD_CAST desc);
+    new_text_child(channel, BAD_CAST "date", BAD_CAST time_str);
+    new_text_child(channel, BAD_CAST "creator", BAD_CAST creator);
+    add_child(channel, new_node(BAD_CAST "threads"));
     server_event_channel_created(team_uid, uuid_str, channel_name);
     return channel;
 }
@@ -52,7 +52,7 @@ exception_t channel_add(
     for (xml_node_ptr channels = team->children; channels;
         channels = channels->next) {
         if (strcmp((char *)channels->name, "channels") == 0) {
-            xml_add_child(channels, channel);
+            add_child(channels, channel);
             return exception;
         }
     }
@@ -71,7 +71,7 @@ static xml_node_ptr find_channel(xml_node_ptr channels, const char *channel_uid)
         channel = channel->next) {
         if (!channel->children)
             return NULL;
-        if (strcmp((char *)xml_node_get_content(channel->children),
+        if (strcmp((char *)node_get_content(channel->children),
             channel_uid) == 0)
             return channel;
     }
@@ -80,7 +80,7 @@ static xml_node_ptr find_channel(xml_node_ptr channels, const char *channel_uid)
 
 xml_node_ptr channel_get(xml_doc_ptr xml_tree, const char *channel_uid)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
     xml_node_ptr res = NULL;
 
     if (!root || !root->children || !root->children->next ||

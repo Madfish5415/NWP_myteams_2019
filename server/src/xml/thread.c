@@ -28,13 +28,13 @@ xml_node_ptr thread_create(const char *thread_name, const char *body,
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    thread = xml_new_node(BAD_CAST "thread");
-    xml_new_text_child(thread, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xml_new_text_child(thread, BAD_CAST "name", BAD_CAST thread_name);
-    xml_new_text_child(thread, BAD_CAST "body", BAD_CAST body);
-    xml_new_text_child(thread, BAD_CAST "date", BAD_CAST time_str);
-    xml_new_text_child(thread, BAD_CAST "creator", BAD_CAST creator);
-    xml_add_child(thread, xml_new_node(BAD_CAST "messages"));
+    thread = new_node(BAD_CAST "thread");
+    new_text_child(thread, BAD_CAST "uuid", BAD_CAST uuid_str);
+    new_text_child(thread, BAD_CAST "name", BAD_CAST thread_name);
+    new_text_child(thread, BAD_CAST "body", BAD_CAST body);
+    new_text_child(thread, BAD_CAST "date", BAD_CAST time_str);
+    new_text_child(thread, BAD_CAST "creator", BAD_CAST creator);
+    add_child(thread, new_node(BAD_CAST "messages"));
     server_event_thread_created(channel_uid, uuid_str, creator, body);
     return thread;
 }
@@ -53,7 +53,7 @@ exception_t thread_add(
     for (xml_node_ptr threads = channel->children; threads;
         threads = threads->next) {
         if (strcmp((char *)threads->name, "threads") == 0) {
-            xml_add_child(threads, thread);
+            add_child(threads, thread);
             return exception;
         }
     }
@@ -76,7 +76,7 @@ static xml_node_ptr find_thread(xml_node_ptr channels, const char *thread_uid)
         if (!attr->children) continue;
         for (thread = attr->children; thread; thread = thread->next) {
             if (!thread->children) continue;
-            if (strcmp((char *)xml_node_get_content(thread->children),
+            if (strcmp((char *)node_get_content(thread->children),
                     thread_uid) == 0) return thread;
         }
     }
@@ -96,7 +96,7 @@ xml_node_ptr get_threads_channel(xml_node_ptr team)
 
 xml_node_ptr thread_get(xml_doc_ptr xml_tree, const char *thread_uid)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
     xml_node_ptr res = NULL;
     xml_node_ptr channels = NULL;
 

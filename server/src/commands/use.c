@@ -19,6 +19,7 @@ static bool use_team(server_t *server, client_t *client, char **cmds)
 {
     xml_node_ptr team = team_get(server->xml_tree, cmds[1]);
 
+    use_nocontext(client);
     if (!team) {
         server_send_response(server, client, RESPONSE_502, false);
         server_send_response(server, client, cmds[1], true);

@@ -15,18 +15,18 @@
 
 static xml_doc_ptr create_new_xml(void)
 {
-    xml_doc_ptr xml_tree = xml_new_doc(BAD_CAST "1.0");
-    xml_node_ptr serverNode = xml_new_node(BAD_CAST "server");
-    xml_node_ptr usersNode = xml_new_node(BAD_CAST "users");
-    xml_node_ptr teamsNode = xml_new_node(BAD_CAST "teams");
-    xml_node_ptr discussionsNode = xml_new_node(BAD_CAST "discussions");
+    xml_doc_ptr xml_tree = new_doc(BAD_CAST "1.0");
+    xml_node_ptr serverNode = new_node(BAD_CAST "server");
+    xml_node_ptr usersNode = new_node(BAD_CAST "users");
+    xml_node_ptr teamsNode = new_node(BAD_CAST "teams");
+    xml_node_ptr discussionsNode = new_node(BAD_CAST "discussions");
 
     if (xml_tree == NULL)
         return (NULL);
-    xml_doc_set_root_element(xml_tree, serverNode);
-    xml_add_child(serverNode, usersNode);
-    xml_add_sibling(usersNode, teamsNode);
-    xml_add_sibling(usersNode, discussionsNode);
+    doc_set_root_element(xml_tree, serverNode);
+    add_child(serverNode, usersNode);
+    add_sibling(usersNode, teamsNode);
+    add_sibling(usersNode, discussionsNode);
     return (xml_tree);
 }
 
@@ -35,7 +35,7 @@ static xml_doc_ptr load_xml(void)
     xml_doc_ptr xml_tree = NULL;
 
     if (access(XML_FILENAME, R_OK) != -1) {
-        xml_tree = xml_parse_file(XML_FILENAME);
+        xml_tree = parse_file(XML_FILENAME);
     } else {
         if (xml_tree == NULL) {
             xml_tree = create_new_xml();
@@ -46,7 +46,7 @@ static xml_doc_ptr load_xml(void)
 
 static void load_existing_users(server_t *server)
 {
-    xml_node_ptr root = xml_doc_get_root_element(server->xml_tree);
+    xml_node_ptr root = doc_get_root_element(server->xml_tree);
 
     if (!root || !root->children)
         return;
@@ -54,8 +54,8 @@ static void load_existing_users(server_t *server)
         user = user->next) {
         if (user->children && user->children->next)
             server_event_user_loaded(
-                (char *)xml_node_get_content(user->children),
-                (char *)xml_node_get_content(user->children->next));
+                (char *)node_get_content(user->children),
+                (char *)node_get_content(user->children->next));
     }
 }
 

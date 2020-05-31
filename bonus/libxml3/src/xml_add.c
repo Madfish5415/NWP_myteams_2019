@@ -9,12 +9,12 @@
 
 #include "libxml3.h"
 
-xml_node_ptr xml_add_child(xml_node_ptr parent, xml_node_ptr cur)
+xml_node_ptr add_child(xml_node_ptr parent, xml_node_ptr cur)
 {
     if (parent == NULL || cur == NULL)
         return NULL;
 
-    xml_unlink_node(cur);
+    unlink_node(cur);
     if (parent->children == NULL && parent->last == NULL) {
         parent->children = cur;
         parent->last = cur;
@@ -30,12 +30,12 @@ xml_node_ptr xml_add_child(xml_node_ptr parent, xml_node_ptr cur)
     return cur;
 }
 
-xml_node_ptr xml_add_next_sibling(xml_node_ptr cur, xml_node_ptr elem)
+xml_node_ptr add_next_sibling(xml_node_ptr cur, xml_node_ptr elem)
 {
     if (cur == NULL || elem == NULL)
         return NULL;
 
-    xml_unlink_node(elem);
+    unlink_node(elem);
     if (cur->parent != NULL) {
         elem->parent = cur->parent;
         if (cur->parent->last == cur)
@@ -50,12 +50,12 @@ xml_node_ptr xml_add_next_sibling(xml_node_ptr cur, xml_node_ptr elem)
     return elem;
 }
 
-xml_node_ptr xml_add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem)
+xml_node_ptr add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem)
 {
     if (cur == NULL || elem == NULL)
         return NULL;
 
-    xml_unlink_node(elem);
+    unlink_node(elem);
     if (cur->parent != NULL) {
         elem->parent = cur->parent;
         if (cur->parent->children == cur)
@@ -70,16 +70,16 @@ xml_node_ptr xml_add_prev_sibling(xml_node_ptr cur, xml_node_ptr elem)
     return elem;
 }
 
-xml_node_ptr xml_add_sibling(xml_node_ptr cur, xml_node_ptr elem)
+xml_node_ptr add_sibling(xml_node_ptr cur, xml_node_ptr elem)
 {
     if (cur == NULL || elem == NULL)
         return NULL;
 
-    xml_unlink_node(elem);
+    unlink_node(elem);
     if (cur->next == NULL) {
-        xml_add_next_sibling(cur, elem);
+        add_next_sibling(cur, elem);
     } else {
-        xml_add_sibling(cur->next, elem);
+        add_sibling(cur->next, elem);
     }
     return elem;
 }

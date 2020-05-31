@@ -26,19 +26,19 @@ xml_node_ptr user_create(const char *username, const char *passwd)
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
     uuid_generate((unsigned char *)&uuid);
     uuid_unparse(uuid, uuid_str);
-    user = xml_new_node(BAD_CAST "user");
-    xml_new_text_child(user, BAD_CAST "uuid", BAD_CAST uuid_str);
-    xml_new_text_child(user, BAD_CAST "username", BAD_CAST username);
-    xml_new_text_child(user, BAD_CAST "password", BAD_CAST passwd);
-    xml_new_text_child(user, BAD_CAST "date", BAD_CAST time_str);
-    xml_new_text_child(user, BAD_CAST "connected", BAD_CAST "false");
+    user = new_node(BAD_CAST "user");
+    new_text_child(user, BAD_CAST "uuid", BAD_CAST uuid_str);
+    new_text_child(user, BAD_CAST "username", BAD_CAST username);
+    new_text_child(user, BAD_CAST "password", BAD_CAST passwd);
+    new_text_child(user, BAD_CAST "date", BAD_CAST time_str);
+    new_text_child(user, BAD_CAST "connected", BAD_CAST "false");
     server_event_user_created(uuid_str, username);
     return user;
 }
 
 exception_t user_add(xml_node_ptr user, xml_doc_ptr xml_tree)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
     exception_t exception = {NO_ERROR};
 
     if (!root || !root->children) {
@@ -51,13 +51,13 @@ exception_t user_add(xml_node_ptr user, xml_doc_ptr xml_tree)
             "The first category of the XML doc is not users");
         return exception;
     }
-    xml_add_child(root->children, user);
+    add_child(root->children, user);
     return exception;
 }
 
 xml_node_ptr user_get_by_name(xml_doc_ptr xml_tree, const char *username)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
 
     if (!root || !root->children || !root->children->children)
         return NULL;
@@ -65,7 +65,7 @@ xml_node_ptr user_get_by_name(xml_doc_ptr xml_tree, const char *username)
         user = user->next) {
         if (!user->children || !user->children->next)
             return NULL;
-        if (strcmp((char *)xml_node_get_content(user->children->next),
+        if (strcmp((char *)node_get_content(user->children->next),
                 username) == 0)
             return user;
     }
@@ -74,7 +74,7 @@ xml_node_ptr user_get_by_name(xml_doc_ptr xml_tree, const char *username)
 
 xml_node_ptr user_get_by_uuid(xml_doc_ptr xml_tree, const char *uuid)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
 
     if (!root || !root->children || !root->children->children)
         return NULL;
@@ -82,7 +82,7 @@ xml_node_ptr user_get_by_uuid(xml_doc_ptr xml_tree, const char *uuid)
         user = user->next) {
         if (!user->children || !user->children->next)
             return NULL;
-        if (strcmp((char *)xml_node_get_content(user->children), uuid) == 0)
+        if (strcmp((char *)node_get_content(user->children), uuid) == 0)
             return user;
     }
     return NULL;

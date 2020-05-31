@@ -55,14 +55,14 @@ void write_doc(FILE *file, xml_doc_ptr doc)
             doc->encoding);
 }
 
-int xml_save_format_file(const char *filename, xml_doc_ptr cur, int format)
+int save_format_file(const char *filename, xml_doc_ptr cur, int format)
 {
     FILE *file = NULL;
     xml_node_ptr root = NULL;
 
     if (!filename || !cur)
         return FAILURE;
-    root = xml_doc_get_root_element(cur);
+    root = doc_get_root_element(cur);
     if (!root)
         return FAILURE;
     file = fopen(filename, "w");
@@ -74,7 +74,7 @@ int xml_save_format_file(const char *filename, xml_doc_ptr cur, int format)
     return SUCCESS;
 }
 
-int xml_save_file(const char *filename, xml_doc_ptr cur)
+int save_file(const char *filename, xml_doc_ptr cur)
 {
-    return xml_save_format_file(filename, cur, 0);
+    return save_format_file(filename, cur, 0);
 }

@@ -9,14 +9,14 @@
 
 #include "libxml3.h"
 
-xml_node_ptr xml_doc_get_root_element(xml_doc_ptr doc)
+xml_node_ptr doc_get_root_element(xml_doc_ptr doc)
 {
     if (!doc)
         return NULL;
     return doc->children;
 }
 
-xml_node_ptr xml_doc_set_root_element(xml_doc_ptr doc, xml_node_ptr root)
+xml_node_ptr doc_set_root_element(xml_doc_ptr doc, xml_node_ptr root)
 {
     if (!doc || !root)
         return NULL;

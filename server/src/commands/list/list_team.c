@@ -19,10 +19,10 @@ void list_team(server_t *server, client_t *client, char **cmds)
         channel; channel = channel->prev) {
         server_send_response(server, client, RESPONSE_252, false);
         server_send_response(server, client,
-            (char *)xml_node_get_content(channel->children), true);
+            (char *)node_get_content(channel->children), true);
         server_send_response(server, client,
-            (char *)xml_node_get_content(channel->children->next), true);
+            (char *)node_get_content(channel->children->next), true);
         server_send_response(server, client,
-            (char *)xml_node_get_content(channel->children->next->next), true);
+            (char *)node_get_content(channel->children->next->next), true);
     }
 }

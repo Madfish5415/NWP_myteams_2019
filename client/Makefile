@@ -75,7 +75,7 @@ TEST_SRC			=
 CFLAGS				+=		-I $(INCL_DIR) -I ../libs/myteams/
 CFLAGS				+=		-W -Wall -Wextra -Werror
 
-LDLIBS				=		-luuid -Wl,-rpath=`realpath ../libs/myteams` -L`realpath ../libs/myteams` -lmyteams
+LDLIBS				=		-luuid -L../libs/myteams -lmyteams
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

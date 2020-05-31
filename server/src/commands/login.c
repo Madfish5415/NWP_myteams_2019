@@ -15,23 +15,23 @@ static void succesfully_connected(
     server_t *server, client_t *client, xml_node_ptr user)
 {
     for (int i = 0; i < UUID_SIZE &&
-        ((char *)xml_node_get_content(user->children))[i] != '\0'; i++)
-        client->user[i] = ((char *)xml_node_get_content(user->children))[i];
-    xml_node_set_content(
+        ((char *)node_get_content(user->children))[i] != '\0'; i++)
+        client->user[i] = ((char *)node_get_content(user->children))[i];
+    node_set_content(
         user->children->next->next->next->next, BAD_CAST "true");
     server_broadcast(server, RESPONSE_230, false);
     server_broadcast(
-        server, (char *)xml_node_get_content(user->children), true);
+        server, (char *)node_get_content(user->children), true);
     server_broadcast(
-        server, (char *)xml_node_get_content(user->children->next), true);
-    server_event_user_logged_in((char *)xml_node_get_content(user->children));
+        server, (char *)node_get_content(user->children->next), true);
+    server_event_user_logged_in((char *)node_get_content(user->children));
 }
 
 static void create_new_user(server_t *server, xml_node_ptr *user, char **cmds)
 {
     (*user) = user_create(cmds[1], "");
     user_add((*user), server->xml_tree);
-    xml_node_set_content(
+    node_set_content(
         (*user)->children->next->next->next->next, BAD_CAST "true");
 }
 
