@@ -17,7 +17,7 @@ xml_node_ptr subscribe_create(const char *uid)
 {
     xml_node_ptr subscribe;
 
-    subscribe = xml_new_text(BAD_CAST "uuid", BAD_CAST uid);
+    subscribe = new_text(BAD_CAST "uuid", BAD_CAST uid);
     return subscribe;
 }
 
@@ -34,7 +34,7 @@ exception_t subscribe_add(
     }
     for (xml_node_ptr attr = team->children; attr; attr = attr->next) {
         if (strcmp((char *)attr->name, "subscribes") == 0)
-            xml_add_child(attr, subscribe);
+            add_child(attr, subscribe);
     }
     exception = new_exception(OUT_OF_RANGE, "subscribe_add (xml/subscribe.c)",
         "Subscribes not found");
@@ -58,9 +58,9 @@ exception_t subscribe_del(
         return new_exception(OUT_OF_RANGE, "subscribe_del (xml/subscribe.c)",
             "Subscribes not found");
     for (sub = sub->children; sub; sub = sub->next)
-        if (strcmp((char *)xml_node_get_content(sub), user_id) == 0) {
-            xml_unlink_node(sub);
-            xml_free_node(sub);
+        if (strcmp((char *)node_get_content(sub), user_id) == 0) {
+            unlink_node(sub);
+            free_node(sub);
             return exception;
         }
     return exception;
@@ -71,7 +71,7 @@ static bool check_users(xml_node_ptr subscribers, const char *user_uid)
     if (!subscribers->children)
         return false;
     for (xml_node_ptr sub = subscribers->children; sub; sub = sub->next) {
-        if (strcmp((char *)xml_node_get_content(sub), user_uid) == 0)
+        if (strcmp((char *)node_get_content(sub), user_uid) == 0)
             return true;
     }
     return false;

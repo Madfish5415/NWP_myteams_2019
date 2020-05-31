@@ -17,7 +17,7 @@ static bool already_exist(server_t *server, client_t *client, const char *name)
     if (!channels) return false;
     for (xml_node_ptr channel = channels->children; channel;
         channel = channel->next) {
-        if (strcmp(xml_node_get_content(channel->children->next), name) == 0)
+        if (strcmp(node_get_content(channel->children->next), name) == 0)
             return true;
     }
     return false;
@@ -32,7 +32,7 @@ static void send_to_others(
             server_send_response(
                 server, server->clients[i], RESPONSE_235, false);
             server_send_response(server, server->clients[i],
-                (char *)xml_node_get_content(channel->children), true);
+                (char *)node_get_content(channel->children), true);
             server_send_response(server, server->clients[i], cmds[1], true);
             server_send_response(server, server->clients[i], cmds[2], true);
         }
@@ -43,7 +43,7 @@ static void send_to_client(
 {
     server_send_response(server, client, RESPONSE_247, false);
     server_send_response(
-        server, client, (char *)xml_node_get_content(channel->children), true);
+        server, client, (char *)node_get_content(channel->children), true);
     server_send_response(server, client, cmds[1], true);
     server_send_response(server, client, cmds[2], true);
 }

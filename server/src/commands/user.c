@@ -13,12 +13,12 @@ static void print_user(server_t *server, client_t *client, xml_node_ptr user)
 {
     server_send_response(server, client, RESPONSE_242, false);
     server_send_response(
-        server, client, (char *)xml_node_get_content(user->children), true);
+        server, client, (char *)node_get_content(user->children), true);
     server_send_response(server, client,
-        (char *)xml_node_get_content(user->children->next), true);
+        (char *)node_get_content(user->children->next), true);
     server_send_response(server, client,
         ((strcmp(
-        (char *)xml_node_get_content(user->children->next->next->next->next),
+        (char *)node_get_content(user->children->next->next->next->next),
         "false") == 0) ? "0" : "1"), true);
 }
 

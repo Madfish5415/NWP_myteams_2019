@@ -9,7 +9,7 @@
 
 #include "libxml3.h"
 
-void xml_unlink_node(xml_node_ptr cur)
+void unlink_node(xml_node_ptr cur)
 {
     if (cur == NULL)
         return;

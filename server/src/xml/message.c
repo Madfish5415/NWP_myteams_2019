@@ -24,10 +24,10 @@ xml_node_ptr message_create(
     char time_str[TIME_SIZE];
 
     strftime(time_str, sizeof(time_str), "%d-%m-%y %H:%M:%S", localt);
-    message = xml_new_node(BAD_CAST "message");
-    xml_new_text_child(message, BAD_CAST "body", BAD_CAST body);
-    xml_new_text_child(message, BAD_CAST "date", BAD_CAST time_str);
-    xml_new_text_child(message, BAD_CAST "creator", BAD_CAST creator);
+    message = new_node(BAD_CAST "message");
+    new_text_child(message, BAD_CAST "body", BAD_CAST body);
+    new_text_child(message, BAD_CAST "date", BAD_CAST time_str);
+    new_text_child(message, BAD_CAST "creator", BAD_CAST creator);
 
     return message;
 }
@@ -60,7 +60,7 @@ exception_t message_add(
     for (xml_node_ptr messages = thread->children; messages;
             messages = messages->next) {
         if (strcmp((char *)messages->name, "messages") == 0) {
-            xml_add_child(messages, message);
+            add_child(messages, message);
             return exception;
         }
     }

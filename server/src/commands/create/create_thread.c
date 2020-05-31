@@ -14,16 +14,16 @@ static void send_to_others(
 
     for (int i = 0; server->clients[i]; i++)
         if (is_subscribe(server->xml_tree,
-            (char *)xml_node_get_content(
+            (char *)node_get_content(
             thread->parent->parent->parent->prev->prev->prev->prev->prev),
             server->clients[i]->user)) {
             server_send_response(
                 server, server->clients[i], RESPONSE_233, false);
             server_send_response(server, server->clients[i],
-                (char *)xml_node_get_content(thread->parent->parent->parent
+                (char *)node_get_content(thread->parent->parent->parent
                 ->prev->prev->prev->prev->prev), true);
             server_send_response(server, server->clients[i],
-                (char *)xml_node_get_content(thread->children), true);
+                (char *)node_get_content(thread->children), true);
             server_send_response(
                 server, server->clients[i], client->user, true);
             server_send_response(server, server->clients[i], cmds[1], true);
@@ -37,10 +37,10 @@ static void send_to_client(
 
     server_send_response(server, client, RESPONSE_249, false);
     server_send_response(server, client,
-        (char *)xml_node_get_content(thread->children), true);
+        (char *)node_get_content(thread->children), true);
     server_send_response(server, client, client->user, true);
     server_send_response(server, client,
-        (char *)xml_node_get_content(thread->children->next->next->next), true);
+        (char *)node_get_content(thread->children->next->next->next), true);
     server_send_response(server, client, cmds[1], true);
 }
 
@@ -50,7 +50,7 @@ void create_thread(server_t *server, client_t *client, char **cmds)
     xml_node_ptr thread = thread_get(server->xml_tree, client->use_uuid);
 
     if (!is_subscribe(server->xml_tree,
-            xml_node_get_content(
+            node_get_content(
                 thread->parent->parent->parent->parent->children),
         client->user)) {
         server_send_response(server, client, RESPONSE_505, false);

@@ -15,7 +15,7 @@ void cmd_users(server_t *server, client_t *client, char **cmds)
 
     if (!user_get_authorize(server, client, cmds))
         return;
-    root = xml_doc_get_root_element(server->xml_tree);
+    root = doc_get_root_element(server->xml_tree);
     if (!root || !root->children ||
         strcmp((char *)root->children->name, "users") != 0)
         return;
@@ -23,11 +23,11 @@ void cmd_users(server_t *server, client_t *client, char **cmds)
         user = user->next) {
         server_send_response(server, client, RESPONSE_240, false);
         server_send_response(
-            server, client, (char *)xml_node_get_content(user->children), true);
+            server, client, (char *)node_get_content(user->children), true);
         server_send_response(server, client,
-            (char *)xml_node_get_content(user->children->next), true);
+            (char *)node_get_content(user->children->next), true);
         server_send_response(server, client,
-            ((strcmp((char *)xml_node_get_content(
+            ((strcmp((char *)node_get_content(
             user->children->next->next->next->next), "false") == 0) ?
             "0" : "1"), true);
     }

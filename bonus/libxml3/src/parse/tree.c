@@ -18,7 +18,7 @@ static void addDeeper(xml_node_ptr parent, char *str, char *open)
     char *close = NULL;
 
     close = getCloseBalise(str);
-    node = xml_add_child(parent, xml_new_node(open));
+    node = add_child(parent, new_node(open));
     if (close == NULL)
         addBranch(node, getnextline(str));
     else addBranch(parent, getnextline(str));
@@ -37,7 +37,7 @@ static void addBranch(xml_node_ptr parent, char *str)
     content = getBaliseContent(str);
 
     if (content != NULL) {
-        xml_new_text_child(parent, open, content);
+        new_text_child(parent, open, content);
         addBranch(parent, getnextline(str));
     } else {
         addDeeper(parent, str, open);
@@ -57,9 +57,9 @@ void createTree(char *str, xml_doc_ptr doc)
     content = getBaliseContent(str);
     close = getCloseBalise(str);
     if (content != NULL) {
-        doc->children = xml_new_text(open, content);
+        doc->children = new_text(open, content);
     } else {
-        doc->children = xml_new_node(open);
+        doc->children = new_node(open);
         if (!close)
             addBranch(doc->children, getnextline(str));
     }

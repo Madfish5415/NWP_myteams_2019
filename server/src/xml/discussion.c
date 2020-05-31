@@ -20,22 +20,22 @@ xml_node_ptr discussion_create(const char *user_id, const char *user_id2)
     xml_node_ptr discussion;
     xml_node_ptr messages;
 
-    discussion = xml_new_node(BAD_CAST "discussion");
-    xml_new_text_child(discussion, BAD_CAST "uuid", BAD_CAST user_id);
-    xml_new_text_child(discussion, BAD_CAST "uuid", BAD_CAST user_id2);
-    messages = xml_new_node(BAD_CAST "messages");
-    xml_add_child(discussion, messages);
+    discussion = new_node(BAD_CAST "discussion");
+    new_text_child(discussion, BAD_CAST "uuid", BAD_CAST user_id);
+    new_text_child(discussion, BAD_CAST "uuid", BAD_CAST user_id2);
+    messages = new_node(BAD_CAST "messages");
+    add_child(discussion, messages);
     return discussion;
 }
 
 static bool check_ids(
     xml_node_ptr discussion, const char *user_id, const char *user_id2)
 {
-    if (strcmp((char *)xml_node_get_content(discussion), user_id) == 0 &&
-        strcmp((char *)xml_node_get_content(discussion->next), user_id2) == 0)
+    if (strcmp((char *)node_get_content(discussion), user_id) == 0 &&
+        strcmp((char *)node_get_content(discussion->next), user_id2) == 0)
         return true;
-    if (strcmp((char *)xml_node_get_content(discussion), user_id2) == 0 &&
-        strcmp((char *)xml_node_get_content(discussion->next), user_id) == 0)
+    if (strcmp((char *)node_get_content(discussion), user_id2) == 0 &&
+        strcmp((char *)node_get_content(discussion->next), user_id) == 0)
         return true;
     return false;
 }
@@ -48,18 +48,18 @@ static void add_discussion(xml_node_ptr discussions, const char *user_id,
         if (!discussion->children)
             return;
         if (check_ids(discussion->children, user_id, user_id2)) {
-            xml_add_child(discussion->children->next->next, message);
+            add_child(discussion->children->next->next, message);
             return;
         }
     }
-    xml_add_child(discussions, discussion_create(user_id, user_id2));
+    add_child(discussions, discussion_create(user_id, user_id2));
     add_discussion(discussions, user_id, user_id2, message);
 }
 
 exception_t discussion_add_message(xml_doc_ptr xml_tree, const char *user_id,
     const char *user_id2, xml_node_ptr message)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
     exception_t exception = {NO_ERROR};
 
     if (!root) {
@@ -80,7 +80,7 @@ exception_t discussion_add_message(xml_doc_ptr xml_tree, const char *user_id,
 xml_node_ptr discussion_get(
     xml_doc_ptr xml_tree, const char *user_id, const char *user_id2)
 {
-    xml_node_ptr root = xml_doc_get_root_element(xml_tree);
+    xml_node_ptr root = doc_get_root_element(xml_tree);
 
     if (!root || !root->children || !root->children->next ||
         !root->children->next->next ||
