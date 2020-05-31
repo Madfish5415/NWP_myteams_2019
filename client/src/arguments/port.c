@@ -39,17 +39,17 @@ exception_t fill_port(int argc, char **argv, args_t *arguments)
     exception_t exception = {NO_ERROR};
 
     if (count_args(argc, argv) != 2)
-        return (new_exception(INVALID_ARGUMENT, "fill_port (arguments/port.c)",
+        return (new_exception(INVALID_ARGUMENT, "fill_port(arguments/port.c)",
             "Invalid argument number"));
     if ((port_arg = find_port(argc, argv)) == NULL)
-        return (new_exception(INVALID_ARGUMENT, "fill_port (arguments/port.c)",
+        return (new_exception(INVALID_ARGUMENT, "fill_port(arguments/port.c)",
             "Unable to find port"));
     if (!is_valid(port_arg))
-        return (new_exception(INVALID_ARGUMENT, "fill_port (arguments/port.c)",
+        return (new_exception(INVALID_ARGUMENT, "fill_port(arguments/port.c)",
             "Port is not a number"));
     port = atoi(port_arg);
     if (port < 0 || port > 65535)
-        return (new_exception(INVALID_ARGUMENT, "fill_port (arguments/port.c)",
+        return (new_exception(INVALID_ARGUMENT, "fill_port(arguments/port.c)",
             "Port number is invalid"));
     arguments->port = (uint16_t)port;
     return (exception);

@@ -30,7 +30,7 @@ static exception_t find_flag(char *flag, args_t *arguments)
         }
     }
     exception = new_exception(
-        INVALID_ARGUMENT, "find_flag (arguments/flag.c)", "A flag is invalid");
+        INVALID_ARGUMENT, "find_flag (arguments/flag.c)", "Flag is invalid");
     return (exception);
 }
 

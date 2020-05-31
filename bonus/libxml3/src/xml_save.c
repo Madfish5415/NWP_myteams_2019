@@ -20,8 +20,8 @@ void write_children(FILE *file, xml_node_ptr node, int depth, int format)
     }
     fprintf(file, "%*s<%s>\n", depth * format, "", node->name);
     if (node->children) {
-        for (xml_node_ptr child = node->children; child; child = child->next) {
-            write_children(file, child, depth + 1, format);
+        for (xml_node_ptr chld = node->children; chld; chld = chld->next) {
+            write_children(file, chld, depth + 1, format);
         }
     }
     fprintf(file, "%*s</%s>\n", depth * format, "", node->name);
@@ -34,25 +34,25 @@ void write_file(FILE *file, xml_node_ptr root, int format)
     if (root->name)
         fprintf(file, "%*s<%s>\n", depth * format, "", root->name);
     if (root->children) {
-        for (xml_node_ptr child = root->children; child; child = child->next) {
-            write_children(file, child, depth + 1, format);
+        for (xml_node_ptr chld = root->children; chld; chld = chld->next) {
+            write_children(file, chld, depth + 1, format);
         }
     }
     if (root->name)
         fprintf(file, "%*s</%s>", depth * format, "", root->name);
 }
 
-void write_doc(FILE *file, xml_doc_ptr doc)
+void write_doc(FILE *file, xml_doc_ptr dc)
 {
-    if (!doc->version && !doc->encoding)
+    if (!dc->version && !dc->encoding)
         return;
-    if (!doc->version)
-        fprintf(file, "<?xml encoding=\"%s\"?>\n", doc->encoding);
-    else if (!doc->encoding)
-        fprintf(file, "<?xml version=\"%s\"?>\n", doc->version);
+    if (!dc->version)
+        fprintf(file, "<?xml encoding=\"%s\"?>\n", dc->encoding);
+    else if (!dc->encoding)
+        fprintf(file, "<?xml version=\"%s\"?>\n", dc->version);
     else
-        fprintf(file, "<?xml version=\"%s\" encoding=\"%s\"?>\n", doc->version,
-            doc->encoding);
+        fprintf(file, "<?xml version=\"%s\" encoding=\"%s\"?>\n", dc->version,
+                dc->encoding);
 }
 
 int save_format_file(const char *filename, xml_doc_ptr cur, int format)

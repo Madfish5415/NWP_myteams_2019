@@ -15,7 +15,8 @@ static void notify_unsubscribe(server_t *server, client_t *client, char **cmds)
     server_send_response(server, client, client->user, true);
     server_send_response(server, client, cmds[1], true);
     for (int i = 0; server->clients[i]; i++)
-        if (is_subscribe(server->xml_tree, cmds[1], server->clients[i]->user)) {
+        if (is_subscribe(server->xml_tree, cmds[1],
+                server->clients[i]->user)) {
             server_send_response(
                 server, server->clients[i], RESPONSE_251, false);
             server_send_response(

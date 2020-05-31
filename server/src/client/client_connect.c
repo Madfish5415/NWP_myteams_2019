@@ -39,7 +39,7 @@ void client_connect(server_t *server)
 
     if ((client = malloc(sizeof(client_t))) == NULL) {
         server->exception =
-            new_exception(BAD_ALLOC, "client_connect (client/client_connect.c)",
+            new_exception(BAD_ALLOC, "client_connect (client_connect.c)",
                 "Can't allocate memory for client_t");
         return;
     }

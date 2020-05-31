@@ -20,7 +20,7 @@ static void init_socket(server_t *server)
     if (setsockopt(server->socket, SOL_SOCKET, (SO_REUSEADDR | SO_REUSEPORT),
             &opt, sizeof(opt)) < 0) {
         server->exception = new_exception(RUNTIME_ERROR,
-            "init_socket (server/server_init.c)", "Can't set option on socket");
+            "init_socket (server/server_init.c)", "Can't set option");
         return;
     }
 }

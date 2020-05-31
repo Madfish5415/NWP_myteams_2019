@@ -46,23 +46,23 @@ static unsigned int get_args(char *string)
 char *format_string(char *string)
 {
     char *cmd = NULL;
-    char *format = NULL;
+    char *frmt = NULL;
     char *tmp = NULL;
 
     if (string[0] == 0) return NULL;
     tmp = strdup(string);
     cmd = strtok(tmp, " ");
     if (!cmd) return NULL;
-    format = strdup(cmd);
+    frmt = strdup(cmd);
     for (unsigned int i = 1; i < get_args(string); i++) {
         tmp = find_string(string);
-        format =
-            realloc(format, sizeof(char) * (strlen(format) + strlen(tmp) + 3));
-        format = strcat(format, "\r\n");
-        format = strcat(format, tmp);
+        frmt =
+            realloc(frmt, sizeof(char) * (strlen(frmt) + strlen(tmp) + 3));
+        frmt = strcat(frmt, "\r\n");
+        frmt = strcat(frmt, tmp);
     } if (cmd != tmp) free(tmp);
     free(cmd);
-    format = realloc(format, sizeof(char) * (strlen(format) + 3));
-    format = strcat(format, "\r\n");
-    return format;
+    frmt = realloc(frmt, sizeof(char) * (strlen(frmt) + 3));
+    frmt = strcat(frmt, "\r\n");
+    return frmt;
 }

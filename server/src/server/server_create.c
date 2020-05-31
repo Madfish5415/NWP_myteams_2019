@@ -70,7 +70,7 @@ exception_t server_create(server_t **server, args_t *arguments)
     (*server) = new_server;
     if ((new_server->port = arguments->port) == 0)
         return (new_exception(INVALID_ARGUMENT,
-            "server_create (server/server_create.c)", "Invalid port detected"));
+            "server_create (server/server_create.c)", "Wrong port detected"));
     new_server->socket = -1;
     new_server->exception.code = NO_ERROR;
     new_server->clients = NULL;

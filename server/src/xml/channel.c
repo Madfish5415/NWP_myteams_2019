@@ -61,7 +61,7 @@ exception_t channel_add(
     return exception;
 }
 
-static xml_node_ptr find_channel(xml_node_ptr channels, const char *channel_uid)
+static xml_node_ptr find_channel(xml_node_ptr channels, const char *chan_uuid)
 {
     if (strcmp((char *)channels->name, "channels") != 0)
         return NULL;
@@ -72,7 +72,7 @@ static xml_node_ptr find_channel(xml_node_ptr channels, const char *channel_uid)
         if (!channel->children)
             return NULL;
         if (strcmp((char *)node_get_content(channel->children),
-            channel_uid) == 0)
+                chan_uuid) == 0)
             return channel;
     }
     return NULL;

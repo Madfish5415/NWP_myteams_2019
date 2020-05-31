@@ -11,9 +11,9 @@
 
 static void send_discussion(server_t *server, client_t *client, char **cmds)
 {
-    xml_node_ptr discussion =
+    xml_node_ptr dis =
         message_discussion_create(client->user, cmds[1], cmds[2]);
-    discussion_add_message(server->xml_tree, client->user, cmds[1], discussion);
+    discussion_add_message(server->xml_tree, client->user, cmds[1], dis);
     server_send_to_uuid(server, cmds[1], RESPONSE_232, false);
     server_send_to_uuid(server, cmds[1], client->user, true);
     server_send_to_uuid(server, cmds[1], cmds[2], true);

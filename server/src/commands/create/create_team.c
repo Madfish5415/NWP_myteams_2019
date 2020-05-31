@@ -28,7 +28,8 @@ static void send_to_others(
 {
     for (int i = 0; server->clients[i]; i++)
         if (is_subscribe(
-                server->xml_tree, client->use_uuid, server->clients[i]->user)) {
+                server->xml_tree, client->use_uuid,
+                server->clients[i]->user)) {
             server_send_response(
                 server, server->clients[i], RESPONSE_235, false);
             server_send_response(server, server->clients[i],
